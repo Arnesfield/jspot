@@ -77,4 +77,38 @@ class MY_View_Controller extends MY_Controller {
   }
 }
 
+/**
+ * My custom controller
+ * 
+ * Extends MY_View_Controller
+ */
+class MY_Custom_Controller extends MY_View_Controller {
+  public function __construct() {
+    parent::__construct();
+    // prevent access if not post request
+    if ($this->input->method(TRUE) !== 'POST') {
+      $this->_redirect();
+    }
+    // load lib
+    $this->load->library('session');
+  }
+
+  public function _filter($str) {
+    return strip_tags(trim(addslashes($str)));
+  }
+
+  public function _redirect($to = '../#/error') {
+    redirect(base_url($to));
+  }
+
+  public function _json($arr, $val = NULL) {
+    // if $arr is string, make it an array with $val
+    if (is_string($arr)) {
+      $arr = array($arr => $val);
+    }
+    echo json_encode($arr);
+    exit;
+  }
+}
+
 ?>
