@@ -74,7 +74,7 @@ export default {
   data () {
     return {
       clipped: false,
-      drawer: true,
+      drawer: null,
       fixed: false,
       items: [{
         icon: 'bubble_chart',
