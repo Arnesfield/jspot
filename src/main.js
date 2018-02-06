@@ -5,15 +5,23 @@ import App from './App'
 import router from './router'
 import axios from 'axios'
 import Vuetify from 'vuetify'
+
 import bus from './bus'
+import colors from 'vuetify/es5/util/colors'
 
 import 'vuetify/dist/vuetify.min.css'
+import './assets/css/common.css'
 
 const dev = true
 const baseURL = dev ? 'http://localhost/jspot/public/api' : 'to be set'
 const http = axios.create({ baseURL: baseURL })
 
-Vue.use(Vuetify)
+Vue.use(Vuetify, {
+  theme: {
+    primary: colors.blue.darken1,
+    accent: colors.yellow.accent3
+  }
+})
 
 Vue.config.productionTip = false
 Vue.prototype.$http = http

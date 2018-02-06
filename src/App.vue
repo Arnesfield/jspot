@@ -3,6 +3,7 @@
     <navigation/>
     <toolbar/>
     <v-content>
+      <toolbar-content/>
       <router-view/>
     </v-content>
   </v-app>
@@ -11,12 +12,14 @@
 <script>
 import Navigation from '@/include/Navigation'
 import Toolbar from '@/include/Toolbar'
+import ToolbarContent from '@/include/ToolbarContent'
 
 export default {
   name: 'App',
   components: {
     Navigation,
-    Toolbar
+    Toolbar,
+    ToolbarContent
   }
 }
 </script>

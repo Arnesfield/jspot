@@ -6,6 +6,7 @@
   :clipped="true"
   v-model="$bus.nav.model"
 >
+  <nav-user/>
   <v-list
     class="pt-2"
     :key="i"
@@ -63,8 +64,13 @@
 </template>
 
 <script>
+import NavUser from './nav/NavUser'
+
 export default {
   name: 'navigation',
+  components: {
+    NavUser
+  },
   data: () => ({
     lists: [
       {
