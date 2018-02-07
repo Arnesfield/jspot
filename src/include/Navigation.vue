@@ -17,28 +17,33 @@
       class="grey--text"
       v-if="list.header"
     >{{ list.header }}</v-subheader>
-    <v-tooltip
-      :key="i"
-      v-for="(item, i) in list.items"
-      :disabled="!$bus.nav.miniVariant"
-      right
-    >
-      <v-list-tile
-        ripple
-        slot="activator"
-        :to="item.to"
-        :exact-active-class="item.to"
+    <template v-for="(item, i) in list.items">
+      <v-divider :key="i" v-if="typeof item !== 'object'"/>
+      <v-tooltip
+        :key="i"
+        v-else
+        :disabled="!$bus.nav.miniVariant"
+        right
       >
-        <v-list-tile-action>
-          <v-icon v-html="item.icon"></v-icon>
-        </v-list-tile-action>
-        <v-list-tile-content>
-          <v-list-tile-title v-text="item.title"></v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
-      <span>{{ item.title }}</span>
-    </v-tooltip>
+        <v-list-tile
+          ripple
+          slot="activator"
+          :to="item.to"
+          @click="listItemClick(item.click)"
+          :exact-active-class="item.to"
+        >
+          <v-list-tile-action>
+            <v-icon v-html="item.icon"></v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title v-text="item.title"></v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <span>{{ item.title }}</span>
+      </v-tooltip>
+    </template>
   </v-list>
+
   <v-footer fixed :height="null" color="white">
     <v-list style="width: 100%">
       <v-tooltip right :disabled="!$bus.nav.miniVariant">
@@ -72,18 +77,42 @@ export default {
     NavUser
   },
   data: () => ({
+    logoutUrl: '/logout',
     lists: [
       {
         header: '',
         items: [
-          { title: 'Home', icon: 'home', to: '/' }
+          { title: 'Home', icon: 'home', to: '/' },
+          '',
+          { title: 'Logout', icon: 'exit_to_app', click: 'logout' }
         ]
       }
     ]
   }),
+
   computed: {
     collapseText() {
       return this.$bus.nav.miniVariant ? 'Expand' : 'Collapse'
+    }
+  },
+
+  methods: {
+    logout() {
+      // logout here
+      this.$http.post(this.logoutUrl).then((res) => {
+        if (!res.data.success) {
+          throw new Error('Request success failure.')
+        }
+        this.$bus.checkSession(this.$route, this.$http)
+      }).catch(e => {
+        console.error(e)
+      })
+    },
+
+    listItemClick(e) {
+      if (typeof e === 'string') {
+        this[e]()
+      }
     }
   }
 }

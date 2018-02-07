@@ -23,8 +23,6 @@ export default new Vue({
   methods: {
     checkSession(route, http) {
       http.post('/sess').then((res) => {
-        console.error(res)
-        console.error(res.headers)
         this.setSession(res.data)
         this.$emit('change--session.auth', route)
       }).catch(e => {
@@ -32,10 +30,16 @@ export default new Vue({
       })
     },
     setSession(data) {
-      const fields = ['user', 'auth']
+      const fields = [
+        { key: 'user', def: null },
+        { key: 'auth', def: 1 }
+      ]
       fields.forEach(e => {
-        if (data[e]) {
-          this.session[e] = data[e]
+        if (data[e.key]) {
+          this.session[e.key] = data[e.key]
+        } else {
+          // set default value
+          this.session[e.key] = e.def
         }
       })
     }

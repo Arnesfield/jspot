@@ -15,7 +15,7 @@ export default {
   name: 'toolbar-content',
   computed: {
     title() {
-      return this.$route.meta.title || 'Application'
+      return this.$route.meta.title || this.$route.name || 'Application'
     }
   }
 }

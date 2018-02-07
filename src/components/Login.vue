@@ -120,7 +120,7 @@ export default {
         password: this.password,
       })).then((res) => {
         console.error(res.data)
-        if (res.data.success == false) {
+        if (!res.data.success) {
           this.loading = false
           this.emailError = ''
           this.passwordError = res.data.error
@@ -130,9 +130,9 @@ export default {
         this.$bus.checkSession(this.$route, this.$http)
       }).catch(e => {
         console.error(e)
+        this.loading = false
         this.emailError = ''
         this.passwordError = 'An error occurred.'
-        this.loading = false
       })
     }
   }

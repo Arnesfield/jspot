@@ -27,21 +27,21 @@ export default {
   name: 'nav-user',
   computed: {
     fullname() {
-      let user = this.$bus.user
+      let user = this.$bus.session.user
       if (typeof user !== 'object' || user === null) {
         return ''
       }
       return user.fname + ' ' + user.lname
     },
     email() {
-      let user = this.$bus.user
+      let user = this.$bus.session.user
       if (typeof user !== 'object' || user === null) {
         return ''
       }
-      return user.username
+      return user.email
     },
     imgSrc() {
-      let user = this.$bus.user
+      let user = this.$bus.session.user
       if (typeof user !== 'object' || user === null) {
         return null
       }
