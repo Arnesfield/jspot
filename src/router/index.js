@@ -24,7 +24,7 @@ export default new Router({
       name: 'Login',
       component: Login,
       meta: {
-        auth: 10
+        auth: 0
       }
     },
     {

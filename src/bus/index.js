@@ -20,7 +20,7 @@ export default new Vue({
 
   computed: {
     componentWithAuth() {
-      return this.session.auth >= 2 && this.session.auth < 10
+      return this.session.auth >= 2
     }
   },
 
@@ -36,7 +36,7 @@ export default new Vue({
     setSession(data) {
       const fields = [
         { key: 'user', def: null },
-        { key: 'auth', def: 10 }
+        { key: 'auth', def: 0 }
       ]
       fields.forEach(e => {
         // set default value if data does not exist
