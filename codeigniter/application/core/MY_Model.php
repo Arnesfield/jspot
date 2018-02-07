@@ -152,4 +152,10 @@ class MY_CRUD_Model extends MY_Model {
   }
 }
 
+class MY_Custom_Model extends MY_CRUD_Model {
+  public function _res($query, $else = array()) {
+    return $query->num_rows() > 0 ? $query->result_array() : $else;
+  }
+}
+
 ?>

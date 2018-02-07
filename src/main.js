@@ -15,7 +15,10 @@ import './assets/css/common.css'
 
 const dev = true
 const baseURL = dev ? 'http://localhost/jspot/public/api' : 'to be set'
-const http = axios.create({ baseURL: baseURL })
+const http = axios.create({
+  baseURL: baseURL,
+  withCredentials: true
+})
 
 Vue.use(Vuetify, {
   theme: {
@@ -31,9 +34,15 @@ Vue.prototype.$bus = bus
 routerCond(router, http, bus)
 
 /* eslint-disable no-new */
-new Vue({
-  el: '#app',
-  router,
-  components: { App },
-  template: '<App/>'
+// before creating instance, check if session exists
+http.post('/sess').then((res) => {
+  bus.setSession(res.data)
+  new Vue({
+    el: '#app',
+    router,
+    components: { App },
+    template: '<App/>'
+  })
+}).catch(e => {
+  console.error(e)
 })

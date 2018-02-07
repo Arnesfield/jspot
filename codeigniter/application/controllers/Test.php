@@ -13,6 +13,10 @@ class Test extends MY_View_Controller {
     print_r($this->session->userdata());
     echo '</pre>';
   }
+
+  public function destroy() {
+    session_destroy();
+  }
 }
 
 ?>

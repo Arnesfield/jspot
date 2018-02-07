@@ -1,6 +1,6 @@
 <template>
-<v-container fluid>
-  <v-layout>
+<v-container class="full-height" fluid>
+  <v-layout class="center-y full-height">
     <v-flex hidden-xs-only sm2 md3 lg4/>
     <v-flex sm8 md6 lg4>
       <v-card>
@@ -18,27 +18,46 @@
           <v-card-title>
             <v-form style="width: 100%">
               <v-text-field
-                prepend-icon="account_circle"
-                :disabled="disableEmail"
-                label="Email"
+                ref="email"
                 type="email"
+                label="Email"
+                v-model="email"
+                prepend-icon="account_circle"
+                :disabled="loading"
+                :error-messages="emailError"
               />
               <v-text-field
-                prepend-icon="lock"
+                ref="password"
                 label="Password"
-                :disabled="disablePassword"
+                v-model="password"
+                prepend-icon="lock"
+                :disabled="loading"
                 :append-icon="hidePass ? 'visibility' : 'visibility_off'"
                 :append-icon-cb="() => (hidePass = !hidePass)"
                 :type="hidePass ? 'password' : 'text'"
+                :error-messages="passwordError"
               />
             </v-form>
           </v-card-title>
           <v-card-actions>
-            <v-spacer></v-spacer>
+            <div class="caption grey--text">
+              <span v-if="loading">Forgot password</span>
+              <router-link
+                to="/"
+                v-else
+                class="clean-a text--accent"
+              >Forgot password</router-link>?
+            </div>
+            <v-spacer/>
             <v-btn
               color="primary"
-              :disabled="disableLogin"
-              @click="submit">Login</v-btn>
+              :disabled="loading"
+              @click="submit"
+            >Login</v-btn>
+            <v-btn
+              to="/"
+              :disabled="loading"
+            >Sign Up</v-btn>
           </v-card-actions>
         </div>
 
@@ -58,31 +77,63 @@
 </template>
 
 <script>
+import qs from 'qs'
+
 export default {
   name: 'login',
   data: () => ({
-    disableEmail: false,
-    disablePassword: false,
-    disableLogin: false,
+    url: '/login',
+    email: null,
+    password: null,
+    emailError: [],
+    passwordError: [],
+    // view
     loading: false,
     hidePass: true
   }),
+
+  watch: {
+    email(to, from) {
+      if (to !== null && to !== from) {
+        this.emailError = []
+      }
+    },
+    password(to, from) {
+      if (to !== null && to !== from) {
+        this.passwordError = []
+      }
+    }
+  },
+
+  mounted() {
+    this.$refs.email.focus()
+  },
+
   methods: {
     submit() {
-      this.lockFields()
-      // request here
-    },
-    lockFields() {
       this.loading = true
-      this.disableEmail = true
-      this.disablePassword = true
-      this.disableLogin = true
-    },
-    unlockFields() {
-      this.loading = false
-      this.disableEmail = false
-      this.disablePassword = false
-      this.disableLogin = false
+      this.emailError = []
+      this.passwordError = []
+      // request here
+      this.$http.post(this.url, qs.stringify({
+        email: this.email,
+        password: this.password,
+      })).then((res) => {
+        console.error(res.data)
+        if (res.data.success == false) {
+          this.loading = false
+          this.emailError = ''
+          this.passwordError = res.data.error
+          return
+        }
+
+        this.$bus.checkSession(this.$route, this.$http)
+      }).catch(e => {
+        console.error(e)
+        this.emailError = ''
+        this.passwordError = 'An error occurred.'
+        this.loading = false
+      })
     }
   }
 }
