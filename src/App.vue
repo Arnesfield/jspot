@@ -1,9 +1,9 @@
 <template>
   <v-app>
-    <navigation/>
-    <toolbar/>
+    <navigation v-if="$bus.componentWithAuth"/>
+    <toolbar v-if="$bus.componentWithAuth"/>
     <v-content>
-      <toolbar-content/>
+      <toolbar-content v-if="$bus.componentWithAuth"/>
       <router-view/>
     </v-content>
   </v-app>
@@ -20,6 +20,12 @@ export default {
     Navigation,
     Toolbar,
     ToolbarContent
+  },
+
+  created() {
+    this.$bus.$on('get-route', (emit, to, from) => {
+      this.$bus.$emit(emit, this.$route, to, from)
+    })
   }
 }
 </script>

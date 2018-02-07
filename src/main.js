@@ -7,6 +7,7 @@ import axios from 'axios'
 import Vuetify from 'vuetify'
 
 import bus from './bus'
+import routerCond from './router/cond'
 import colors from 'vuetify/es5/util/colors'
 
 import 'vuetify/dist/vuetify.min.css'
@@ -26,6 +27,8 @@ Vue.use(Vuetify, {
 Vue.config.productionTip = false
 Vue.prototype.$http = http
 Vue.prototype.$bus = bus
+
+routerCond(router, http, bus)
 
 /* eslint-disable no-new */
 new Vue({
