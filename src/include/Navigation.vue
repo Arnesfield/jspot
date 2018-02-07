@@ -117,7 +117,7 @@ export default {
       // logout here
       this.$http.post(this.logoutUrl).then((res) => {
         if (!res.data.success) {
-          throw new Error('Request success failure.')
+          throw new Error('Request failure.')
         }
         this.$bus.checkSession(this.$route, this.$http)
       }).catch(e => {
