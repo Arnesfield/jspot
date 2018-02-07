@@ -13,12 +13,14 @@
     <v-content>
       <toolbar-content v-if="$bus.componentWithAuth"/>
       <router-view/>
+      <fab/>
     </v-content>
   </v-app>
 </template>
 
 <script>
 import Navigation from '@/include/Navigation'
+import Fab from '@/include/Fab'
 import Toolbar from '@/include/Toolbar'
 import ToolbarContent from '@/include/ToolbarContent'
 
@@ -26,6 +28,7 @@ export default {
   name: 'App',
   components: {
     Navigation,
+    Fab,
     Toolbar,
     ToolbarContent
   },
