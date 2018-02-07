@@ -5,6 +5,8 @@ import HelloWorld from '@/components/HelloWorld'
 import Dashboard from '@/components/Dashboard'
 import Login from '@/components/Login'
 
+import ManageUsers from '@/components/ManageUsers'
+
 Vue.use(Router)
 
 export default new Router({
@@ -14,7 +16,7 @@ export default new Router({
       name: 'HelloWorld',
       component: HelloWorld,
       meta: {
-        auth: 2
+        auth: 3
       }
     },
     {
@@ -22,7 +24,7 @@ export default new Router({
       name: 'Login',
       component: Login,
       meta: {
-        auth: 1
+        auth: 10
       }
     },
     {
@@ -30,8 +32,23 @@ export default new Router({
       name: 'Dashboard',
       component: Dashboard,
       meta: {
+        auth: 3
+      }
+    },
+    
+    // manage
+
+    {
+      path: '/manage/users',
+      name: 'ManageUsers',
+      component: ManageUsers,
+      meta: {
+        title: 'Manage Users',
         auth: 2
       }
     },
+    
+    // end of manage
+
   ]
 })

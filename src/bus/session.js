@@ -1,4 +1,4 @@
 export default {
   user: null,
-  auth: 1
+  auth: 10
 }

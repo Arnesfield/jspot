@@ -8,8 +8,10 @@
 >
   <nav-user/>
   <v-list
-    class="pt-2"
+    class="pb-0"
+    :class="{ 'py-0': i != 0 }"
     :key="i"
+    v-if="list.auth >= $bus.session.auth"
     v-for="(list, i) in lists"
     :subheader="Boolean(list.header)"
   >
@@ -44,7 +46,7 @@
     </template>
   </v-list>
 
-  <v-footer fixed :height="null" color="transparent">
+  <v-footer fixed :height="null" style="background-color: inherit">
     <v-list style="width: 100%">
       <v-tooltip right :disabled="!$bus.nav.miniVariant">
         <v-list-tile
@@ -81,8 +83,22 @@ export default {
     lists: [
       {
         header: '',
+        auth: 3,
         items: [
-          { title: 'Home', icon: 'home', to: '/' },
+          { title: 'Home', icon: 'home', to: '/' }
+        ]
+      },
+      {
+        header: 'Manage',
+        auth: 2,
+        items: [
+          { title: 'Users', icon: 'account_circle', to: '/manage/users' },
+        ]
+      },
+      // logout
+      {
+        auth: 10,
+        items: [
           '',
           { title: 'Logout', icon: 'exit_to_app', click: 'logout' }
         ]
