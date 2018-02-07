@@ -3,7 +3,7 @@
   app
   fixed
   :mini-variant="$bus.nav.miniVariant"
-  :clipped="true"
+  :clipped="$bus.nav.clipped"
   v-model="$bus.nav.model"
 >
   <nav-user/>
