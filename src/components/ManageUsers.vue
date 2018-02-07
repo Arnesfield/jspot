@@ -56,17 +56,22 @@
       </td>
     </template>
   </v-data-table>
+
+  <dialog-add-user/>
+
 </v-container>
 </template>
 
 <script>
 import ManageNoData from '@/include/ManageNoData'
+import DialogAddUser from '@/include/dialogs/DialogAddUser'
 import wrap from '@/assets/js/wrap'
 
 export default {
   name: 'manage-users',
   components: {
-    ManageNoData
+    ManageNoData,
+    DialogAddUser
   },
   data: () => ({
     url: '/users',
@@ -85,10 +90,13 @@ export default {
     loading: false
   }),
   computed: {
-    wrap() { return wrap }
+    wrap: () => wrap
   },
 
   created() {
+    this.$bus.$on('add--user', () => {
+      this.$bus.dialog[this.$route.path] = true
+    })
     this.fetch()
   },
 

@@ -17,7 +17,7 @@
             </div>
           </v-card-title>
           <v-card-title>
-            <v-form style="width: 100%">
+            <v-form class="full-width">
               <v-text-field
                 ref="email"
                 type="email"

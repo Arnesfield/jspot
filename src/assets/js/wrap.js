@@ -24,6 +24,12 @@ export default {
     return e == 2 ? 'Admin' : 'Normal'
   },
   status(e) {
-    return e == 1 ? 'Activated' : 'Deactivated'
+    let condition = null
+    if (typeof e === 'boolean') {
+      condition = e
+    } else {
+      condition = e == 1
+    }
+    return condition ? 'Activated' : 'Deactivated'
   }
 }

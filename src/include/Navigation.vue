@@ -47,7 +47,7 @@
   </v-list>
 
   <v-footer fixed :height="null" style="background-color: inherit">
-    <v-list style="width: 100%">
+    <v-list class="full-width">
       <v-tooltip right :disabled="!$bus.nav.miniVariant">
         <v-list-tile
           ripple
