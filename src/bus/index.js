@@ -1,11 +1,15 @@
 import Vue from 'vue'
 import nav from './nav'
 import session from './session'
+import progress from './progress'
+import settings from './settings'
 
 export default new Vue({
   data: () => ({
     nav: nav,
-    session: session
+    session: session,
+    progress: progress,
+    settings: settings
   }),
 
   watch: {
@@ -24,7 +28,7 @@ export default new Vue({
     checkSession(route, http) {
       http.post('/sess').then((res) => {
         this.setSession(res.data)
-        this.$emit('change--session.auth', route)
+        // change--session.auth is called when session.auth is changed
       }).catch(e => {
         console.error(e)
       })
@@ -35,12 +39,8 @@ export default new Vue({
         { key: 'auth', def: 1 }
       ]
       fields.forEach(e => {
-        if (data[e.key]) {
-          this.session[e.key] = data[e.key]
-        } else {
-          // set default value
-          this.session[e.key] = e.def
-        }
+        // set default value if data does not exist
+        this.session[e.key] = data[e.key] || e.def
       })
     }
   }

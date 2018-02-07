@@ -3,6 +3,8 @@ export default function(router, http, bus) {
   let beforeEach = function(to, from, next) {
     // set title
     const title = to.meta.title || to.name
+    // do loading
+    bus.progress.active = true
 
     // if router auth not the same with session auth
     if (to.meta.auth != bus.session.auth) {
@@ -21,11 +23,17 @@ export default function(router, http, bus) {
     
     document.title = title
     next()
+    // stop loading
+    bus.progress.active = false
   }
 
   bus.$on('change--session.auth', (route) => {
     beforeEach(route, route, (e) => {})
   })
 
-  router.beforeEach(beforeEach)
+  router.beforeEach((to, from, next) => {
+    // check for session
+    bus.checkSession(to, http)
+    beforeEach(to, from, next)
+  })
 }

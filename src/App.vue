@@ -1,5 +1,13 @@
 <template>
-  <v-app>
+  <v-app :dark="$bus.settings.dark">
+    <v-progress-linear
+      color="warning"
+      height="4"
+      :active="$bus.progress.active"
+      indeterminate
+      style="z-index: 5; position: fixed"
+      class="ma-0"
+    />
     <navigation v-if="$bus.componentWithAuth"/>
     <toolbar v-if="$bus.componentWithAuth"/>
     <v-content>

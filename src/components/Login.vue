@@ -5,8 +5,9 @@
     <v-flex sm8 md6 lg4>
       <v-card>
         <v-progress-linear
-          height="3"
+          height="4"
           indeterminate
+          color="warning"
           :active="loading"/>
         <div class="px-4 pb-4 pt-2">
           <v-card-title primary-title>
@@ -21,6 +22,7 @@
                 ref="email"
                 type="email"
                 label="Email"
+                tabindex="1"
                 v-model="email"
                 prepend-icon="account_circle"
                 :disabled="loading"
@@ -29,6 +31,7 @@
               <v-text-field
                 ref="password"
                 label="Password"
+                tabindex="1"
                 v-model="password"
                 prepend-icon="lock"
                 :disabled="loading"
@@ -45,19 +48,22 @@
               <router-link
                 to="/"
                 v-else
-                class="clean-a text--accent"
+                class="clean-a text--accent-1"
               >Forgot password</router-link>?
             </div>
             <v-spacer/>
             <v-btn
+              to="/"
+              flat
+              color="primary"
+              :disabled="loading"
+            >Sign Up</v-btn>
+            <v-btn
+              tabindex="1"
               color="primary"
               :disabled="loading"
               @click="submit"
             >Login</v-btn>
-            <v-btn
-              to="/"
-              :disabled="loading"
-            >Sign Up</v-btn>
           </v-card-actions>
         </div>
 
@@ -119,7 +125,6 @@ export default {
         email: this.email,
         password: this.password,
       })).then((res) => {
-        console.error(res.data)
         if (!res.data.success) {
           this.loading = false
           this.emailError = ''

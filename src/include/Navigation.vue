@@ -44,7 +44,7 @@
     </template>
   </v-list>
 
-  <v-footer fixed :height="null" color="white">
+  <v-footer fixed :height="null" color="transparent">
     <v-list style="width: 100%">
       <v-tooltip right :disabled="!$bus.nav.miniVariant">
         <v-list-tile
