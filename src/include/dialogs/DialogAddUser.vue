@@ -4,7 +4,7 @@
   transition="fade-transition"
   scrollable
   :persistent="loading"
-  max-width="720"
+  max-width="810"
 >
   <v-card>
 
@@ -42,7 +42,9 @@
                   v-model="fname"
                   :disabled="loading"
                   prepend-icon="account_circle"
-                  required/>
+                  :rules="[rule('required')]"
+                  required
+                />
               </v-flex>
               &nbsp;
               <v-flex xs12 sm6>
@@ -50,7 +52,9 @@
                   label="Last name"
                   v-model="lname"
                   :disabled="loading"
-                  required/>
+                  :rules="[rule('required')]"
+                  required
+                />
               </v-flex>
             </v-layout>
             <v-text-field
@@ -59,7 +63,54 @@
               v-model="email"
               :disabled="loading"
               prepend-icon="email"
-              required/>
+              :rules="[rule('required'), rule('email')]"
+              required
+            />
+            <v-text-field
+              label="Bio"
+              v-model="bio"
+              :disabled="loading"
+              prepend-icon="subject"
+              multi-line
+              class="multi-line-textarea"
+            />
+          </v-flex>
+        </v-layout>
+
+        <v-layout row>
+          <v-flex hidden-xs-only sm4>
+            <v-subheader>Interested In</v-subheader>
+          </v-flex>
+          <v-flex sm8>
+            <v-select
+              v-model="places"
+              label="Places"
+              chips
+              tags
+              deletable-chips
+              prepend-icon="place"
+              :items="select.places"
+            ></v-select>
+
+            <v-select
+              v-model="jobs"
+              label="Jobs"
+              chips
+              tags
+              deletable-chips
+              prepend-icon="work"
+              :items="select.jobs"
+            ></v-select>
+            
+          </v-flex>
+        </v-layout>
+
+        <v-layout row>
+          <v-flex hidden-xs-only sm4>
+            <v-subheader>Social</v-subheader>
+          </v-flex>
+          <v-flex sm8>
+            <social-links :social.sync="social"/>
           </v-flex>
         </v-layout>
 
@@ -87,7 +138,9 @@
                 :append-icon="hidePass.password ? 'visibility' : 'visibility_off'"
                 :append-icon-cb="() => (hidePass.password = !hidePass.password)"
                 hint="Password must be at least 8 characters!"
-                required/>
+                :rules="[rule('required'), rule('chars8')]"
+                required
+              />
 
               <v-text-field
                 label="Confirm Password"
@@ -97,7 +150,8 @@
                 :type="hidePass.passconf ? 'password' : 'text'"
                 :append-icon="hidePass.passconf ? 'visibility' : 'visibility_off'"
                 :append-icon-cb="() => (hidePass.passconf = !hidePass.passconf)"
-                required/>
+                :rules="[rule('match', undefined, password)]"
+              />
             </template>
 
           </v-flex>
@@ -117,6 +171,8 @@
               :prepend-icon="type ? type.icon : 'verified_user'"
               return-object
               bottom
+              :rules="[rule('required')]"
+              required
             >
               <template slot="item" slot-scope="data">
                 
@@ -161,10 +217,12 @@
       <v-spacer/>
       <v-btn
         flat
+        tabindex="0"
         :disabled="loading"
         @click="clear">Clear</v-btn>
       <v-btn
         color="primary"
+        tabindex="0"
         :disabled="loading"
         @click="submit">Add</v-btn>
     </v-card-actions>
@@ -173,18 +231,24 @@
 </v-dialog>
 </template>
 
-<script>
+<script>  
+import SocialLinks from '@/include/SocialLinks'
 import qs from 'qs'
 import wrap from '@/assets/js/wrap'
+import rule from '@/assets/js/formRules'
 
 export default {
   name: 'dialog-add-user',
+  components: {
+    SocialLinks
+  },
   data: () => ({
     url: '/users/add',
     formValid: false,
     email: null,
     fname: null,
     lname: null,
+    bio: null,
     password: null,
     passconf: null,
     img_src: null,
@@ -198,24 +262,35 @@ export default {
       { text: 'Admin', icon: 'verified_user', value: 2 },
       { text: 'Normal', icon: 'person', value: 3 }
     ],
+    places: [],
+    jobs: [],
+    select: {
+      places: [],
+      jobs: [],
+    },
+    social: [],
 
     loading: false,
     alsoPassword: false
   }),
   computed: {
-    wrap: () => wrap
+    wrap: () => wrap,
+    rule: () => rule
   },
 
   methods: {
     submit() {
+      if (!this.$refs.form.validate()) {
+        return
+      }
       this.loading = true
-      console.log(this.$refs.form.validate())
     },
     clear() {
       this.$refs.form.reset()
+      this.email = null
       this.fname = null
       this.lname = null
-      this.email = null
+      this.bio = null
       this.password = null
       this.passconf = null
       this.type = null
@@ -223,6 +298,11 @@ export default {
       this.hidePass.password = true
       this.hidePass.passconf = true
       this.alsoPassword = false
+      this.places = []
+      this.jobs = []
+      this.select.places = []
+      this.select.jobs = []
+      this.social = []
     }
   }
 }

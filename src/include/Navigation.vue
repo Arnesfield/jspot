@@ -5,6 +5,7 @@
   :mini-variant="$bus.nav.miniVariant"
   :clipped="$bus.nav.clipped"
   v-model="$bus.nav.model"
+  tabindex="1"
 >
   <nav-user/>
   <v-list
@@ -31,8 +32,10 @@
           ripple
           slot="activator"
           :to="item.to"
+          @keypress.enter="listItemClick(item.click)"
           @click="listItemClick(item.click)"
           :exact-active-class="item.to"
+          tabindex="1"
         >
           <v-list-tile-action>
             <v-icon v-html="item.icon"></v-icon>
@@ -51,14 +54,16 @@
       <v-tooltip right :disabled="!$bus.nav.miniVariant">
         <v-list-tile
           ripple
+          tabindex="1"
           slot="activator"
           @click="$bus.nav.miniVariant = !$bus.nav.miniVariant">
           <v-list-tile-action>
             <v-btn
               icon
+              tabindex="1"
               :ripple="false"
               @click.stop="$bus.nav.miniVariant = !$bus.nav.miniVariant">
-              <v-icon v-html="$bus.nav.miniVariant ? 'chevron_right' : 'chevron_left'"></v-icon>
+              <v-icon v-html="$bus.nav.miniVariant ? 'chevron_right' : 'chevron_left'"/>
             </v-btn>
           </v-list-tile-action>
           <v-list-tile-content>{{ collapseText }}</v-list-tile-content>

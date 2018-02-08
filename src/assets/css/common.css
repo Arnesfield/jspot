@@ -27,3 +27,11 @@
 .center-y {
   align-items: center;
 }
+
+
+/* override */
+.multi-line-textarea textarea {
+  min-height: 32px;
+  height: 64px;
+  max-height: 256px;
+}

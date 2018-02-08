@@ -27,6 +27,7 @@
                 prepend-icon="account_circle"
                 :disabled="loading"
                 :error-messages="emailError"
+                @keypress.enter="submit"
               />
               <v-text-field
                 ref="password"
@@ -39,6 +40,7 @@
                 :append-icon-cb="() => (hidePass = !hidePass)"
                 :type="hidePass ? 'password' : 'text'"
                 :error-messages="passwordError"
+                @keypress.enter="submit"
               />
             </v-form>
           </v-card-title>
@@ -63,6 +65,8 @@
               color="primary"
               :disabled="loading"
               @click="submit"
+              @keypress.enter="submit"
+              type="submit"
             >Login</v-btn>
           </v-card-actions>
         </div>
