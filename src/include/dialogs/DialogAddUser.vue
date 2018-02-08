@@ -4,7 +4,7 @@
   transition="fade-transition"
   scrollable
   :persistent="loading"
-  max-width="810"
+  max-width="900"
 >
   <v-card>
 
@@ -42,7 +42,7 @@
                   v-model="fname"
                   :disabled="loading"
                   prepend-icon="account_circle"
-                  :rules="[rule('required')]"
+                  :rules="[$vfRule('required')]"
                   required
                 />
               </v-flex>
@@ -52,7 +52,7 @@
                   label="Last name"
                   v-model="lname"
                   :disabled="loading"
-                  :rules="[rule('required')]"
+                  :rules="[$vfRule('required')]"
                   required
                 />
               </v-flex>
@@ -63,7 +63,7 @@
               v-model="email"
               :disabled="loading"
               prepend-icon="email"
-              :rules="[rule('required'), rule('email')]"
+              :rules="[$vfRule('required'), $vfRule('email')]"
               required
             />
             <v-text-field
@@ -82,26 +82,16 @@
             <v-subheader>Interested In</v-subheader>
           </v-flex>
           <v-flex sm8>
-            <v-select
-              v-model="places"
-              label="Places"
-              chips
-              tags
-              deletable-chips
-              prepend-icon="place"
-              :items="select.places"
-            ></v-select>
-
-            <v-select
-              v-model="jobs"
-              label="Jobs"
-              chips
-              tags
-              deletable-chips
-              prepend-icon="work"
-              :items="select.jobs"
-            ></v-select>
-            
+            <select-places
+              :places.sync="places"
+              :items.sync="select.places"
+              @update-places="(e) => { places = e }"
+            />
+            <select-job-tags
+              :tags.sync="jobTags"
+              :items.sync="select.jobTags"
+              @update-job-tags="(e) => { jobTags = e }"
+            />
           </v-flex>
         </v-layout>
 
@@ -138,7 +128,7 @@
                 :append-icon="hidePass.password ? 'visibility' : 'visibility_off'"
                 :append-icon-cb="() => (hidePass.password = !hidePass.password)"
                 hint="Password must be at least 8 characters!"
-                :rules="[rule('required'), rule('chars8')]"
+                :rules="[$vfRule('required'), $vfRule('chars8')]"
                 required
               />
 
@@ -150,7 +140,7 @@
                 :type="hidePass.passconf ? 'password' : 'text'"
                 :append-icon="hidePass.passconf ? 'visibility' : 'visibility_off'"
                 :append-icon-cb="() => (hidePass.passconf = !hidePass.passconf)"
-                :rules="[rule('match', undefined, password)]"
+                :rules="[$vfRule('match', undefined, password)]"
               />
             </template>
 
@@ -171,7 +161,7 @@
               :prepend-icon="type ? type.icon : 'verified_user'"
               return-object
               bottom
-              :rules="[rule('required')]"
+              :rules="[$vfRule('required')]"
               required
             >
               <template slot="item" slot-scope="data">
@@ -233,14 +223,17 @@
 
 <script>  
 import SocialLinks from '@/include/SocialLinks'
+import SelectPlaces from '@/include/SelectPlaces'
+import SelectJobTags from '@/include/SelectJobTags'
 import qs from 'qs'
 import wrap from '@/assets/js/wrap'
-import rule from '@/assets/js/formRules'
 
 export default {
   name: 'dialog-add-user',
   components: {
-    SocialLinks
+    SocialLinks,
+    SelectPlaces,
+    SelectJobTags
   },
   data: () => ({
     url: '/users/add',
@@ -263,10 +256,10 @@ export default {
       { text: 'Normal', icon: 'person', value: 3 }
     ],
     places: [],
-    jobs: [],
+    jobTags: [],
     select: {
       places: [],
-      jobs: [],
+      jobTags: [],
     },
     social: [],
 
@@ -274,8 +267,7 @@ export default {
     alsoPassword: false
   }),
   computed: {
-    wrap: () => wrap,
-    rule: () => rule
+    wrap: () => wrap
   },
 
   methods: {
@@ -299,9 +291,9 @@ export default {
       this.hidePass.passconf = true
       this.alsoPassword = false
       this.places = []
-      this.jobs = []
+      this.jobTags = []
       this.select.places = []
-      this.select.jobs = []
+      this.select.jobTags = []
       this.social = []
     }
   }

@@ -27,15 +27,13 @@
       @keypress.enter="addLink"
       type="url"
       clearable
-      :rules="[rule('url'), rule('nonExisting', null, social)]"
+      :rules="[$vfRule('url'), $vfRule('nonExisting', null, social)]"
     />
   </v-form>
 </div>
 </template>
 
 <script>
-import rule from '@/assets/js/formRules'
-
 export default {
   name: 'social-links',
   props: {
@@ -46,10 +44,6 @@ export default {
     link: null,
     errors: []
   }),
-
-  computed: {
-    rule: () => rule
-  },
 
   methods: {
     addLink() {
