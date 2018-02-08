@@ -21,12 +21,12 @@
   <v-form ref="form" v-model="valid">
     <v-text-field
       v-model="link"
-      prepend-icon="link"
       label="Add social link"
-      :append-icon="link ? 'add' : undefined"
-      :append-icon-cb="addLink"
+      :prepend-icon="link ? 'add' : 'link'"
+      :prepend-icon-cb="link ? addLink : undefined"
       @keypress.enter="addLink"
       type="url"
+      clearable
       :rules="[rule('url'), rule('nonExisting', null, social)]"
     />
   </v-form>
