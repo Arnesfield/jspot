@@ -18,6 +18,16 @@ class Tags extends MY_Custom_Controller {
       'tags' => $tags
     ));
   }
+
+  public function insertMultiple($tags) {
+    foreach ($tags as $key => $tag) {
+      $tags[$key] = array(
+        'name' => $tag,
+        'status' => 1
+      );
+    }
+    return $this->db->insert_batch('tags', $tags);
+  }
 }
 
 ?>

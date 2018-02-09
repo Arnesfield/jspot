@@ -14,6 +14,36 @@ class Places_model extends MY_Custom_Model {
     $query = $this->db->get();
     return $this->_res($query);
   }
+
+  public function insert($place) {
+    return $this->db->insert('places', $place);
+  }
+
+  public function insertMultiple($places) {
+    // get places with name
+    $q = $this->db
+      ->from('places')
+      ->where_in('name', $places)
+      ->where('status', 1)
+      ->get();
+    $placesWithNames = $this->_res($q);
+
+    $inDbPlaces = $this->_to_col($placesWithNames);
+    // remove places in $places that are in db
+    $filtered = $this->_remove_existing($places, $inDbPlaces);
+    // assert that filtered does not exist in db
+    // add these to array
+    // turn places to array
+    $toAdd = array();
+    foreach ($filtered as $key => $place) {
+      array_push($toAdd, array(
+        'name' => $place,
+        'status' => 1
+      ));
+    }
+    
+    return $this->db->insert_batch('places', $toAdd);
+  }
 }
 
 ?>

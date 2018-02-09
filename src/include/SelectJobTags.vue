@@ -6,6 +6,7 @@
     tags
     deletable-chips
     autocomplete
+    :disabled="disabled"
     :search-input.sync="search"
     debounce-search
     prepend-icon="work"
@@ -21,16 +22,13 @@ import qs from 'qs'
 export default {
   name: 'select-job-tags',
   props: {
-    tags: {
-      type: Array
-    },
-    items: {
-      type: Array
-    }
+    disabled: Boolean
   },
   data: () => ({
     url: '/tags',
     search: null,
+    tags: [],
+    items: [],
     loading: false
   }),
   watch: {

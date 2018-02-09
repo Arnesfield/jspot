@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 08, 2018 at 05:29 AM
+-- Generation Time: Feb 08, 2018 at 02:09 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -76,7 +76,10 @@ CREATE TABLE `users` (
   `fname` varchar(128) NOT NULL,
   `lname` varchar(128) NOT NULL,
   `bio` text NOT NULL,
-  `social` text NOT NULL,
+  `img_src` text NOT NULL,
+  `job_tags` text NOT NULL,
+  `places` text NOT NULL,
+  `socials` text NOT NULL,
   `email` varchar(128) NOT NULL,
   `type` tinyint(4) NOT NULL,
   `verification_code` varchar(32) NOT NULL,
@@ -92,8 +95,8 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `password`, `fname`, `lname`, `bio`, `social`, `email`, `type`, `verification_code`, `reset_code`, `reset_expiration`, `created_at`, `updated_at`, `settings`, `status`) VALUES
-(1, '$2y$10$d/46JkJivDqU9Bh7v0f6YOi4C5nXZDQEngMaE4OEl2AGm7ykViqHC', 'Charlyn', 'Ann', 'My short bio here.', '[]', 'test@email.com', 2, '', '', 0, 1518017533, 1518017533, '{\"dark\":false}', 1);
+INSERT INTO `users` (`id`, `password`, `fname`, `lname`, `bio`, `img_src`, `job_tags`, `places`, `socials`, `email`, `type`, `verification_code`, `reset_code`, `reset_expiration`, `created_at`, `updated_at`, `settings`, `status`) VALUES
+(1, '$2y$10$d/46JkJivDqU9Bh7v0f6YOi4C5nXZDQEngMaE4OEl2AGm7ykViqHC', 'Charlyn', 'Ann', 'My short bio here.', '', '[]', '[]', '[]', 'test@email.com', 2, '', '', 0, 1518017533, 1518017533, '{\"dark\":false}', 1);
 
 --
 -- Indexes for dumped tables
@@ -103,13 +106,15 @@ INSERT INTO `users` (`id`, `password`, `fname`, `lname`, `bio`, `social`, `email
 -- Indexes for table `places`
 --
 ALTER TABLE `places`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
 
 --
 -- Indexes for table `tags`
 --
 ALTER TABLE `tags`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
 
 --
 -- Indexes for table `users`

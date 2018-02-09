@@ -1,3 +1,5 @@
+import urlRegex from 'url-regex'
+
 const msgs = {
   required: 'This field is required.',
   email: 'Invalid email.',
@@ -18,8 +20,7 @@ let rules = {
   url: (msg) => (e) => {
     // optional
     if (!e) { return true }
-    const pattern = /^(ftp|http|https):\/\/[^ "]+$/
-    return pattern.test(e) || msg
+    return urlRegex({ exact: true, strict: false }).test(e) || msg
   },
   nonExisting: (msg, arr) => (e) => {
     if (!arr) { return true }

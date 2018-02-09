@@ -15,11 +15,11 @@
         dark
         icon
         :disabled="loading"
-        @click.native="$bus.dialog[$route.path] = false"
+        @click.native="() => { $bus.dialog[$route.path] = false; clear() }"
       >
         <v-icon>close</v-icon>
       </v-btn>
-      <v-toolbar-title>Add Users</v-toolbar-title>
+      <v-toolbar-title>Add User</v-toolbar-title>
     </v-toolbar>
 
     <!-- end of toolbar -->
@@ -83,13 +83,11 @@
           </v-flex>
           <v-flex sm8>
             <select-places
-              :places.sync="places"
-              :items.sync="select.places"
+              :disabled="loading"
               @update-places="(e) => { places = e }"
             />
             <select-job-tags
-              :tags.sync="jobTags"
-              :items.sync="select.jobTags"
+              :disabled="loading"
               @update-job-tags="(e) => { jobTags = e }"
             />
           </v-flex>
@@ -97,10 +95,13 @@
 
         <v-layout row>
           <v-flex hidden-xs-only sm4>
-            <v-subheader>Social</v-subheader>
+            <v-subheader>Socials</v-subheader>
           </v-flex>
           <v-flex sm8>
-            <social-links :social.sync="social"/>
+            <social-links
+              :socials.sync="socials"
+              :disabled="loading"
+            />
           </v-flex>
         </v-layout>
 
@@ -112,7 +113,7 @@
             <v-checkbox
               class="mt-2"
               label="Change password"
-              :disabled="loading"
+              :disabled="mode == 'edit' ? loading : true"
               :hint="alsoPassword ? 'Note: Current password will be overwritten!' : undefined"
               persistent-hint
               v-model="alsoPassword"
@@ -235,6 +236,12 @@ export default {
     SelectPlaces,
     SelectJobTags
   },
+  props: {
+    mode: {
+      type: String,
+      default: 'add'
+    }
+  },
   data: () => ({
     url: '/users/add',
     formValid: false,
@@ -244,7 +251,7 @@ export default {
     bio: null,
     password: null,
     passconf: null,
-    img_src: null,
+    imgSrc: null,
     type: null,
     status: true,
     hidePass: {
@@ -257,11 +264,7 @@ export default {
     ],
     places: [],
     jobTags: [],
-    select: {
-      places: [],
-      jobTags: [],
-    },
-    social: [],
+    socials: [],
 
     loading: false,
     alsoPassword: false
@@ -270,12 +273,44 @@ export default {
     wrap: () => wrap
   },
 
+  created() {
+    this.alsoPassword = this.mode == 'add'
+  },
+
   methods: {
     submit() {
       if (!this.$refs.form.validate()) {
         return
       }
       this.loading = true
+      this.$http.post(this.url, qs.stringify({
+        email: this.email,
+        fname: this.fname,
+        lname: this.lname,
+        bio: this.bio,
+        // if password is set, use password
+        alsoPassword: this.alsoPassword,
+        password: this.password,
+        img_src: this.imgSrc,
+        type: this.type.value,
+        status: this.status ? 1 : 0,
+
+        places: this.places,
+        job_tags: this.jobTags,
+        socials: this.socials
+      })).then((res) => {
+        console.error(res.data)
+        if (!res.data.success) {
+          throw new Error('Request failure.')
+        }
+        this.loading = false
+        this.clear()
+        this.$bus.dialog[this.$route.path] = false
+        this.$bus.$emit('update--manage-users')
+      }).catch(e => {
+        console.error(e)
+        this.loading = false
+      })
     },
     clear() {
       this.$refs.form.reset()
@@ -289,12 +324,10 @@ export default {
       this.status = true
       this.hidePass.password = true
       this.hidePass.passconf = true
-      this.alsoPassword = false
+      this.alsoPassword = this.mode == 'add'
       this.places = []
       this.jobTags = []
-      this.select.places = []
-      this.select.jobTags = []
-      this.social = []
+      this.socials = []
     }
   }
 }

@@ -97,14 +97,15 @@ export default {
     this.$bus.$on('add--user', () => {
       this.$bus.dialog[this.$route.path] = true
     })
+    this.$bus.$on('update--manage-users', this.fetch)
     this.fetch()
   },
 
   methods: {
-    edit() {
+    edit(item) {
 
     },
-    delete() {
+    delete(item) {
 
     },
     

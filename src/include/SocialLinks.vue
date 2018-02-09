@@ -2,32 +2,39 @@
 <div>
   <v-list
     dense
-    v-if="social.length"
+    v-if="socials.length"
   >
     <v-list-tile
       :key="i"
-      v-for="(link, i) in social"
+      v-for="(link, i) in socials"
       class="pl-0"
     >
       <v-list-tile-action>
-        <v-btn icon @click="social.splice(i, 1)">
+        <v-btn
+          icon
+          :disabled="disabled"
+          @click="socials.splice(i, 1)"
+        >
           <v-icon>close</v-icon>
         </v-btn>
       </v-list-tile-action>
-      <v-list-tile-content>{{ link }}</v-list-tile-content>
+      <v-list-tile-content>
+        <a :href="wrapUrl(link)" target="1">{{ link }}</a>
+      </v-list-tile-content>
     </v-list-tile>
   </v-list>
 
-  <v-form ref="form" v-model="valid">
+  <v-form ref="form" v-model="valid" @submit.prevent="">
     <v-text-field
       v-model="link"
       label="Add social link"
       :prepend-icon="link ? 'add' : 'link'"
       :prepend-icon-cb="link ? addLink : undefined"
       @keypress.enter="addLink"
+      :disabled="disabled"
       type="url"
       clearable
-      :rules="[$vfRule('url'), $vfRule('nonExisting', null, social)]"
+      :rules="[$vfRule('url'), $vfRule('nonExisting', null, socials)]"
     />
   </v-form>
 </div>
@@ -37,7 +44,8 @@
 export default {
   name: 'social-links',
   props: {
-    social: Array,
+    socials: Array,
+    disabled: Boolean
   },
   data: () => ({
     valid: false,
@@ -46,6 +54,11 @@ export default {
   }),
 
   methods: {
+    wrapUrl(url) {
+      const pattern = /^https?:\/\/|^\/\//i
+      return pattern.test(url) ? url : 'https://' + url
+    },
+
     addLink() {
       if (!this.link) {
         return
@@ -61,8 +74,8 @@ export default {
       }
 
       // do not include if exists
-      if (this.social.indexOf(this.link) == -1) {
-        this.social.push(this.link)
+      if (this.socials.indexOf(this.link) == -1) {
+        this.socials.push(this.link)
         this.link = null
       }
     }

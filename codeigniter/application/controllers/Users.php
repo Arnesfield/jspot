@@ -13,6 +13,69 @@ class Users extends MY_Custom_Controller {
       'users' => $this->users_model->get()
     ));
   }
+
+  public function add() {
+    $post_values = array(
+      'email',
+      'fname',
+      'lname',
+      'img_src',
+      'bio',
+      'type',
+      'status',
+      'alsoPassword',
+      'password',
+      'img_src',
+      'places',
+      'job_tags',
+      'socials'
+    );
+
+    // turn name to variable
+    foreach ($post_values as $key => $post) {
+      $curr = $this->input->post($post);
+      $$post = is_string($curr) ? $this->_filter($curr) : $curr;
+    }
+
+    $_places = $places;
+    $_job_tags = $job_tags;
+    $_socials = $socials;
+
+    $places = json_encode($places);
+    $job_tags = json_encode($job_tags);
+    $socials = json_encode($socials);
+
+    $user = array(
+      'fname' => $fname,
+      'lname' => $lname,
+      'email' => $email,
+      'img_src' => $img_src,
+      'bio' => $bio,
+      'type' => $type,
+      'job_tags' => $job_tags,
+      'places' => $places,
+      'socials' => $socials,
+      'status' => $status,
+      'created_at' => time(),
+      'updated_at' => time(),
+      'settings' => '{}'
+    );
+
+    if ($alsoPassword) {
+      $user['password'] = $password = password_hash($password, PASSWORD_BCRYPT);
+    }
+
+    $this->load->model(array('places_model', 'tags_model'));
+
+    $res = $this->users_model->insert($user);
+    $this->places_model->insertMultiple($_places);
+    $this->tags_model->insertMultiple($_job_tags);
+
+    $this->_json(array(
+      'success' => $res,
+      'places' => $_places
+    ));
+  }
 }
 
 ?>

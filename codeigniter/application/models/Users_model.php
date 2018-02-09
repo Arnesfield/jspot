@@ -12,6 +12,10 @@ class Users_model extends MY_Custom_Model {
     $query = $this->db->get();
     return $this->_res($query);
   }
+
+  public function insert($user) {
+    return $this->db->insert('users', $user);
+  }
 }
 
 ?>
