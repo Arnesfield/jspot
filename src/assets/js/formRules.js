@@ -6,7 +6,8 @@ const msgs = {
   chars8: 'Requires 8 or more characters.',
   match: 'Value does not match.',
   url: 'Invalid URL.',
-  nonExisting: 'This already exists.'
+  nonExisting: 'This already exists.',
+  duplicateEmail: 'This email already exists.'
 }
 
 let rules = {
@@ -25,6 +26,10 @@ let rules = {
   nonExisting: (msg, arr) => (e) => {
     if (!arr) { return true }
     return arr.indexOf(e) == -1 || msg
+  },
+  duplicateEmail: (msg, val) => (e) => {
+    let cond = typeof val === 'boolean' ? !val : false
+    return cond ? true : msg
   }
 }
 

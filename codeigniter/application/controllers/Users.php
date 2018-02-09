@@ -14,6 +14,33 @@ class Users extends MY_Custom_Controller {
     ));
   }
 
+  public function duplicateEmailCheck() {
+    $email = $this->_filter($this->input->post('email'));
+    $id = $this->input->post('id') ? $this->input->post('id') : FALSE;
+
+    $where = array('email' => $email);
+    
+    $users = $this->users_model->get($where);
+    $res = array('success' => TRUE);
+
+    if (!$users) {
+      $res['exists'] = false;
+      $this->_json($res);
+    }
+
+    $user = $users[0];
+    
+    // if id is set
+    // if same id, then does not exist
+    if ($id && $id == $user['id']) {
+      $res['exists'] = false;
+      $this->_json($res);
+    }
+
+    $res['exists'] = true;
+    $this->_json($res);
+  }
+
   // adds and updates!
   public function add() {
     $post_values = array(
@@ -73,8 +100,8 @@ class Users extends MY_Custom_Controller {
     if ($mode != 'edit') {
       $user['created_at'] = time();
     }
-
-    if ($alsoPassword) {
+    
+    if (json_decode($alsoPassword)) {
       $user['password'] = $password = password_hash($password, PASSWORD_BCRYPT);
     }
 

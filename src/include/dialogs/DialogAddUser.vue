@@ -63,7 +63,8 @@
               v-model="email"
               :disabled="loading"
               prepend-icon="email"
-              :rules="[$vfRule('required'), $vfRule('email')]"
+              @input="checkDuplicateEmail"
+              :rules="[$vfRule('required'), $vfRule('email'), $vfRule('duplicateEmail', undefined, duplicateEmail)]"
               required
             />
             <v-text-field
@@ -215,7 +216,7 @@
         color="primary"
         tabindex="0"
         :disabled="loading"
-        @click="submit">{{ title() }}</v-btn>
+        @click="checkDuplicateEmail(email, true)">{{ title() }}</v-btn>
     </v-card-actions>
 
   </v-card>
@@ -274,7 +275,8 @@ export default {
     settings: {},
 
     loading: false,
-    alsoPassword: false
+    alsoPassword: false,
+    duplicateEmail: false
   }),
   computed: {
     wrap: () => wrap,
@@ -282,7 +284,9 @@ export default {
   watch: {
     mode(to, from) {
       if (to === 'edit') {
-        this.doEdit()
+        if (typeof this.doEdit === 'function') {
+          this.doEdit()
+        }
       }
     }
   },
@@ -342,8 +346,46 @@ export default {
       return this.mode.charAt(0).toUpperCase() + this.mode.substr(1)
     },
 
+    checkDuplicateEmail(e, doSubmit) {
+      // reset
+      this.duplicateEmail = false
+
+      // if doSubmit is set
+      doSubmit = typeof doSubmit === 'boolean' && doSubmit === true
+      if (doSubmit && !this.$refs.form.validate()) {
+        return
+      }
+
+      // only check if validated
+      if (this.$vfRule('email')(e) != true) {
+        return
+      }
+
+      if (doSubmit) {
+        this.loading = true
+      }
+
+      // check if exists
+      this.$http.post('/users/duplicateEmailCheck', qs.stringify({
+        id: this.id,
+        email: e
+      })).then((res) => {
+        if (!res.data.success) {
+          throw new Error('Request failure.')
+        }
+        this.duplicateEmail = res.data.exists
+        if (typeof doSubmit === 'boolean' && doSubmit === true) {
+          this.submit()
+        }
+      }).catch(e => {
+        console.error(e)
+        this.loading = false
+      })
+    },
+
     submit() {
       if (!this.$refs.form.validate()) {
+        this.loading = false
         return
       }
       this.loading = true
@@ -382,6 +424,7 @@ export default {
     },
     clear() {
       this.$refs.form.reset()
+      this.id = null
       this.email = null
       this.fname = null
       this.lname = null
@@ -396,6 +439,7 @@ export default {
       this.places = []
       this.job_tags = []
       this.socials = []
+      this.duplicateEmail = false
     }
   }
 }
