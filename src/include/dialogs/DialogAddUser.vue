@@ -75,6 +75,12 @@
               multi-line
               class="multi-line-textarea"
             />
+            <v-text-field
+              label="Contact"
+              v-model="contact"
+              :disabled="loading"
+              prepend-icon="phone"
+            />
           </v-flex>
         </v-layout>
 
@@ -259,6 +265,7 @@ export default {
     passconf: null,
     imgSrc: null,
     type: null,
+    contact: null,
     status: true,
     hidePass: {
       password: true,
@@ -399,6 +406,7 @@ export default {
         password: this.password,
         img_src: this.imgSrc,
         type: this.type.value,
+        contact: this.contact,
         status: this.status ? 1 : 0,
 
         places: this.places,
@@ -432,6 +440,7 @@ export default {
       this.password = null
       this.passconf = null
       this.type = null
+      this.contact = null
       this.status = true
       this.hidePass.password = true
       this.hidePass.passconf = true

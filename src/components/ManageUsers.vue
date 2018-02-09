@@ -21,6 +21,7 @@
       <td>{{ props.item.fname }}</td>
       <td>{{ props.item.lname }}</td>
       <td>{{ wrap.userType(props.item.type) }}</td>
+      <td>{{ props.item.contact }}</td>
       <td>{{ wrap.date(props.item.created_at) }}</td>
       <td>{{ wrap.date(props.item.updated_at) }}</td>
       <td>
@@ -81,6 +82,7 @@ export default {
       { text: 'First Name', value: 'fname' },
       { text: 'Surname', value: 'lname' },
       { text: 'Type', value: 'type' },
+      { text: 'Contact', value: 'contact', sortable: false },
       { text: 'Date Created', value: 'created_at' },
       { text: 'Date Updated', value: 'updated_at' },
       { text: 'Status', value: 'status', sortable: false },
