@@ -1,5 +1,8 @@
 export default {
-  'ManageUsers': {
+  global: {
+    delete: null
+  },
+  ManageUsers: {
     add: null
   }
 }

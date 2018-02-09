@@ -41,6 +41,16 @@ class Users extends MY_Custom_Controller {
     $this->_json($res);
   }
 
+  public function delete() {
+    $id = $this->input->post('id') ? $this->input->post('id') : FALSE;
+    if (!$id) {
+      $this->_json('success', FALSE);
+    }
+
+    $res = $this->users_model->update($id, array('status' => -1));
+    $this->_json('success', $res);
+  }
+
   // adds and updates!
   public function add() {
     $post_values = array(

@@ -3,7 +3,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Users_model extends MY_Custom_Model {
   public function get($user = FALSE) {
-    $this->db->from('users');
+    $this->db
+      ->from('users')
+      ->where('status !=', -1);
     
     if ($user) {
       $this->db->where($user);

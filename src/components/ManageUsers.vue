@@ -49,7 +49,7 @@
           <span>Edit</span>
         </v-tooltip>
         <v-tooltip top>
-          <v-btn slot="activator" icon class="mx-0" @click="delete(props.item)">
+          <v-btn slot="activator" icon class="mx-0" @click="doDelete(props.item)">
             <v-icon color="pink">delete</v-icon>
           </v-btn>
           <span>Delete</span>
@@ -67,6 +67,7 @@
 import ManageNoData from '@/include/ManageNoData'
 import DialogAddUser from '@/include/dialogs/DialogAddUser'
 import wrap from '@/assets/js/wrap'
+import qs from 'qs'
 
 export default {
   name: 'manage-users',
@@ -100,7 +101,7 @@ export default {
   created() {
     this.$bus.$on('add--user', () => {
       this.dialogMode = 'add'
-      this.$bus.dialog[this.$route.name].add = true
+      this.$bus.dialog.ManageUsers.add = true
     })
     this.$bus.$on('dialog--manage-user.add', (to, from) => {
       if (!to) {
@@ -117,10 +118,31 @@ export default {
     edit(item) {
       this.selected = item
       this.dialogMode = 'edit'
-      this.$bus.dialog[this.$route.name].add = true
+      this.$bus.dialog.ManageUsers.add = true
     },
-    delete(item) {
-
+    doDelete(item) {
+      this.$bus.$emit('dialog--delete.show', {
+        item: item,
+        title: 'Delete User',
+        subtitle: 'User ID: ' + item.id,
+        msg: '<div class="body-1">Are you sure you want to delete this user?</div>',
+        fn: (onSuccess, onError) => {
+          this.$http.post('/users/delete', qs.stringify({
+            id: item.id
+          })).then((res) => {
+            console.error(res.data)
+            if (!res.data.success) {
+              throw new Error('Request failure.')
+            }
+            // update users
+            this.$bus.$emit('update--manage-users')
+            onSuccess()
+          }).catch(e => {
+            console.error(e)
+            onError()
+          })
+        }
+      })
     },
     
     fetch() {

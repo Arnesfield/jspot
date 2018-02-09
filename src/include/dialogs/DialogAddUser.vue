@@ -1,6 +1,6 @@
 <template>
 <v-dialog
-  v-model="$bus.dialog[$route.name].add"
+  v-model="$bus.dialog.ManageUsers.add"
   transition="fade-transition"
   scrollable
   :persistent="loading"
@@ -15,7 +15,7 @@
         dark
         icon
         :disabled="loading"
-        @click.native="$bus.dialog[$route.name].add = false"
+        @click.native="$bus.dialog.ManageUsers.add = false"
       >
         <v-icon>close</v-icon>
       </v-btn>
@@ -203,7 +203,7 @@
 
     <!-- end of content -->
 
-    <v-card-actions class="px-4 py-4 grey lighten-3">
+    <v-card-actions class="px-4 py-4 bg-dim">
       <template v-if="loading">
         <v-progress-circular
           indeterminate
@@ -423,7 +423,7 @@ export default {
         }
         this.loading = false
         this.clear()
-        this.$bus.dialog[this.$route.name].add = false
+        this.$bus.dialog.ManageUsers.add = false
         this.$bus.$emit('update--manage-users')
       }).catch(e => {
         console.error(e)

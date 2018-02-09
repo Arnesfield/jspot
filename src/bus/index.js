@@ -22,6 +22,9 @@ export default new Vue({
     },
     'dialog.ManageUsers.add': function(to, from) {
       this.$emit('dialog--manage-user.add', to, from)
+    },
+    'dialog.global.delete': function(to, from) {
+      this.$emit('dialog--global.delete', to, from)
     }
   },
 

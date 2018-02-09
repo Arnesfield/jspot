@@ -14,6 +14,7 @@
       <toolbar-content v-if="$bus.componentWithAuth"/>
       <router-view/>
       <fab/>
+      <dialog-delete/>
     </v-content>
   </v-app>
 </template>
@@ -23,6 +24,7 @@ import Navigation from '@/include/Navigation'
 import Fab from '@/include/Fab'
 import Toolbar from '@/include/Toolbar'
 import ToolbarContent from '@/include/ToolbarContent'
+import DialogDelete from '@/include/dialogs/DialogDelete'
 
 export default {
   name: 'App',
@@ -30,7 +32,8 @@ export default {
     Navigation,
     Fab,
     Toolbar,
-    ToolbarContent
+    ToolbarContent,
+    DialogDelete
   },
 
   created() {

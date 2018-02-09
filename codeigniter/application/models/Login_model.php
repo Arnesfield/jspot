@@ -6,6 +6,7 @@ class Login_model extends MY_Custom_Model {
     $query = $this->db
       ->from('users')
       ->where($user)
+      ->where('status !=', -1)
       ->get();
     return $this->_res($query);
   }
