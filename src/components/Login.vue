@@ -78,7 +78,7 @@
           <div class="caption grey--text">&copy; jspot {{ (new Date()).getFullYear() }}</div>
         </v-flex>
         <v-flex xs-6>
-          <div class="caption grey--text text-xs-right">group name</div>
+          <div class="caption grey--text text-xs-right">bukang liwayway</div>
         </v-flex>
       </v-layout>
     </v-flex>

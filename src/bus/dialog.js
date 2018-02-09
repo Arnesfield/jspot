@@ -1,3 +1,5 @@
 export default {
-  '/manage/users': null
+  'ManageUsers': {
+    add: null
+  }
 }

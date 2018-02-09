@@ -19,6 +19,9 @@ export default new Vue({
   watch: {
     'session.auth': function(to, from) {
       this.$emit('get-route', 'change--session.auth')
+    },
+    'dialog.ManageUsers.add': function(to, from) {
+      this.$emit('dialog--manage-user.add', to, from)
     }
   },
 

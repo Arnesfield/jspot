@@ -32,6 +32,10 @@ class Tags_model extends MY_Custom_Model {
     $inDbPlaces = $this->_to_col($tagsWithNames);
     // remove tags in $tags that are in db
     $filtered = $this->_remove_existing($tags, $inDbPlaces);
+    // do not continue if there is nothing new
+    if (!$filtered) {
+      return true;
+    }
     // assert that filtered does not exist in db
     // add these to array
     // turn tags to array

@@ -1,6 +1,6 @@
 <template>
 <v-dialog
-  v-model="$bus.dialog[$route.path]"
+  v-model="$bus.dialog[$route.name].add"
   transition="fade-transition"
   scrollable
   :persistent="loading"
@@ -15,11 +15,11 @@
         dark
         icon
         :disabled="loading"
-        @click.native="() => { $bus.dialog[$route.path] = false; clear() }"
+        @click.native="$bus.dialog[$route.name].add = false"
       >
         <v-icon>close</v-icon>
       </v-btn>
-      <v-toolbar-title>Add User</v-toolbar-title>
+      <v-toolbar-title>{{ title() }} User</v-toolbar-title>
     </v-toolbar>
 
     <!-- end of toolbar -->
@@ -88,7 +88,7 @@
             />
             <select-job-tags
               :disabled="loading"
-              @update-job-tags="(e) => { jobTags = e }"
+              @update-job-tags="(e) => { job_tags = e }"
             />
           </v-flex>
         </v-layout>
@@ -215,7 +215,7 @@
         color="primary"
         tabindex="0"
         :disabled="loading"
-        @click="submit">Add</v-btn>
+        @click="submit">{{ title() }}</v-btn>
     </v-card-actions>
 
   </v-card>
@@ -240,11 +240,16 @@ export default {
     mode: {
       type: String,
       default: 'add'
+    },
+    userToEdit: {
+      type: Object,
+      default: null
     }
   },
   data: () => ({
     url: '/users/add',
     formValid: false,
+    id: null,
     email: null,
     fname: null,
     lname: null,
@@ -260,24 +265,83 @@ export default {
     },
     types: [
       { text: 'Admin', icon: 'verified_user', value: 2 },
-      { text: 'Normal', icon: 'person', value: 3 }
+      { text: 'Employer', icon: 'person', value: 3 },
+      { text: 'Employee', icon: 'person_outline', value: 4 }
     ],
     places: [],
-    jobTags: [],
+    job_tags: [],
     socials: [],
+    settings: {},
 
     loading: false,
     alsoPassword: false
   }),
   computed: {
-    wrap: () => wrap
+    wrap: () => wrap,
+  },
+  watch: {
+    mode(to, from) {
+      if (to === 'edit') {
+        this.doEdit()
+      }
+    }
   },
 
   created() {
+    this.$bus.$on('dialog--manage-user.add', (to, from) => {
+      this.alsoPassword = this.mode == 'add'
+      if (to && this.mode == 'edit') {
+        this.doEdit()
+      }
+      if (!to) {
+        this.clear()
+      }
+    })
     this.alsoPassword = this.mode == 'add'
   },
 
   methods: {
+    doEdit() {
+      this.alsoPassword = this.mode == 'add'
+
+      const parseFields = ['places', 'socials', 'job_tags', 'settings']
+      // set user values
+      Object.keys(this.userToEdit).forEach(e => {
+        // skip password
+        if (e == 'password') { return }
+
+        // change if e is in parseFields
+        // if yes, parse that json
+        let val = this.userToEdit[e]
+        if (parseFields.includes(e)) {
+          val = JSON.parse(val)
+        }
+
+        // if e is type
+        if (e == 'type') {
+          val = this.types[val - 2]
+        }
+
+        // if status
+        if (e == 'status') {
+          val = val == 1
+        }
+
+        // update inside components
+        if (e == 'places') {
+          this.$bus.$emit('set--places', val)
+        } else if (e == 'job_tags') {
+          this.$bus.$emit('set--job-tags', val)
+        }
+
+        this[e] = val
+      })
+    },
+
+    title() {
+      return this.mode.charAt(0).toUpperCase() + this.mode.substr(1)
+    },
+
     submit() {
       if (!this.$refs.form.validate()) {
         return
@@ -296,8 +360,12 @@ export default {
         status: this.status ? 1 : 0,
 
         places: this.places,
-        job_tags: this.jobTags,
-        socials: this.socials
+        job_tags: this.job_tags,
+        socials: this.socials,
+
+        id: this.id,
+        mode: this.mode,
+        settings: this.settings
       })).then((res) => {
         console.error(res.data)
         if (!res.data.success) {
@@ -305,7 +373,7 @@ export default {
         }
         this.loading = false
         this.clear()
-        this.$bus.dialog[this.$route.path] = false
+        this.$bus.dialog[this.$route.name].add = false
         this.$bus.$emit('update--manage-users')
       }).catch(e => {
         console.error(e)
@@ -326,7 +394,7 @@ export default {
       this.hidePass.passconf = true
       this.alsoPassword = this.mode == 'add'
       this.places = []
-      this.jobTags = []
+      this.job_tags = []
       this.socials = []
     }
   }

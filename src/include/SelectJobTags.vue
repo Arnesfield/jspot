@@ -39,6 +39,11 @@ export default {
       e && this.fetch(e)
     }
   },
+  created() {
+    this.$bus.$on('set--job-tags', (tags) => {
+      this.tags = tags
+    })
+  },
 
   methods: {
     fetch(e) {

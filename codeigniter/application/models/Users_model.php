@@ -16,6 +16,10 @@ class Users_model extends MY_Custom_Model {
   public function insert($user) {
     return $this->db->insert('users', $user);
   }
+
+  public function update($id, $user) {
+    return $this->db->update('users', $user, array('id' => $id));
+  }
 }
 
 ?>

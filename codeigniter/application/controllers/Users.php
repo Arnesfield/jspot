@@ -14,6 +14,7 @@ class Users extends MY_Custom_Controller {
     ));
   }
 
+  // adds and updates!
   public function add() {
     $post_values = array(
       'email',
@@ -28,8 +29,15 @@ class Users extends MY_Custom_Controller {
       'img_src',
       'places',
       'job_tags',
-      'socials'
+      'socials',
+      'mode',
+      'settings'
     );
+
+    // check if mode is edit
+    if ($this->input->post('mode') == 'edit') {
+      array_push($post_values, 'id');
+    }
 
     // turn name to variable
     foreach ($post_values as $key => $post) {
@@ -40,10 +48,12 @@ class Users extends MY_Custom_Controller {
     $_places = $places;
     $_job_tags = $job_tags;
     $_socials = $socials;
+    $_settings = $settings;
 
     $places = json_encode($places);
     $job_tags = json_encode($job_tags);
     $socials = json_encode($socials);
+    $settings = json_encode($settings);
 
     $user = array(
       'fname' => $fname,
@@ -56,10 +66,13 @@ class Users extends MY_Custom_Controller {
       'places' => $places,
       'socials' => $socials,
       'status' => $status,
-      'created_at' => time(),
       'updated_at' => time(),
-      'settings' => '{}'
+      'settings' => $settings
     );
+    
+    if ($mode != 'edit') {
+      $user['created_at'] = time();
+    }
 
     if ($alsoPassword) {
       $user['password'] = $password = password_hash($password, PASSWORD_BCRYPT);
@@ -67,14 +80,16 @@ class Users extends MY_Custom_Controller {
 
     $this->load->model(array('places_model', 'tags_model'));
 
-    $res = $this->users_model->insert($user);
+    if ($mode == 'edit') {
+      $res = $this->users_model->update($id, $user);
+    }
+    else {
+      $res = $this->users_model->insert($user);
+    }
     $this->places_model->insertMultiple($_places);
     $this->tags_model->insertMultiple($_job_tags);
 
-    $this->_json(array(
-      'success' => $res,
-      'places' => $_places
-    ));
+    $this->_json('success', $res);
   }
 }
 

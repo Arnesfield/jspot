@@ -57,7 +57,7 @@
     </template>
   </v-data-table>
 
-  <dialog-add-user/>
+  <dialog-add-user :mode="dialogMode" :userToEdit="selected"/>
 
 </v-container>
 </template>
@@ -87,7 +87,9 @@ export default {
       { text: 'Actions', sortable: false }
     ],
     users: [],
-    loading: false
+    loading: false,
+    dialogMode: 'add',
+    selected: null
   }),
   computed: {
     wrap: () => wrap
@@ -95,7 +97,15 @@ export default {
 
   created() {
     this.$bus.$on('add--user', () => {
-      this.$bus.dialog[this.$route.path] = true
+      this.dialogMode = 'add'
+      this.$bus.dialog[this.$route.name].add = true
+    })
+    this.$bus.$on('dialog--manage-user.add', (to, from) => {
+      if (!to) {
+        // reset from edit to add on dialog close
+        this.dialogMode = 'add'
+        this.selected = null
+      }
     })
     this.$bus.$on('update--manage-users', this.fetch)
     this.fetch()
@@ -103,7 +113,9 @@ export default {
 
   methods: {
     edit(item) {
-
+      this.selected = item
+      this.dialogMode = 'edit'
+      this.$bus.dialog[this.$route.name].add = true
     },
     delete(item) {
 

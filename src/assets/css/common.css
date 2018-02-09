@@ -28,6 +28,9 @@
   align-items: center;
 }
 
+.bg-dim {
+  background-color: rgba(0, 0, 0, 0.08);
+}
 
 /* override */
 .multi-line-textarea textarea {

@@ -39,6 +39,11 @@ export default {
       e && this.fetch(e)
     }
   },
+  created() {
+    this.$bus.$on('set--places', (places) => {
+      this.places = places
+    })
+  },
 
   methods: {
     fetch(e) {

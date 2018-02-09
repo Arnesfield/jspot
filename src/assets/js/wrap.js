@@ -21,7 +21,11 @@ export default {
     return month + ' ' + day + ', ' + year + ' ' + hours + ':' + mins + ':' + secs
   },
   userType(e) {
-    return e == 2 ? 'Admin' : 'Normal'
+    switch (Number(e)) {
+      case 2: return 'Admin'
+      case 3: return 'Employer'
+      case 4: return 'Employee'
+    }
   },
   status(e) {
     let condition = null
