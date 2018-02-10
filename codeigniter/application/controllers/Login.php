@@ -20,8 +20,7 @@ class Login extends MY_Custom_Controller {
     // 3 = normal
 
     if (!$users) {
-      $this->_json(array(
-        'success' => FALSE,
+      $this->_json(FALSE, array(
         'error' => 'Invalid email or password.'
       ));
     }
@@ -32,16 +31,14 @@ class Login extends MY_Custom_Controller {
     $verified = password_verify($password, $user['password']);
 
     if (!$verified) {
-      $this->_json(array(
-        'success' => FALSE,
+      $this->_json(FALSE, array(
         'error' => 'Invalid email or password.'
       ));
     }
 
     // check status
     if ($user['status'] == 0) {
-      $this->_json(array(
-        'success' => FALSE,
+      $this->_json(FALSE, array(
         'error' => 'This account has been suspended.'
       ));
     }
@@ -52,7 +49,9 @@ class Login extends MY_Custom_Controller {
       'auth' => $user['type']
     ));
 
-    $this->_json('success', TRUE);
+    $this->_json(TRUE, array(
+      'user' => $user
+    ));
   }
 }
 

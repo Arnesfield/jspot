@@ -38,6 +38,9 @@ routerCond(router, http, bus)
 /* eslint-disable no-new */
 // before creating instance, check if session exists
 http.post('/sess').then((res) => {
+  if (!res.data.success) {
+    throw new Error('Request failure.')
+  }
   bus.setSession(res.data)
   new Vue({
     el: '#app',

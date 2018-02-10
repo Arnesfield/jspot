@@ -8,8 +8,7 @@ class Users extends MY_Custom_Controller {
   }
 
   public function index() {
-    $this->_json(array(
-      'success' => TRUE,
+    $this->_json(TRUE, array(
       'users' => $this->users_model->get()
     ));
   }
@@ -21,11 +20,10 @@ class Users extends MY_Custom_Controller {
     $where = array('email' => $email);
     
     $users = $this->users_model->get($where);
-    $res = array('success' => TRUE);
 
     if (!$users) {
       $res['exists'] = false;
-      $this->_json($res);
+      $this->_json(TRUE, $res);
     }
 
     $user = $users[0];
@@ -34,21 +32,21 @@ class Users extends MY_Custom_Controller {
     // if same id, then does not exist
     if ($id && $id == $user['id']) {
       $res['exists'] = false;
-      $this->_json($res);
+      $this->_json(TRUE, $res);
     }
 
     $res['exists'] = true;
-    $this->_json($res);
+    $this->_json(TRUE, $res);
   }
 
   public function delete() {
     $id = $this->input->post('id') ? $this->input->post('id') : FALSE;
     if (!$id) {
-      $this->_json('success', FALSE);
+      $this->_json(FALSE);
     }
 
     $res = $this->users_model->update($id, array('status' => -1));
-    $this->_json('success', $res);
+    $this->_json($res);
   }
 
   // adds and updates!
@@ -128,7 +126,7 @@ class Users extends MY_Custom_Controller {
     $this->places_model->insertMultiple($_places);
     $this->tags_model->insertMultiple($_job_tags);
 
-    $this->_json('success', $res);
+    $this->_json($res);
   }
 }
 

@@ -13,8 +13,7 @@ class Places extends MY_Custom_Controller {
     foreach ($places as $key => $place) {
       $places[$key] = $place['name'];
     }
-    $this->_json(array(
-      'success' => TRUE,
+    $this->_json(TRUE, array(
       'places' => $places
     ));
   }

@@ -101,12 +101,15 @@ class MY_Custom_Controller extends MY_View_Controller {
     redirect(base_url($to));
   }
 
-  public function _json($arr, $val = NULL) {
+  public function _json($success, $arr = array(), $val = NULL) {
     // if $arr is string, make it an array with $val
     if (is_string($arr)) {
       $arr = array($arr => $val);
     }
-    echo json_encode($arr);
+
+    $master = array_merge($arr, array('success' => $success));
+
+    echo json_encode($master);
     exit;
   }
 }

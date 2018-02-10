@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import Dashboard from '@/components/Dashboard'
 import Login from '@/components/Login'
+import NotFound from '@/components/NotFound'
 
 import ManageUsers from '@/components/ManageUsers'
 
@@ -60,5 +61,15 @@ export default new Router({
     
     // end of manage
 
+    // last resort
+    {
+      path: '*',
+      name: 'NotFound',
+      component: NotFound,
+      meta: {
+        title: 'Error 404',
+        auth: 10
+      }
+    }
   ]
 })

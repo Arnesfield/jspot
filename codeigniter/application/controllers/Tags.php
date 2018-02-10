@@ -13,8 +13,7 @@ class Tags extends MY_Custom_Controller {
     foreach ($tags as $key => $tag) {
       $tags[$key] = $tag['name'];
     }
-    $this->_json(array(
-      'success' => TRUE,
+    $this->_json(TRUE, array(
       'tags' => $tags
     ));
   }

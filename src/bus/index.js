@@ -35,6 +35,10 @@ export default new Vue({
   },
 
   methods: {
+    authCheck(routeAuth) {
+      return this.session.auth >= 2 && routeAuth < 10
+    },
+
     checkSession(route, http) {
       http.post('/sess').then((res) => {
         this.setSession(res.data)
@@ -56,11 +60,14 @@ export default new Vue({
       if (!data.user) {
         return
       }
+     
+      const settingsFields = [
+        { key: 'dark', type: 'boolean', def: false }
+      ]
+
       let settings = JSON.parse(data.user.settings)
-      Object.keys(this.settings).forEach(e => {
-        if (settings[e]) {
-          this.settings[e] = settings[e]
-        }
+      settingsFields.forEach(e => {
+        this.settings[e] = typeof settings[e] === e.type ? settings[e] : e.def
       })
     }
   }

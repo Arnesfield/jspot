@@ -8,10 +8,10 @@
       style="z-index: 5; position: fixed"
       class="ma-0"
     />
-    <navigation v-if="$bus.componentWithAuth"/>
-    <toolbar v-if="$bus.componentWithAuth"/>
+    <navigation v-if="authCheck"/>
+    <toolbar v-if="authCheck"/>
     <v-content>
-      <toolbar-content v-if="$bus.componentWithAuth"/>
+      <toolbar-content v-if="authCheck"/>
       <router-view/>
       <fab/>
       <dialog-delete/>
@@ -34,6 +34,11 @@ export default {
     Toolbar,
     ToolbarContent,
     DialogDelete
+  },
+  computed: {
+    authCheck() {
+      return this.$bus.authCheck(this.$route.meta.auth)
+    }
   },
 
   created() {
