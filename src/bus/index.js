@@ -28,26 +28,33 @@ export default new Vue({
     }
   },
 
-  computed: {
-    componentWithAuth() {
-      return this.session.auth >= 2
-    }
-  },
-
   methods: {
+    navToggle() {
+      if (this.nav.model) {
+        if (this.nav.miniVariant) {
+          this.nav.model = false
+        } else {
+          this.nav.miniVariant = true
+        }
+      } else {
+        this.nav.model = true
+        this.nav.miniVariant = false
+      }
+    },
+
     authCheck(routeAuth) {
       return this.session.auth >= 2 && routeAuth < 10
     },
 
-    checkSession(route, http) {
+    sessionCheck(route, http) {
       http.post('/sess').then((res) => {
-        this.setSession(res.data)
+        this.sessionSet(res.data)
         // change--session.auth is called when session.auth is changed
       }).catch(e => {
         console.error(e)
       })
     },
-    setSession(data) {
+    sessionSet(data) {
       const fields = [
         { key: 'user', def: null },
         { key: 'auth', def: 0 }

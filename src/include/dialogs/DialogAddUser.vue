@@ -19,7 +19,7 @@
       >
         <v-icon>close</v-icon>
       </v-btn>
-      <v-toolbar-title>{{ title() }} User</v-toolbar-title>
+      <v-toolbar-title>{{ mode }} User</v-toolbar-title>
     </v-toolbar>
 
     <!-- end of toolbar -->
@@ -120,7 +120,7 @@
             <v-checkbox
               class="mt-2"
               label="Change password"
-              :disabled="mode == 'edit' ? loading : true"
+              :disabled="mode == 'Edit' ? loading : true"
               :hint="alsoPassword ? 'Note: Current password will be overwritten!' : undefined"
               persistent-hint
               v-model="alsoPassword"
@@ -203,7 +203,7 @@
 
     <!-- end of content -->
 
-    <v-card-actions class="px-4 py-4 bg-dim">
+    <v-card-actions class="pa-4 bg-dim">
       <template v-if="loading">
         <v-progress-circular
           indeterminate
@@ -222,7 +222,7 @@
         color="primary"
         tabindex="0"
         :disabled="loading"
-        @click="checkDuplicateEmail(email, true)">{{ title() }}</v-btn>
+        @click="checkDuplicateEmail(email, true)">{{ mode }}</v-btn>
     </v-card-actions>
 
   </v-card>
@@ -246,7 +246,7 @@ export default {
   props: {
     mode: {
       type: String,
-      default: 'add'
+      default: 'Add'
     },
     userToEdit: {
       type: Object,
@@ -290,7 +290,7 @@ export default {
   },
   watch: {
     mode(to, from) {
-      if (to === 'edit') {
+      if (to === 'Edit') {
         if (typeof this.doEdit === 'function') {
           this.doEdit()
         }
@@ -300,20 +300,20 @@ export default {
 
   created() {
     this.$bus.$on('dialog--manage-user.add', (to, from) => {
-      this.alsoPassword = this.mode == 'add'
-      if (to && this.mode == 'edit') {
+      this.alsoPassword = this.mode == 'Add'
+      if (to && this.mode == 'Edit') {
         this.doEdit()
       }
       if (!to) {
         this.clear()
       }
     })
-    this.alsoPassword = this.mode == 'add'
+    this.alsoPassword = this.mode == 'Add'
   },
 
   methods: {
     doEdit() {
-      this.alsoPassword = this.mode == 'add'
+      this.alsoPassword = this.mode == 'Add'
 
       const parseFields = ['places', 'socials', 'job_tags', 'settings']
       // set user values
@@ -347,10 +347,6 @@ export default {
 
         this[e] = val
       })
-    },
-
-    title() {
-      return this.mode.charAt(0).toUpperCase() + this.mode.substr(1)
     },
 
     checkDuplicateEmail(e, doSubmit) {
@@ -444,7 +440,7 @@ export default {
       this.status = true
       this.hidePass.password = true
       this.hidePass.passconf = true
-      this.alsoPassword = this.mode == 'add'
+      this.alsoPassword = this.mode == 'Add'
       this.places = []
       this.job_tags = []
       this.socials = []

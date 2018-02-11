@@ -49,29 +49,27 @@
     </template>
   </v-list>
 
-  <v-footer fixed :height="null" style="background-color: inherit">
-    <v-list class="full-width">
-      <v-tooltip right :disabled="!$bus.nav.miniVariant">
-        <v-list-tile
-          ripple
-          tabindex="1"
-          slot="activator"
-          @click="$bus.nav.miniVariant = !$bus.nav.miniVariant">
-          <v-list-tile-action>
-            <v-btn
-              icon
-              tabindex="1"
-              :ripple="false"
-              @click.stop="$bus.nav.miniVariant = !$bus.nav.miniVariant">
-              <v-icon v-html="$bus.nav.miniVariant ? 'chevron_right' : 'chevron_left'"/>
-            </v-btn>
-          </v-list-tile-action>
-          <v-list-tile-content>{{ collapseText }}</v-list-tile-content>
-        </v-list-tile>
-        <span>{{ collapseText }}</span>
-      </v-tooltip>
-    </v-list>
-  </v-footer>
+  <v-list class="pa-0">
+    <v-tooltip right :disabled="!$bus.nav.miniVariant">
+      <v-list-tile
+        ripple
+        tabindex="1"
+        slot="activator"
+        @click="$bus.nav.miniVariant = !$bus.nav.miniVariant">
+        <v-list-tile-action>
+          <v-btn
+            icon
+            tabindex="1"
+            :ripple="false"
+            @click.stop="$bus.nav.miniVariant = !$bus.nav.miniVariant">
+            <v-icon v-html="$bus.nav.miniVariant ? 'chevron_right' : 'chevron_left'"/>
+          </v-btn>
+        </v-list-tile-action>
+        <v-list-tile-content>{{ collapseText }}</v-list-tile-content>
+      </v-list-tile>
+      <span>{{ collapseText }}</span>
+    </v-tooltip>
+  </v-list>
 </v-navigation-drawer>
 </template>
 
@@ -124,7 +122,7 @@ export default {
         if (!res.data.success) {
           throw new Error('Request failure.')
         }
-        this.$bus.checkSession(this.$route, this.$http)
+        this.$bus.sessionCheck(this.$route, this.$http)
       }).catch(e => {
         console.error(e)
       })

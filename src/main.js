@@ -41,7 +41,7 @@ http.post('/sess').then((res) => {
   if (!res.data.success) {
     throw new Error('Request failure.')
   }
-  bus.setSession(res.data)
+  bus.sessionSet(res.data)
   new Vue({
     el: '#app',
     router,

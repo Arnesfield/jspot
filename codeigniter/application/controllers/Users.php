@@ -71,7 +71,7 @@ class Users extends MY_Custom_Controller {
     );
 
     // check if mode is edit
-    if ($this->input->post('mode') == 'edit') {
+    if ($this->input->post('mode') == 'Edit') {
       array_push($post_values, 'id');
     }
 
@@ -107,7 +107,7 @@ class Users extends MY_Custom_Controller {
       'settings' => $settings
     );
     
-    if ($mode != 'edit') {
+    if ($mode != 'Edit') {
       $user['created_at'] = time();
     }
     
@@ -117,7 +117,7 @@ class Users extends MY_Custom_Controller {
 
     $this->load->model(array('places_model', 'tags_model'));
 
-    if ($mode == 'edit') {
+    if ($mode == 'Edit') {
       $res = $this->users_model->update($id, $user);
     }
     else {

@@ -49,7 +49,7 @@ export default function(router, http, bus) {
 
   router.beforeEach((to, from, next) => {
     // check for session
-    bus.checkSession(to, http)
+    bus.sessionCheck(to, http)
     beforeEach(to, from, next)
   })
 }

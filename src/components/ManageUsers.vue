@@ -91,7 +91,7 @@ export default {
     ],
     users: [],
     loading: false,
-    dialogMode: 'add',
+    dialogMode: 'Add',
     selected: null
   }),
   computed: {
@@ -100,13 +100,13 @@ export default {
 
   created() {
     this.$bus.$on('add--user', () => {
-      this.dialogMode = 'add'
+      this.dialogMode = 'Add'
       this.$bus.dialog.ManageUsers.add = true
     })
     this.$bus.$on('dialog--manage-user.add', (to, from) => {
       if (!to) {
         // reset from edit to add on dialog close
-        this.dialogMode = 'add'
+        this.dialogMode = 'Add'
         this.selected = null
       }
     })
@@ -117,7 +117,7 @@ export default {
   methods: {
     edit(item) {
       this.selected = item
-      this.dialogMode = 'edit'
+      this.dialogMode = 'Edit'
       this.$bus.dialog.ManageUsers.add = true
     },
     doDelete(item) {

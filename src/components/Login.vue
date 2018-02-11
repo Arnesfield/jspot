@@ -136,7 +136,7 @@ export default {
           return
         }
 
-        this.$bus.checkSession(this.$route, this.$http)
+        this.$bus.sessionCheck(this.$route, this.$http)
       }).catch(e => {
         console.error(e)
         this.loading = false
