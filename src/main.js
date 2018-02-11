@@ -13,6 +13,7 @@ import colors from 'vuetify/es5/util/colors'
 
 import 'vuetify/dist/vuetify.min.css'
 import './assets/css/common.css'
+import './assets/css/override.css'
 
 const dev = true
 const baseURL = dev ? 'http://localhost/jspot/public/api' : 'to be set'
