@@ -6,6 +6,9 @@
     :fixed="false"
     class="primary lighten-1"
   >
+    <v-btn icon dark>
+      <v-icon>{{ $route.meta.icon }}</v-icon>
+    </v-btn>
     <v-toolbar-title v-text="title"></v-toolbar-title>
   </v-toolbar>
 </template>

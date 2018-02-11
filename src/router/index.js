@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import HelloWorld from '@/components/HelloWorld'
-import Dashboard from '@/components/Dashboard'
+import Home from '@/components/Home'
 import Login from '@/components/Login'
+import Dashboard from '@/components/Dashboard'
 import NotFound from '@/components/NotFound'
 
 import ManageUsers from '@/components/ManageUsers'
@@ -22,12 +22,13 @@ export default new Router({
   },
   
   routes: [
+    // auth 0
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld,
+      name: 'Home',
+      component: Home,
       meta: {
-        auth: 3
+        auth: 0
       }
     },
     {
@@ -38,12 +39,16 @@ export default new Router({
         auth: 0
       }
     },
+
+    // auth+
+
     {
       path: '/dashboard',
       name: 'Dashboard',
       component: Dashboard,
       meta: {
-        auth: 3
+        auth: 3,
+        icon: 'dashboard'
       }
     },
     
@@ -54,8 +59,9 @@ export default new Router({
       name: 'ManageUsers',
       component: ManageUsers,
       meta: {
+        auth: 2,
         title: 'Manage Users',
-        auth: 2
+        icon: 'account_circle'
       }
     },
     

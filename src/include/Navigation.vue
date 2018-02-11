@@ -90,7 +90,7 @@ export default {
         header: '',
         auth: 3,
         items: [
-          { title: 'Home', icon: 'home', to: '/' }
+          { title: 'Dashboard', icon: 'dashboard', to: '/dashboard' }
         ]
       },
       {
