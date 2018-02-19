@@ -43,7 +43,21 @@ export default new Vue({
     },
 
     authCheck(routeAuth) {
-      return this.session.auth >= 2 && routeAuth < 10
+      // convert routeAuth to array
+      if (typeof routeAuth !== 'object') {
+        routeAuth = [routeAuth]
+      }
+      return routeAuth.indexOf(Number(this.session.auth)) > -1
+        && routeAuth.indexOf(10) == -1
+        && routeAuth.indexOf(0) == -1
+    },
+
+    authHas(auth, n) {
+      // convertto array
+      if (typeof auth !== 'object') {
+        auth = [auth]
+      }
+      return auth.indexOf(typeof n === 'number' ? n : Number(n)) > -1
     },
 
     sessionCheck(route, http) {
@@ -74,7 +88,7 @@ export default new Vue({
 
       let settings = JSON.parse(data.user.settings)
       settingsFields.forEach(e => {
-        this.settings[e] = typeof settings[e] === e.type ? settings[e] : e.def
+        this.settings[e] = settings && typeof settings[e] === e.type ? settings[e] : e.def
       })
     }
   }

@@ -12,7 +12,7 @@
     class="pb-0"
     :class="{ 'py-0': i != 0 }"
     :key="i"
-    v-if="list.auth >= $bus.session.auth"
+    v-if="$bus.authCheck(list.auth)"
     v-for="(list, i) in lists"
     :subheader="Boolean(list.header)"
   >
@@ -86,9 +86,16 @@ export default {
     lists: [
       {
         header: '',
-        auth: 3,
+        auth: [3, 4],
         items: [
           { title: 'Dashboard', icon: 'dashboard', to: '/dashboard' }
+        ]
+      },
+      {
+        header: '',
+        auth: 3,
+        items: [
+          { title: 'My job openings', icon: 'work', to: '/my/openings' }
         ]
       },
       {
@@ -100,7 +107,7 @@ export default {
       },
       // logout
       {
-        auth: 10,
+        auth: [2, 3, 4],
         items: [
           '',
           { title: 'Logout', icon: 'exit_to_app', click: 'logout' }
