@@ -16,6 +16,7 @@
       <fab/>
       <dialog-delete/>
     </v-content>
+    <snackbar/>
   </v-app>
 </template>
 
@@ -25,6 +26,7 @@ import Fab from '@/include/Fab'
 import Toolbar from '@/include/Toolbar'
 import ToolbarContent from '@/include/ToolbarContent'
 import DialogDelete from '@/include/dialogs/DialogDelete'
+import Snackbar from '@/include/Snackbar'
 
 export default {
   name: 'App',
@@ -33,7 +35,8 @@ export default {
     Fab,
     Toolbar,
     ToolbarContent,
-    DialogDelete
+    DialogDelete,
+    Snackbar
   },
   computed: {
     authCheck() {

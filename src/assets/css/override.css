@@ -2,3 +2,12 @@
   left: 0;
   top: 0;
 }
+
+/* snackbar */
+.snack .snack__content {
+  padding: 0;
+}
+
+.snack .snack__content .btn {
+  margin-left: 8px;
+}

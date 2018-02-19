@@ -122,6 +122,8 @@ export default {
         if (!res.data.success) {
           throw new Error('Request failure.')
         }
+
+        this.$bus.$emit('snackbar--show', 'Logout successfully.')
         this.$bus.sessionCheck(this.$route, this.$http)
       }).catch(e => {
         console.error(e)
