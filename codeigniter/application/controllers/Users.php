@@ -45,7 +45,11 @@ class Users extends MY_Custom_Controller {
       $this->_json(FALSE);
     }
 
-    $res = $this->users_model->update($id, array('status' => -1));
+    $res = $this->users_model->update($id, array(
+      'status' => -1,
+      // also update time
+      'updated_at' => time()
+    ));
     $this->_json($res);
   }
 

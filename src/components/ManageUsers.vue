@@ -98,6 +98,12 @@ export default {
     wrap: () => wrap
   },
 
+  watch: {
+    loading(e) {
+      this.$bus.progress.circular.ManageUsers.refresh = e
+    }
+  },
+
   created() {
     this.$bus.$on('add--user', () => {
       this.dialogMode = 'Add'
@@ -134,6 +140,7 @@ export default {
             if (!res.data.success) {
               throw new Error('Request failure.')
             }
+            this.$bus.$emit('snackbar--show', 'Deleted user successfully.')
             // update users
             this.$bus.$emit('update--manage-users')
             onSuccess()

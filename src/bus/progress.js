@@ -1,3 +1,8 @@
 export default {
-  active: false
+  active: false,
+  circular: {
+    ManageUsers: {
+      refresh: false
+    }
+  }
 }

@@ -420,6 +420,9 @@ export default {
         this.loading = false
         this.clear()
         this.$bus.dialog.ManageUsers.add = false
+        
+        let msg = this.mode == 'Add' ? 'Added user successfully.' : 'Updated user information.'
+        this.$bus.$emit('snackbar--show', msg)
         this.$bus.$emit('update--manage-users')
       }).catch(e => {
         console.error(e)
