@@ -1,9 +1,5 @@
-const monthNames = [
-  'January', 'February', 'March',
-  'April', 'May', 'June',
-  'July', 'August', 'September',
-  'October', 'November', 'December'
-]
+import monthNames from './months'
+
 const leadZero = (num) => (num < 10 ? '0' : '') + num
 const shortMonth = (month) => month.substring(0, 3)
 

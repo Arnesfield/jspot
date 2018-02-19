@@ -3,6 +3,9 @@ export default {
   circular: {
     ManageUsers: {
       refresh: false
+    },
+    MyJobOpenings: {
+      refresh: false
     }
   }
 }

@@ -20,10 +20,10 @@
       <td>{{ props.item.email }}</td>
       <td>{{ props.item.fname }}</td>
       <td>{{ props.item.lname }}</td>
-      <td>{{ wrap.userType(props.item.type) }}</td>
+      <td>{{ $wrap.userType(props.item.type) }}</td>
       <td>{{ props.item.contact }}</td>
-      <td>{{ wrap.date(props.item.created_at) }}</td>
-      <td>{{ wrap.date(props.item.updated_at) }}</td>
+      <td>{{ $wrap.date(props.item.created_at) }}</td>
+      <td>{{ $wrap.date(props.item.updated_at) }}</td>
       <td>
         <div class="justify-center layout">
           <v-tooltip top>
@@ -37,7 +37,7 @@
               slot="activator"
               v-else
             >cancel</v-icon>
-            <span>{{ wrap.status(props.item.status) }}</span>
+            <span>{{ $wrap.status(props.item.status) }}</span>
           </v-tooltip>
         </div>
       </td>
@@ -66,7 +66,6 @@
 <script>
 import ManageNoData from '@/include/ManageNoData'
 import DialogAddUser from '@/include/dialogs/DialogAddUser'
-import wrap from '@/assets/js/wrap'
 import qs from 'qs'
 
 export default {
@@ -94,9 +93,6 @@ export default {
     dialogMode: 'Add',
     selected: null
   }),
-  computed: {
-    wrap: () => wrap
-  },
 
   watch: {
     loading(e) {
@@ -155,6 +151,7 @@ export default {
     fetch() {
       this.loading = true
       this.$http.post(this.url).then((res) => {
+        console.error(res.data)
         if (!res.data.success) {
           throw new Error('Request failure.')
         }

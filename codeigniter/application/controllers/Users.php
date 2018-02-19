@@ -8,8 +8,23 @@ class Users extends MY_Custom_Controller {
   }
 
   public function index() {
+    $users = $this->users_model->get();
+    // convert all users birthdate to object
+    foreach ($users as $key => $user) {
+      $birthdate = strtotime($user['birthdate']);
+      $month = date('F', $birthdate);
+      $day = date('d', $birthdate);
+      $year = date('Y', $birthdate);
+
+      $users[$key]['birthdate'] = array(
+        'month' => $month,
+        'day' => $day,
+        'year' => $year
+      );
+    }
+    
     $this->_json(TRUE, array(
-      'users' => $this->users_model->get()
+      'users' => $users
     ));
   }
 
@@ -61,6 +76,7 @@ class Users extends MY_Custom_Controller {
       'lname',
       'img_src',
       'bio',
+      'birthdate',
       'type',
       'contact',
       'status',
@@ -95,12 +111,19 @@ class Users extends MY_Custom_Controller {
     $socials = json_encode($socials);
     $settings = json_encode($settings);
 
+    $birthdate = date('Y-m-d', strtotime(
+      $birthdate['month'].' '.
+      $birthdate['day'].' '.
+      $birthdate['year']
+    ));
+
     $user = array(
       'fname' => $fname,
       'lname' => $lname,
       'email' => $email,
       'img_src' => $img_src,
       'bio' => $bio,
+      'birthdate' => $birthdate,
       'type' => $type,
       'contact' => $contact,
       'job_tags' => $job_tags,

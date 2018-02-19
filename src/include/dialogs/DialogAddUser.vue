@@ -86,6 +86,18 @@
 
         <v-layout row>
           <v-flex hidden-xs-only sm4>
+            <v-subheader>Birthdate</v-subheader>
+          </v-flex>
+          <v-flex sm8>
+            <birthdate-picker
+              required
+              v-model="birthdate"
+            />
+          </v-flex>
+        </v-layout>
+
+        <v-layout row>
+          <v-flex hidden-xs-only sm4>
             <v-subheader>Interested In</v-subheader>
           </v-flex>
           <v-flex sm8>
@@ -193,7 +205,7 @@
             </v-select>
             <v-switch
               :disabled="loading"
-              :label="'Status: ' + wrap.status(status)"
+              :label="'Status: ' + $wrap.status(status)"
               v-model="status"/>
           </v-flex>
         </v-layout>
@@ -204,14 +216,7 @@
     <!-- end of content -->
 
     <v-card-actions class="pa-4 bg-dim">
-      <template v-if="loading">
-        <v-progress-circular
-          indeterminate
-          :active="loading"
-          color="grey"
-        />
-        <span style="height: auto" class="subheader px-2">Loading...</span>
-      </template>
+      <dialog-loading :loading="loading"/>
       <v-spacer/>
       <v-btn
         flat
@@ -229,18 +234,21 @@
 </v-dialog>
 </template>
 
-<script>  
+<script>
+import BirthdatePicker from '@/include/BirthdatePicker'
 import SocialLinks from '@/include/SocialLinks'
 import SelectPlaces from '@/include/SelectPlaces'
 import SelectJobTags from '@/include/SelectJobTags'
+import DialogLoading from '@/include/DialogLoading'
 import qs from 'qs'
-import wrap from '@/assets/js/wrap'
 
 export default {
   name: 'dialog-add-user',
   components: {
+    BirthdatePicker,
     SocialLinks,
     SelectPlaces,
+    DialogLoading,
     SelectJobTags
   },
   props: {
@@ -261,6 +269,7 @@ export default {
     fname: null,
     lname: null,
     bio: null,
+    birthdate: null,
     password: null,
     passconf: null,
     imgSrc: null,
@@ -285,9 +294,6 @@ export default {
     alsoPassword: false,
     duplicateEmail: false
   }),
-  computed: {
-    wrap: () => wrap,
-  },
   watch: {
     mode(to, from) {
       if (to === 'Edit') {
@@ -397,6 +403,7 @@ export default {
         fname: this.fname,
         lname: this.lname,
         bio: this.bio,
+        birthdate: this.birthdate,
         // if password is set, use password
         alsoPassword: this.alsoPassword,
         password: this.password,
@@ -436,6 +443,7 @@ export default {
       this.fname = null
       this.lname = null
       this.bio = null
+      this.birthdate = null
       this.password = null
       this.passconf = null
       this.type = null

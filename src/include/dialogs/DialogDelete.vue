@@ -16,14 +16,7 @@
 
     <v-card-text v-html="msg"/>
     <v-card-actions>
-      <template v-if="loading">
-        <v-progress-circular
-          indeterminate
-          :active="loading"
-          color="grey"
-        />
-        <span style="height: auto" class="subheader px-2">Loading...</span>
-      </template>
+      <dialog-loading :loading="loading"/>
       <v-spacer/>
       <v-btn
         flat
@@ -45,8 +38,13 @@
 </template>
 
 <script>
+import DialogLoading from '@/include/DialogLoading'
+
 export default {
   name: 'dialog-delete',
+  components: {
+    DialogLoading
+  },
   data: () => ({
     item: null,
     title: null,

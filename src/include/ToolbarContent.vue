@@ -18,6 +18,13 @@
         :refresh="$bus.progress.circular.ManageUsers.refresh"
       />
     </template>
+    <template v-if="$route.name === 'MyJobOpenings'">
+      <v-spacer/>
+      <btn-refresh
+        click="update--my-job-openings"
+        :refresh="$bus.progress.circular.MyJobOpenings.refresh"
+      />
+    </template>
 
   </v-toolbar>
 </template>

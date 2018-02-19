@@ -88,21 +88,22 @@ export default {
         header: '',
         auth: [3, 4],
         items: [
-          { title: 'Dashboard', icon: 'dashboard', to: '/dashboard' }
+          { title: 'Dashboard', icon: 'dashboard', to: '/dashboard' },
+          { title: 'Profile', icon: 'account_circle', to: '/profile' }
         ]
       },
       {
         header: '',
         auth: 3,
         items: [
-          { title: 'My job openings', icon: 'work', to: '/my/openings' }
+          { title: 'My job openings', icon: 'work', to: '/my/jobs' }
         ]
       },
       {
         header: 'Manage',
         auth: 2,
         items: [
-          { title: 'Users', icon: 'account_circle', to: '/manage/users' },
+          { title: 'Users', icon: 'supervisor_account', to: '/manage/users' },
         ]
       },
       // logout

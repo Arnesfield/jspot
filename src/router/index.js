@@ -6,6 +6,10 @@ import Login from '@/components/Login'
 import Dashboard from '@/components/Dashboard'
 import NotFound from '@/components/NotFound'
 
+// employer
+import MyJobOpenings from '@/components/employer/MyJobOpenings'
+
+// admin
 import ManageUsers from '@/components/ManageUsers'
 
 Vue.use(Router)
@@ -52,6 +56,18 @@ export default new Router({
       }
     },
     
+    // employer
+    {
+      path: '/my/jobs',
+      name: 'MyJobOpenings',
+      component: MyJobOpenings,
+      meta: {
+        auth: 3,
+        icon: 'work',
+        title: 'My job openings'
+      }
+    },
+    
     // manage
 
     {
@@ -61,7 +77,7 @@ export default new Router({
       meta: {
         auth: 2,
         title: 'Manage Users',
-        icon: 'account_circle'
+        icon: 'supervisor_account'
       }
     },
     

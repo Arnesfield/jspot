@@ -9,6 +9,7 @@ import Vuetify from 'vuetify'
 import bus from './bus'
 import routerCond from './router/cond'
 import formRules from './assets/js/formRules'
+import wrap from './assets/js/wrap'
 import colors from 'vuetify/es5/util/colors'
 
 import 'vuetify/dist/vuetify.min.css'
@@ -33,6 +34,7 @@ Vue.config.productionTip = false
 Vue.prototype.$http = http
 Vue.prototype.$bus = bus
 Vue.prototype.$vfRule = formRules
+Vue.prototype.$wrap = wrap
 
 routerCond(router, http, bus)
 

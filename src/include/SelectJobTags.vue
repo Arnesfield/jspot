@@ -1,7 +1,7 @@
 <template>
   <v-select
     v-model="tags"
-    label="Jobs"
+    :label="label"
     chips
     tags
     deletable-chips
@@ -22,6 +22,10 @@ import qs from 'qs'
 export default {
   name: 'select-job-tags',
   props: {
+    label: {
+      type: String,
+      default: 'Jobs'
+    },
     disabled: Boolean
   },
   data: () => ({
