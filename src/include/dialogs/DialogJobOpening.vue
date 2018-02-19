@@ -56,6 +56,18 @@
 
         <v-layout row>
           <v-flex hidden-xs-only sm4>
+            <v-subheader>Date and time</v-subheader>
+          </v-flex>
+          <v-flex sm8>
+            <time-from-to-picker
+              required
+              v-model="time"
+            />
+          </v-flex>
+        </v-layout>
+
+        <v-layout row>
+          <v-flex hidden-xs-only sm4>
             <v-subheader>Demographic</v-subheader>
           </v-flex>
           <v-flex sm8>
@@ -72,7 +84,7 @@
             <select-job-tags
               :disabled="loading"
               label="Job tags"
-              placeholder="Any related job tags?"
+              placeholder="Any related job tags? (e.g. programming, art, etc.)"
               v-model="job_tags"
             />
           </v-flex>
@@ -108,6 +120,7 @@ import AgeGroupPicker from '@/include/AgeGroupPicker'
 import SelectPlaces from '@/include/SelectPlaces'
 import SelectJobTags from '@/include/SelectJobTags'
 import DialogLoading from '@/include/DialogLoading'
+import TimeFromToPicker from '@/include/TimeFromToPicker'
 import qs from 'qs'
 
 export default {
@@ -116,7 +129,8 @@ export default {
     AgeGroupPicker,
     SelectPlaces,
     SelectJobTags,
-    DialogLoading
+    DialogLoading,
+    TimeFromToPicker
   },
   data: () => ({
     show: false,
@@ -128,7 +142,7 @@ export default {
     about: null,
     places: [],
     job_tags: [],
-    birthdate: null,
+    time: null,
 
     loading: false
   }),
@@ -169,6 +183,7 @@ export default {
       this.about = null
       this.places = []
       this.job_tags = []
+      this.time = null
       this.loading = false
     }
   }

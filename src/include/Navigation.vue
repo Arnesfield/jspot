@@ -103,7 +103,7 @@ export default {
         header: 'Manage',
         auth: 2,
         items: [
-          { title: 'Users', icon: 'supervisor_account', to: '/manage/users' },
+          { title: 'Users', icon: 'people', to: '/manage/users' },
         ]
       },
       // logout

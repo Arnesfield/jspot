@@ -4,7 +4,7 @@
     :items="items"
     return-object
     v-model="age"
-    prepend-icon="date_range"
+    prepend-icon="people"
     :rules="[
       (required ? $vfRule('required') : (e) => true)
     ]"

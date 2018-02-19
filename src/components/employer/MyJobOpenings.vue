@@ -28,7 +28,16 @@
         :loading="loading"
         :fetch="fetch"
         msg="You have not made any job openings :("
-      />
+      >
+        <div slot="icon" class="mb-3">
+          <v-icon size="64px">work</v-icon>
+        </div>
+        <v-btn
+          color="primary"
+          slot="btn"
+          @click="$bus.$emit('add--job-opening')"
+        >Create</v-btn>
+      </manage-no-data>
     </v-layout>
   </template>
 

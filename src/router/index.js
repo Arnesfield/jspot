@@ -77,7 +77,7 @@ export default new Router({
       meta: {
         auth: 2,
         title: 'Manage Users',
-        icon: 'supervisor_account'
+        icon: 'people'
       }
     },
     
