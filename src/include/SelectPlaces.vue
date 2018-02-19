@@ -1,7 +1,8 @@
 <template>
   <v-select
     v-model="places"
-    label="Places"
+    :label="label"
+    :placeholder="placeholder"
     chips
     tags
     deletable-chips
@@ -22,7 +23,16 @@ import qs from 'qs'
 export default {
   name: 'select-places',
   props: {
-    disabled: Boolean
+    value: Array,
+    disabled: Boolean,
+    label: {
+      type: String,
+      default: 'Places'
+    },
+    placeholder: {
+      type: String,
+      default: undefined
+    }
   },
   data: () => ({
     url: '/places',
@@ -33,16 +43,14 @@ export default {
   }),
   watch: {
     places(to, from) {
-      this.$emit('update-places', to)
+      this.$emit('input', to)
+    },
+    value(e) {
+      this.places = e
     },
     search(e) {
       e && this.fetch(e)
     }
-  },
-  created() {
-    this.$bus.$on('set--places', (places) => {
-      this.places = places
-    })
   },
 
   methods: {

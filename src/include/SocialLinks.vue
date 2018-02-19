@@ -44,14 +44,24 @@
 export default {
   name: 'social-links',
   props: {
-    socials: Array,
+    value: Array,
     disabled: Boolean
   },
   data: () => ({
     valid: false,
     link: null,
+    socials: [],
     errors: []
   }),
+
+  watch: {
+    socials(e) {
+      this.$emit('input', e)
+    },
+    value(e) {
+      this.socials = e
+    }
+  },
 
   methods: {
     wrapUrl(url) {

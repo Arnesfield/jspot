@@ -103,11 +103,11 @@
           <v-flex sm8>
             <select-places
               :disabled="loading"
-              @update-places="(e) => { places = e }"
+              v-model="places"
             />
             <select-job-tags
               :disabled="loading"
-              @update-job-tags="(e) => { job_tags = e }"
+              v-model="job_tags"
             />
           </v-flex>
         </v-layout>
@@ -118,7 +118,7 @@
           </v-flex>
           <v-flex sm8>
             <social-links
-              :socials.sync="socials"
+              v-model="socials"
               :disabled="loading"
             />
           </v-flex>
@@ -342,13 +342,6 @@ export default {
         // if status
         if (e == 'status') {
           val = val == 1
-        }
-
-        // update inside components
-        if (e == 'places') {
-          this.$bus.$emit('set--places', val)
-        } else if (e == 'job_tags') {
-          this.$bus.$emit('set--job-tags', val)
         }
 
         this[e] = val

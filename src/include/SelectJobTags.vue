@@ -2,6 +2,7 @@
   <v-select
     v-model="tags"
     :label="label"
+    :placeholder="placeholder"
     chips
     tags
     deletable-chips
@@ -22,9 +23,14 @@ import qs from 'qs'
 export default {
   name: 'select-job-tags',
   props: {
+    value: Array,
     label: {
       type: String,
       default: 'Jobs'
+    },
+    placeholder: {
+      type: String,
+      default: undefined
     },
     disabled: Boolean
   },
@@ -37,16 +43,14 @@ export default {
   }),
   watch: {
     tags(to, from) {
-      this.$emit('update-job-tags', to)
+      this.$emit('input', to)
+    },
+    value(e) {
+      this.tags = e
     },
     search(e) {
       e && this.fetch(e)
     }
-  },
-  created() {
-    this.$bus.$on('set--job-tags', (tags) => {
-      this.tags = tags
-    })
   },
 
   methods: {

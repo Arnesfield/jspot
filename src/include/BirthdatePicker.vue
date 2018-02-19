@@ -4,9 +4,8 @@
     <v-select
       label="Month"
       :items="months"
-      v-model="month"
+      v-model="date.month"
       prepend-icon="date_range"
-      @input="updateValue"
       :rules="[
         (required ? $vfRule('required') : (e) => true)
       ]"
@@ -18,8 +17,7 @@
   <v-flex xs12 sm6 md4>
     <v-text-field
       label="Day"
-      v-model="day"
-      @input="updateValue"
+      v-model="date.day"
       :rules="[
         (required ? $vfRule('required') : (e) => true)
       ]"
@@ -30,8 +28,7 @@
   <v-flex xs12 sm6 md4>
     <v-text-field
       label="Year"
-      v-model="year"
-      @input="updateValue"
+      v-model="date.year"
       :rules="[
         (required ? $vfRule('required') : (e) => true)
       ]"
@@ -55,28 +52,22 @@ export default {
   },
   data: () => ({
     months: months,
-    month: null,
-    day: null,
-    year: null
+    date: {
+      month: null,
+      day: null,
+      year: null
+    }
   }),
 
   watch: {
-    value(e) {
-      if (e !== null) {
-        this.month = e.month
-        this.day = e.day
-        this.year = e.year
+    date: {
+      deep: true,
+      handler(e) {
+        this.$emit('input', e)
       }
-    }
-  },
-
-  methods: {
-    updateValue() {
-      this.$emit('input', {
-        month: this.month,
-        day: this.day,
-        year: this.year
-      })
+    },
+    value(e) {
+      this.date = e
     }
   }
 }

@@ -4,7 +4,6 @@
     :items="items"
     return-object
     v-model="age"
-    @input="updateValue"
     prepend-icon="date_range"
     :rules="[
       (required ? $vfRule('required') : (e) => true)
@@ -26,6 +25,7 @@
 export default {
   name: 'age-group-picker',
   props: {
+    value: Object,
     required: {
       type: Boolean,
       default: false
@@ -35,15 +35,18 @@ export default {
     age: null,
     items: [
       { from: 18, to: 24 },
-      { from: 25, to: 32 },
-      { from: 33, to: 40 },
-      { from: 41, to: 49 },
-      { from: 50, text: '50 and above' },
+      { from: 25, to: 34 },
+      { from: 35, to: 44 },
+      { from: 45, to: 54 },
+      { from: 55, text: '55 and above' },
     ]
   }),
-  methods: {
-    updateValue() {
-      this.$emit('input', this.age)
+  watch: {
+    age(e) {
+      this.$emit('input', e)
+    },
+    value(e) {
+      this.age = e
     }
   }
 }

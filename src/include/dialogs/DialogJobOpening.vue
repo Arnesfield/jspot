@@ -59,15 +59,21 @@
             <v-subheader>Demographic</v-subheader>
           </v-flex>
           <v-flex sm8>
-            <age-group-picker v-model="age"/>
+            <age-group-picker
+              required
+              v-model="age"
+            />
             <select-places
               :disabled="loading"
-              @update-places="(e) => { places = e }"
+              label="Location"
+              placeholder="Where is this located?"
+              v-model="places"
             />
             <select-job-tags
               :disabled="loading"
-              label="Related job tags"
-              @update-job-tags="(e) => { job_tags = e }"
+              label="Job tags"
+              placeholder="Any related job tags?"
+              v-model="job_tags"
             />
           </v-flex>
         </v-layout>
