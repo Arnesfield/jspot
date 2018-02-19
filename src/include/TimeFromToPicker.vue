@@ -113,7 +113,12 @@ export default {
       }
     },
     value(e) {
-      this.time = JSON.parse(JSON.stringify(e))
+      if (e) {
+        this.time = JSON.parse(JSON.stringify(e))
+      } else {
+        this.time.from = null
+        this.time.to = null
+      }
     }
   },
 
@@ -123,7 +128,9 @@ export default {
       this.timeModel[e] = false
     },
     cancel(e) {
-      this.time[e] = JSON.parse(JSON.stringify(this.value[e]))
+      this.time[e] = this.value
+        ? JSON.parse(JSON.stringify(this.value[e]))
+        : null
       this.timeModel[e] = false
     }
   }
