@@ -32,6 +32,13 @@ class Jobs_model extends MY_Custom_Model {
   public function insert($data) {
     return $this->db->insert('jobs', $data);
   }
+
+  public function update($data, $where) {
+    return $this->db
+      ->set($data)
+      ->where($where)
+      ->update('jobs');
+  }
 }
 
 ?>

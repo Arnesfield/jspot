@@ -94,6 +94,22 @@ class Jobs extends MY_Custom_Controller {
     $res = $this->jobs_model->insert($data);
     $this->_json($res);
   }
+
+  public function delete() {
+    $id = $this->input->post('id');
+
+    if (!$id) {
+      $this->_json(FALSE);
+    }
+
+    $res = $this->jobs_model->update(array(
+      'status' => -1,
+      'updated_at' => time()
+    ), array(
+      'id' => $id
+    ));
+    $this->_json($res);
+  }
 }
 
 ?>
