@@ -34,6 +34,11 @@ export default {
 
     return date + ' ' + time
   },
+  HMSToHM(e) {
+    return e.lastIndexOf(':') == 5
+      ? e.substring(0, e.lastIndexOf(':'))
+      : e
+  },
   userType(e) {
     switch (Number(e)) {
       case 2: return 'Admin'

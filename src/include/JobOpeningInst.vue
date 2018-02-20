@@ -4,7 +4,7 @@
     <div>
       <div class="headline">{{ item.title }}</div>
       <div class="subheading">{{ $wrap.date(item.dateFrom) + ' to ' + $wrap.date(item.dateTo) }}</div>
-      <div class="subheading">{{ item.timeFrom + ' to ' + item.timeTo }}</div>
+      <div class="subheading">{{ $wrap.HMSToHM(item.timeFrom) + ' to ' + $wrap.HMSToHM(item.timeTo) }}</div>
       <div class="grey--text">{{ item.description }}</div>
     </div>
   </v-card-title>
