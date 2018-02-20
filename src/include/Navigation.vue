@@ -6,13 +6,17 @@
   :clipped="$bus.nav.clipped"
   v-model="$bus.nav.model"
   tabindex="1"
+  :temporary="$route.name == 'Profile'"
 >
   <nav-user/>
   <v-list
     class="pb-0"
     :class="{ 'py-0': i != 0 }"
     :key="i"
-    v-if="$bus.authCheck(list.auth)"
+    v-if="
+      ($bus.authHas(list.auth, 0) && $bus.authHas($bus.session.auth, 0))
+      || $bus.authCheck(list.auth)
+    "
     v-for="(list, i) in lists"
     :subheader="Boolean(list.header)"
   >
@@ -32,8 +36,8 @@
           ripple
           slot="activator"
           :to="item.to"
-          @keypress.enter="listItemClick(item.click)"
-          @click="listItemClick(item.click)"
+          @keypress.enter="item.globalClick ? $bus.$emit(item.click) : listItemClick(item.click)"
+          @click="item.globalClick ? $bus.$emit(item.click) : listItemClick(item.click)"
           :exact-active-class="item.to"
           tabindex="1"
         >
@@ -104,6 +108,14 @@ export default {
         auth: 2,
         items: [
           { title: 'Users', icon: 'people', to: '/manage/users' },
+        ]
+      },
+      // login
+      {
+        auth: 0,
+        items: [
+          '',
+          { title: 'Login', icon: 'exit_to_app', click: 'dialog--login', globalClick: true }
         ]
       },
       // logout

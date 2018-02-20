@@ -5,6 +5,7 @@ import Home from '@/components/Home'
 import Login from '@/components/Login'
 import Dashboard from '@/components/Dashboard'
 import NotFound from '@/components/NotFound'
+import Profile from '@/components/Profile'
 
 // employer
 import MyJobOpenings from '@/components/employer/MyJobOpenings'
@@ -53,6 +54,15 @@ export default new Router({
       meta: {
         auth: [3, 4],
         icon: 'dashboard'
+      }
+    },
+    {
+      path: '/profile',
+      name: 'Profile',
+      component: Profile,
+      meta: {
+        auth: [10, 3, 4],
+        icon: 'account_circle'
       }
     },
     

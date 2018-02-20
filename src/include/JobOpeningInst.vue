@@ -137,7 +137,7 @@ export default {
       this.$bus.$emit('dialog--delete.show', {
         item: item,
         title: 'Delete Job',
-        subtitle: 'Job ID: ' + item.id,
+        subtitle: 'Job title: <strong>' + item.title + '</strong>',
         msg: '<div class="body-1">Are you sure you want to delete this job?</div>',
         fn: (onSuccess, onError, close, fn) => {
           this.$http.post('/jobs/delete', qs.stringify({

@@ -8,13 +8,18 @@
       style="z-index: 5; position: fixed"
       class="ma-0"
     />
-    <navigation v-if="authCheck"/>
-    <toolbar v-if="authCheck"/>
+    <navigation v-if="
+      !exception && (authCheck || $bus.authHas($route.meta.auth, 10))
+    "/>
+    <toolbar v-if="
+      !exception && (authCheck || $bus.authHas($route.meta.auth, 10))
+    "/>
     <v-content>
       <toolbar-content v-if="authCheck"/>
       <router-view/>
       <fab/>
       <dialog-delete/>
+      <dialog-login/>
     </v-content>
     <snackbar/>
   </v-app>
@@ -26,6 +31,7 @@ import Fab from '@/include/Fab'
 import Toolbar from '@/include/Toolbar'
 import ToolbarContent from '@/include/ToolbarContent'
 import DialogDelete from '@/include/dialogs/DialogDelete'
+import DialogLogin from '@/include/dialogs/DialogLogin'
 import Snackbar from '@/include/Snackbar'
 
 export default {
@@ -36,11 +42,15 @@ export default {
     Toolbar,
     ToolbarContent,
     DialogDelete,
+    DialogLogin,
     Snackbar
   },
   computed: {
     authCheck() {
       return this.$bus.authCheck(this.$route.meta.auth)
+    },
+    exception() {
+      return this.$route.name == 'NotFound'
     }
   },
 
