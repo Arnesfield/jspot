@@ -56,7 +56,31 @@
 
         <v-layout row>
           <v-flex hidden-xs-only sm4>
-            <v-subheader>Date and time</v-subheader>
+            <v-subheader>Date from</v-subheader>
+          </v-flex>
+          <v-flex sm8>
+            <birthdate-picker
+              required
+              v-model="date.from"
+            />
+          </v-flex>
+        </v-layout>
+
+        <v-layout row>
+          <v-flex hidden-xs-only sm4>
+            <v-subheader>Date until</v-subheader>
+          </v-flex>
+          <v-flex sm8>
+            <birthdate-picker
+              required
+              v-model="date.to"
+            />
+          </v-flex>
+        </v-layout>
+
+        <v-layout row>
+          <v-flex hidden-xs-only sm4>
+            <v-subheader>Time</v-subheader>
           </v-flex>
           <v-flex sm8>
             <time-from-to-picker
@@ -79,7 +103,7 @@
               :disabled="loading"
               label="Location"
               placeholder="Where is this located?"
-              v-model="places"
+              v-model="location"
             />
             <select-job-tags
               :disabled="loading"
@@ -121,6 +145,7 @@ import SelectPlaces from '@/include/SelectPlaces'
 import SelectJobTags from '@/include/SelectJobTags'
 import DialogLoading from '@/include/DialogLoading'
 import TimeFromToPicker from '@/include/TimeFromToPicker'
+import BirthdatePicker from '@/include/BirthdatePicker'
 import qs from 'qs'
 
 export default {
@@ -130,9 +155,12 @@ export default {
     SelectPlaces,
     SelectJobTags,
     DialogLoading,
-    TimeFromToPicker
+    TimeFromToPicker,
+    BirthdatePicker
   },
   data: () => ({
+    addUrl: '/jobs/add',
+    updateUrl: '/jobs/update',
     show: false,
     mode: 'Create',
 
@@ -140,9 +168,13 @@ export default {
     title: null,
     age: null,
     about: null,
-    places: [],
+    location: [],
     job_tags: [],
     time: null,
+    date: {
+      from: null,
+      to: null
+    },
 
     loading: false
   }),
@@ -171,6 +203,48 @@ export default {
         this.loading = false
         return
       }
+
+      // check mode
+      let url = ''
+      this.loading = true
+      if (this.mode == 'Create') {
+        url = this.addUrl
+      } else if (this.mode == 'Update') {
+        url = this.updateUrl
+      }
+
+      this.$http.post(url, qs.stringify({
+        mode: this.mode,
+        title: this.title,
+        description: this.description,
+        age: JSON.stringify(this.age),
+        timeFrom: this.time.from + ':00',
+        timeTo: this.time.to + ':00',
+        dateFrom: this.date.from,
+        dateTo: this.date.to,
+        location: JSON.stringify(this.location),
+        job_tags: JSON.stringify(this.job_tags)
+      })).then(res => {
+        console.error(res)
+        if (!res.data.success) {
+          throw new Error('Request failure.')
+        }
+        // show message
+        let msg = ''
+        if (this.mode == 'Create') {
+          msg = 'Job opening created.'
+        } else if (this.mode == 'Create') {
+          msg = 'Job opening updated.'
+        }
+        this.show = false
+        this.loading = false
+        this.$bus.$emit('snackbar--show', msg)
+        this.$bus.$emit('update--my-job-openings');
+        this.clear()
+      }).catch(e => {
+        console.error(e)
+        this.loading = false
+      })
     },
     clear() {
       if (this.$refs.form) {
@@ -181,9 +255,11 @@ export default {
       this.formValid = false
       this.title = null
       this.about = null
-      this.places = []
+      this.location = []
       this.job_tags = []
       this.time = null
+      this.date.from = null
+      this.date.to = null
       this.loading = false
     }
   }

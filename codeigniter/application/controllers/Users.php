@@ -11,16 +11,7 @@ class Users extends MY_Custom_Controller {
     $users = $this->users_model->get();
     // convert all users birthdate to object
     foreach ($users as $key => $user) {
-      $birthdate = strtotime($user['birthdate']);
-      $month = date('F', $birthdate);
-      $day = date('d', $birthdate);
-      $year = date('Y', $birthdate);
-
-      $users[$key]['birthdate'] = array(
-        'month' => $month,
-        'day' => $day,
-        'year' => $year
-      );
+      $users[$key]['birthdate'] = $this->_formatDateToObj($user['birthdate']);
     }
     
     $this->_json(TRUE, array(
@@ -111,11 +102,7 @@ class Users extends MY_Custom_Controller {
     $socials = json_encode($socials);
     $settings = json_encode($settings);
 
-    $birthdate = date('Y-m-d', strtotime(
-      $birthdate['month'].' '.
-      $birthdate['day'].' '.
-      $birthdate['year']
-    ));
+    $birthdate = $this->_formatObjToDate($birthdate);
 
     $user = array(
       'fname' => $fname,

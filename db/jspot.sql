@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 19, 2018 at 01:07 PM
+-- Generation Time: Feb 20, 2018 at 03:52 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -30,12 +30,29 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `jobs` (
   `id` int(11) NOT NULL,
-  `content` text NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `timeFrom` time NOT NULL,
+  `timeTo` time NOT NULL,
+  `dateFrom` date NOT NULL,
+  `dateTo` date NOT NULL,
+  `location` text NOT NULL,
+  `job_tags` text NOT NULL,
+  `age_group` text NOT NULL,
   `created_by` int(11) NOT NULL,
   `created_at` int(11) NOT NULL,
   `updated_at` int(11) NOT NULL,
   `status` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `jobs`
+--
+
+INSERT INTO `jobs` (`id`, `title`, `description`, `timeFrom`, `timeTo`, `dateFrom`, `dateTo`, `location`, `job_tags`, `age_group`, `created_by`, `created_at`, `updated_at`, `status`) VALUES
+(1, 'Some work', 'This work is about something lorem ipsum dolor sit amet.', '09:00:00', '18:00:00', '2018-01-01', '2018-08-31', '[\"Manila\"]', '[\"programming\"]', '', 2, 1519091218, 1519091218, 1),
+(2, 'Test', '', '00:01:00', '00:59:00', '2018-01-13', '2018-02-01', '[\"Mandaluyong\",\"Manila\"]', '[\"photography\",\"animation\"]', '', 2, 1519094267, 1519094267, 1),
+(3, 'Test', '', '12:00:00', '23:00:00', '2018-01-01', '2018-02-11', '[\"Manila\",\"Quezon\"]', '[\"programming\"]', '{\"from\":18,\"to\":24}', 2, 1519095062, 1519095062, 1);
 
 -- --------------------------------------------------------
 
@@ -155,7 +172,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `jobs`
 --
 ALTER TABLE `jobs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `places`

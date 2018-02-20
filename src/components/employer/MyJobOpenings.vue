@@ -1,8 +1,10 @@
 <template>
 <!-- :fill-height="!jobs.length" -->
 <v-container
-  :style="{ 'height': 'calc(100% - 64px)' }"
-  style="display: flex"
+  :style="!jobs.length ? {
+    'height': 'calc(100% - 64px)',
+    'display': 'flex'
+  } : null"
   v-bind="{ ['grid-list-' + size]: true }"
 >
   <template v-for="(t, i) in types" v-if="countItems(t.n)">
@@ -10,7 +12,6 @@
     <v-layout :key="'layout-' + i" row wrap>
       <v-flex
         md4
-        lg3
         xs12
         sm6
         :key="i"
@@ -52,14 +53,14 @@ import JobOpeningInst from '@/include/JobOpeningInst'
 import ManageNoData from '@/include/ManageNoData'
 
 export default {
-  name: 'job-openings',
+  name: 'my-job-openings',
   components: {
     DialogJobOpening,
     JobOpeningInst,
     ManageNoData
   },
   data: () => ({
-    url: '/jobs/my_openings',
+    url: '/jobs/my',
     jobs: [],
     loading: false,
     size: 'lg',

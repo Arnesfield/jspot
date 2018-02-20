@@ -22,8 +22,8 @@
       <td>{{ props.item.lname }}</td>
       <td>{{ $wrap.userType(props.item.type) }}</td>
       <td>{{ props.item.contact }}</td>
-      <td>{{ $wrap.date(props.item.created_at) }}</td>
-      <td>{{ $wrap.date(props.item.updated_at) }}</td>
+      <td>{{ $wrap.datetime(props.item.created_at) }}</td>
+      <td>{{ $wrap.datetime(props.item.updated_at) }}</td>
       <td>
         <div class="justify-center layout">
           <v-tooltip top>

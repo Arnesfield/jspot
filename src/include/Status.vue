@@ -8,7 +8,7 @@
     :key="i"
     v-for="i in 4"
     v-if="status(i-1)"
-    v-html="msg[i-1]"
+    v-html="'Status: ' + msg[i-1]"
   ></span>
 </v-tooltip>
 </template>
@@ -24,8 +24,8 @@ export default {
     msg: {
       type: Object,
       default: () => ({
-        0: 'Active',
-        1: 'Hidden'
+        0: 'Hidden',
+        1: 'Active'
       })
     }
   },

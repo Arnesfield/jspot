@@ -2,9 +2,10 @@
 <v-card>
   <v-card-title primary-title class="pb-0">
     <div>
-      <div class="headline">{{ content().title }}</div>
-      <div class="subheading">{{ content().title }}</div>
-      <div class="grey--text">Some text</div>
+      <div class="headline">{{ item.title }}</div>
+      <div class="subheading">{{ $wrap.date(item.dateFrom) + ' to ' + $wrap.date(item.dateTo) }}</div>
+      <div class="subheading">{{ item.timeFrom + ' to ' + item.timeTo }}</div>
+      <div class="grey--text">{{ item.description }}</div>
     </div>
   </v-card-title>
 
@@ -16,7 +17,7 @@
         </v-btn>
         <span>View detailed</span>
       </v-tooltip>
-      <v-tooltip top v-if="$bus.session.user.id == item.created_by.id">
+      <v-tooltip top v-if="$bus.session.user.id == item.created_by">
         <v-btn icon slot="activator">
           <v-icon color="grey">edit</v-icon>
         </v-btn>
@@ -24,11 +25,8 @@
       </v-tooltip>
     </div>
     <v-spacer/>
-    <div class="px-2 pb-1 subheading">
-      <span>Status</span>
-      <status :item="item"/>
-    </div>
-    <v-tooltip top v-if="$bus.session.user.id != item.created_by.id">
+    <status :item="item"/>
+    <v-tooltip top v-if="this.$bus.session.user.id != item.created_by">
       <v-btn icon slot="activator">
         <v-icon color="primary">arrow_forward</v-icon>
       </v-btn>
@@ -50,12 +48,6 @@ export default {
     item: {
       type: Object,
       default: null
-    }
-  },
-
-  methods: {
-    content() {
-      return this.item.content
     }
   }
 }

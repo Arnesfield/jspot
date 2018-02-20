@@ -3,18 +3,36 @@ import monthNames from './months'
 const leadZero = (num) => (num < 10 ? '0' : '') + num
 const shortMonth = (month) => month.substring(0, 3)
 
+let _date = function(e) {
+  let date = new Date(e * 1000)
+  
+  let year = date.getFullYear()
+  let month = shortMonth(monthNames[date.getMonth()])
+  let day = leadZero(date.getDay())
+  
+  return month + ' ' + day + ', ' + year
+}
+
+let _time = function(e) {
+  let date = new Date(e * 1000)
+
+  let hours = leadZero(date.getHours())
+  let mins = leadZero(date.getMinutes())
+  let secs = leadZero(date.getSeconds())
+
+  return hours + ':' + mins + ':' + secs
+}
+
 export default {
-  date(e) {
-    let date = new Date(e * 1000)
+  date: (e) => _date(e),
+  time: (e) => _time(e),
+  datetime(e) {
+    let rawDate = new Date(e * 1000)
 
-    let year = date.getFullYear()
-    let month = shortMonth(monthNames[date.getMonth()])
-    let day = leadZero(date.getDay())
-    let hours = leadZero(date.getHours())
-    let mins = leadZero(date.getMinutes())
-    let secs = leadZero(date.getSeconds())
+    let date = _date(rawDate);
+    let time = _time(rawDate);
 
-    return month + ' ' + day + ', ' + year + ' ' + hours + ':' + mins + ':' + secs
+    return date + ' ' + time
   },
   userType(e) {
     switch (Number(e)) {

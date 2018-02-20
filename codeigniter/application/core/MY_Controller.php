@@ -112,6 +112,27 @@ class MY_Custom_Controller extends MY_View_Controller {
     echo json_encode($master);
     exit;
   }
+
+  public function _formatObjToDate($date) {
+    return date('Y-m-d', strtotime(
+      $date['month'].' '.
+      $date['day'].' '.
+      $date['year']
+    ));
+  }
+
+  public function _formatDateToObj($raw_date) {
+    $date = strtotime($raw_date);
+    $month = date('F', $date);
+    $day = date('d', $date);
+    $year = date('Y', $date);
+
+    return array(
+      'month' => $month,
+      'day' => $day,
+      'year' => $year
+    );
+  }
 }
 
 ?>
