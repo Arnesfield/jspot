@@ -23,6 +23,12 @@
         </v-btn>
         <span>Edit</span>
       </v-tooltip>
+      <v-tooltip top v-if="$bus.session.user.id == item.created_by">
+        <v-btn icon slot="activator" @click="deleteItem(item)">
+          <v-icon color="grey">delete</v-icon>
+        </v-btn>
+        <span>Delete</span>
+      </v-tooltip>
     </div>
     <v-spacer/>
     <status :item="item"/>
@@ -48,6 +54,48 @@ export default {
     item: {
       type: Object,
       default: null
+    }
+  },
+
+  methods: {
+    deleteItem(item) {
+      this.$bus.$emit('dialog--delete.show', {
+        item: item,
+        title: 'Delete Job',
+        subtitle: 'Job ID: ' + item.id,
+        msg: '<div class="body-1">Are you sure you want to delete this job?</div>',
+        fn: (onSuccess, onError, close, fn) => {
+          this.$http.post('/jobs/delete', qs.stringify({
+            id: item.id
+          })).then((res) => {
+            console.error(res.data)
+            if (!res.data.success) {
+              throw new Error('Request failure.')
+            }
+            this.$bus.$emit('snackbar--show', 'Job deleted successfully.')
+            // update job openings
+            this.$bus.$emit('update--my-job-openings');
+            onSuccess()
+          }).catch(e => {
+            console.error(e)
+            this.$bus.$emit('snackbar--show', {
+              text: 'Unable to delete job.',
+              btns: {
+                text: 'Retry',
+                icon: false,
+                color: 'accent',
+                cb: (sb, e) => {
+                  // fn(onSuccess, onError, close, fn)
+                  this.deleteItem(item)
+                  sb.snackbar = false
+                }
+              }
+            })
+            onError()
+            close()
+          })
+        }
+      })
     }
   }
 }

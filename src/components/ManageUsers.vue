@@ -128,7 +128,7 @@ export default {
         title: 'Delete User',
         subtitle: 'User ID: ' + item.id,
         msg: '<div class="body-1">Are you sure you want to delete this user?</div>',
-        fn: (onSuccess, onError) => {
+        fn: (onSuccess, onError, close, fn) => {
           this.$http.post('/users/delete', qs.stringify({
             id: item.id
           })).then((res) => {
@@ -142,7 +142,21 @@ export default {
             onSuccess()
           }).catch(e => {
             console.error(e)
+            this.$bus.$emit('snackbar--show', {
+              text: 'Unable to delete user.',
+              btns: {
+                text: 'Retry',
+                icon: false,
+                color: 'accent',
+                cb: (sb, e) => {
+                  // fn(onSuccess, onError, close, fn)
+                  this.doDelete(item)
+                  sb.snackbar = false
+                }
+              }
+            })
             onError()
+            close()
           })
         }
       })

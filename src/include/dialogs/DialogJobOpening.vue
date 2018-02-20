@@ -45,7 +45,7 @@
             />
             <v-text-field
               label="Brief description"
-              v-model="about"
+              v-model="description"
               :disabled="loading"
               prepend-icon="subject"
               multi-line
@@ -167,7 +167,7 @@ export default {
     formValid: false,
     title: null,
     age: null,
-    about: null,
+    description: null,
     location: [],
     job_tags: [],
     time: null,
@@ -254,7 +254,7 @@ export default {
       this.mode = 'Create'
       this.formValid = false
       this.title = null
-      this.about = null
+      this.description = null
       this.location = []
       this.job_tags = []
       this.time = null

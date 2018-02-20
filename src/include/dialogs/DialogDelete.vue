@@ -73,15 +73,16 @@ export default {
     doDelete() {
       if (typeof this.fn === 'function') {
         this.loading = true
-        this.fn(this.onSuccess, this.onError)
+        this.fn(this.onSuccess, this.onError, this.doClose, this.fn)
       }
     },
-    doClose() {
-      this.$bus.dialog.global.delete = false
+    doClose(e) {
+      e = typeof e === 'boolean' ? !e : false
+      this.$bus.dialog.global.delete = e
     },
     onSuccess() {
       this.loading = false
-      this.$bus.dialog.global.delete = false
+      this.doClose()
     },
     onError() {
       this.loading = false
