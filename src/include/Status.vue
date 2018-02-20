@@ -3,6 +3,7 @@
   <v-btn icon slot="activator">
     <v-icon color="error" v-if="status(0)">cancel</v-icon>
     <v-icon color="success" v-else-if="status(1)">check_circle</v-icon>
+    <v-icon color="warning" v-else-if="status(2)">pan_tool</v-icon>
   </v-btn>
   <span
     :key="i"
@@ -25,7 +26,8 @@ export default {
       type: Object,
       default: () => ({
         0: 'Hidden',
-        1: 'Active'
+        1: 'Hiring',
+        2: 'On hold',
       })
     }
   },

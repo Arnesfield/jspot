@@ -65,8 +65,9 @@ export default {
     loading: false,
     size: 'lg',
     types: [
+      { title: 'Hidden', n: 0 },
       { title: 'Active', n: 1 },
-      { title: 'Hidden', n: 0 }
+      { title: 'On hold', n: 2 }
     ]
   }),
 

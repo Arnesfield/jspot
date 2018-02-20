@@ -33,6 +33,7 @@ class Jobs extends MY_Custom_Controller {
       $jobs[$key]['dateTo'] = strtotime($job['dateTo']);
       $jobs[$key]['location'] = json_decode($job['location'], TRUE);
       $jobs[$key]['job_tags'] = json_decode($job['job_tags'], TRUE);
+      $jobs[$key]['age_group'] = json_decode($job['age_group'], TRUE);
     }
 
     $this->_json(TRUE, array(
@@ -48,7 +49,9 @@ class Jobs extends MY_Custom_Controller {
     $timeTo = $this->input->post('timeTo');
     $dateFrom = $this->input->post('dateFrom');
     $dateTo = $this->input->post('dateTo');
-    $age = $this->input->post('age');
+    $age_group = $this->input->post('age_group');
+
+    // make sure to add these in db
     $location = $this->input->post('location');
     $job_tags = $this->input->post('job_tags');
 
@@ -66,7 +69,7 @@ class Jobs extends MY_Custom_Controller {
       'timeTo' => $timeTo,
       'dateFrom' => $dateFrom,
       'dateTo' => $dateTo,
-      'age_group' => $age,
+      'age_group' => $age_group,
       'location' => $location,
       'job_tags' => $job_tags,
       'created_by' => $uid,
@@ -78,6 +81,15 @@ class Jobs extends MY_Custom_Controller {
     if ($mode == 'Create') {
       $data['created_at'] = time();
     }
+
+    $this->load->model('places_model');
+    $this->load->model('tags_model');
+
+    $_location = json_decode($location, TRUE);
+    $_job_tags = json_decode($job_tags, TRUE);
+
+    $this->places_model->insertMultiple($_location);
+    $this->tags_model->insertMultiple($_job_tags);
 
     $res = $this->jobs_model->insert($data);
     $this->_json($res);

@@ -97,7 +97,7 @@
           <v-flex sm8>
             <age-group-picker
               required
-              v-model="age"
+              v-model="age_group"
             />
             <select-places
               :disabled="loading"
@@ -166,7 +166,7 @@ export default {
 
     formValid: false,
     title: null,
-    age: null,
+    age_group: null,
     description: null,
     location: [],
     job_tags: [],
@@ -217,7 +217,7 @@ export default {
         mode: this.mode,
         title: this.title,
         description: this.description,
-        age: JSON.stringify(this.age),
+        age_group: JSON.stringify(this.age_group),
         timeFrom: this.time.from + ':00',
         timeTo: this.time.to + ':00',
         dateFrom: this.date.from,
@@ -258,8 +258,15 @@ export default {
       this.location = []
       this.job_tags = []
       this.time = null
-      this.date.from = null
-      this.date.to = null
+      let nullDate = (e) => {
+        if (e !== null) {
+          e.month = null
+          e.day = null
+          e.year = null
+        }
+      }
+      nullDate(this.date.from)
+      nullDate(this.date.to)
       this.loading = false
     }
   }

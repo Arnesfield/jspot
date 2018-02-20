@@ -2,10 +2,81 @@
 <v-card>
   <v-card-title primary-title class="pb-0">
     <div>
-      <div class="headline">{{ item.title }}</div>
-      <div class="subheading">{{ $wrap.date(item.dateFrom) + ' to ' + $wrap.date(item.dateTo) }}</div>
-      <div class="subheading">{{ $wrap.HMSToHM(item.timeFrom) + ' to ' + $wrap.HMSToHM(item.timeTo) }}</div>
+      <div class="headline mb-1">{{ item.title }}</div>
       <div class="grey--text">{{ item.description }}</div>
+      <v-list dense>
+        
+        <!-- job -->
+
+        <v-list-tile>
+          <v-list-tile-action style="min-width: 42px; width: 42px">
+            <v-tooltip top>
+              <v-icon slot="activator">person</v-icon>
+              <span>Employer name</span>
+            </v-tooltip>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title
+              v-text="item.creator_fname + ' ' + item.creator_lname"
+            />
+          </v-list-tile-content>
+        </v-list-tile>
+
+        <!-- date -->
+        
+        <v-list-tile>
+          <v-list-tile-action style="min-width: 42px; width: 42px">
+            <v-tooltip top>
+              <v-icon slot="activator">date_range</v-icon>
+              <span>Work date</span>
+            </v-tooltip>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title
+              v-text="$wrap.date(item.dateFrom) + ' to ' + $wrap.date(item.dateTo)"
+            />
+          </v-list-tile-content>
+        </v-list-tile>
+
+        <!-- time -->
+
+        <v-list-tile>
+          <v-list-tile-action style="min-width: 42px; width: 42px">
+            <v-tooltip top>
+              <v-icon slot="activator">access_time</v-icon>
+              <span>Work hours</span>
+            </v-tooltip>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title
+              v-text="$wrap.HMSToHM(item.timeFrom) + ' to ' + $wrap.HMSToHM(item.timeTo)"
+            />
+          </v-list-tile-content>
+        </v-list-tile>
+
+        <!-- age group -->
+
+        <v-list-tile>
+          <v-list-tile-action style="min-width: 42px; width: 42px">
+            <v-tooltip top>
+              <v-icon slot="activator">people</v-icon>
+              <span>Age group</span>
+            </v-tooltip>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title
+              v-text="'Ages ' + $wrap.ageGroup(item.age_group)"
+            />
+          </v-list-tile-content>
+        </v-list-tile>
+
+      </v-list>
+      <div class="subheading"></div>
+      <div>
+        <v-chip :key="i-1" v-for="i in (item.job_tags.length > 10 ? 10 : item.job_tags.length)">
+          {{ item.job_tags[i-1] }}
+        </v-chip>
+      </div>
     </div>
   </v-card-title>
 
@@ -32,7 +103,10 @@
     </div>
     <v-spacer/>
     <status :item="item"/>
-    <v-tooltip top v-if="this.$bus.session.user.id != item.created_by">
+    <v-tooltip top v-if="
+      $bus.session.user.id != item.created_by
+      && item.status == 1
+    ">
       <v-btn icon slot="activator">
         <v-icon color="primary">arrow_forward</v-icon>
       </v-btn>

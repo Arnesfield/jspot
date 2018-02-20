@@ -13,11 +13,11 @@
     <template
       slot="selection"
       slot-scope="data"
-    >Ages {{ data.item.text ? data.item.text : data.item.from + ' to ' + data.item.to }}</template>
+    >Ages {{ $wrap.ageGroup(data.item) }}</template>
     <template
       slot="item"
       slot-scope="data"
-    >Ages {{ data.item.text ? data.item.text : data.item.from + ' to ' + data.item.to }}</template>
+    >Ages {{ $wrap.ageGroup(data.item) }}</template>
   </v-select>
 </template>
 

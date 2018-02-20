@@ -39,6 +39,17 @@ export default {
       ? e.substring(0, e.lastIndexOf(':'))
       : e
   },
+  ageGroup(e) {
+    if (e) {
+      if (e.text) {
+        return e.text
+      }
+      if (e.from && e.to) {
+        return e.from + ' to ' + e.to
+      }
+    }
+    return ''
+  },
   userType(e) {
     switch (Number(e)) {
       case 2: return 'Admin'

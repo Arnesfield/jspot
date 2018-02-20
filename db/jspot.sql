@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 20, 2018 at 03:52 AM
+-- Generation Time: Feb 20, 2018 at 07:09 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -50,9 +50,10 @@ CREATE TABLE `jobs` (
 --
 
 INSERT INTO `jobs` (`id`, `title`, `description`, `timeFrom`, `timeTo`, `dateFrom`, `dateTo`, `location`, `job_tags`, `age_group`, `created_by`, `created_at`, `updated_at`, `status`) VALUES
-(1, 'Some work', 'This work is about something lorem ipsum dolor sit amet.', '09:00:00', '18:00:00', '2018-01-01', '2018-08-31', '[\"Manila\"]', '[\"programming\"]', '', 2, 1519091218, 1519091218, 1),
-(2, 'Test', '', '00:01:00', '00:59:00', '2018-01-13', '2018-02-01', '[\"Mandaluyong\",\"Manila\"]', '[\"photography\",\"animation\"]', '', 2, 1519094267, 1519094267, 1),
-(3, 'Test', '', '12:00:00', '23:00:00', '2018-01-01', '2018-02-11', '[\"Manila\",\"Quezon\"]', '[\"programming\"]', '{\"from\":18,\"to\":24}', 2, 1519095062, 1519095062, 1);
+(1, 'Some work', 'This work is about something lorem ipsum dolor sit amet.', '09:00:00', '18:00:00', '2018-01-01', '2018-08-31', '[\"Manila\"]', '[\"programming\"]', '{\"from\":25,\"to\":34}', 2, 1519091218, 1519091218, 1),
+(2, 'Test', '', '00:01:00', '00:59:00', '2018-01-13', '2018-02-01', '[\"Mandaluyong\",\"Manila\"]', '[\"photography\",\"animation\"]', '{\"from\":18,\"to\":24}', 2, 1519094267, 1519094267, 1),
+(3, 'Test', 'This work is about something lorem ipsum dolor sit amet.', '12:00:00', '23:00:00', '2018-01-01', '2018-02-11', '[\"Manila\",\"Quezon\"]', '[\"programming\"]', '{\"from\":18,\"to\":24}', 2, 1519095062, 1519095062, 1),
+(4, 'Sample', 'Some lorem ipsum', '00:00:00', '12:00:00', '2018-01-01', '2018-03-20', '[\"Makati\",\"Manila\"]', '[\"art\",\"programming\"]', '{\"from\":25,\"to\":34}', 2, 1519102595, 1519102595, 1);
 
 -- --------------------------------------------------------
 
@@ -73,7 +74,8 @@ CREATE TABLE `places` (
 INSERT INTO `places` (`id`, `name`, `status`) VALUES
 (1, 'Manila', 1),
 (2, 'Quezon', 1),
-(3, 'Mandaluyong', 1);
+(3, 'Mandaluyong', 1),
+(4, 'Makati', 1);
 
 -- --------------------------------------------------------
 
@@ -94,7 +96,8 @@ CREATE TABLE `tags` (
 INSERT INTO `tags` (`id`, `name`, `status`) VALUES
 (1, 'programming', 1),
 (2, 'animation', 1),
-(3, 'photography', 1);
+(3, 'photography', 1),
+(4, 'art', 1);
 
 -- --------------------------------------------------------
 
@@ -172,19 +175,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `jobs`
 --
 ALTER TABLE `jobs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `places`
 --
 ALTER TABLE `places`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tags`
 --
 ALTER TABLE `tags`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `users`
