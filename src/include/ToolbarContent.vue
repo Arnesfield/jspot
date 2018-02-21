@@ -30,16 +30,18 @@
     <template v-if="$route.name === 'Profile'">
       <template v-if="$bus.profile.type == 3">
         <v-spacer/>
-        <v-btn icon @click="$bus.profile.listView = !$bus.profile.listView">
-          <v-tooltip left v-if="!$bus.profile.listView">
-            <v-icon slot="activator">view_list</v-icon>
-            <span>View as list</span>
-          </v-tooltip>
-          <v-tooltip left v-else>
-            <v-icon slot="activator">view_module</v-icon>
-            <span>View as grid</span>
-          </v-tooltip>
-        </v-btn>
+        <v-tooltip left>
+          <v-btn
+            icon
+            slot="activator"
+            @click="$bus.profile.listView = !$bus.profile.listView"
+          >
+            <v-icon v-if="!$bus.profile.listView">view_list</v-icon>
+            <v-icon v-else>view_module</v-icon>
+          </v-btn>
+          <span v-if="!$bus.profile.listView">View as list</span>
+          <span v-else>View as grid</span>
+        </v-tooltip>
       </template>
 
       <v-tabs
