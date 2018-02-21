@@ -14,7 +14,7 @@
     <v-list class="no-bg dim">
       <v-list-tile>
         <v-list-tile-content>
-          <v-list-tile-title class="title white--text">{{ fullname }}</v-list-tile-title>
+          <v-list-tile-title class="title white--text">{{ $wrap.fullname($bus.session.user) }}</v-list-tile-title>
           <v-list-tile-sub-title class="grey--text text--lighten-3">{{ email }}</v-list-tile-sub-title>
         </v-list-tile-content>
       </v-list-tile>
@@ -26,13 +26,6 @@
 export default {
   name: 'nav-user',
   computed: {
-    fullname() {
-      let user = this.$bus.session.user
-      if (typeof user !== 'object' || user === null) {
-        return ''
-      }
-      return user.fname + ' ' + user.lname
-    },
     email() {
       let user = this.$bus.session.user
       if (typeof user !== 'object' || user === null) {
@@ -45,7 +38,7 @@ export default {
       if (typeof user !== 'object' || user === null) {
         return null
       }
-      if (typeof user.imgSrc !== 'string') {
+      if (typeof user.img_src !== 'string' || !user.img_src.length) {
         return {
           isImg: false,
           text: user.fname.charAt(0).toUpperCase()
@@ -53,7 +46,7 @@ export default {
       } 
       return {
         isImg: true,
-        text: user.imgSrc
+        text: user.img_src
       }
     }
   }

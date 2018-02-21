@@ -3,7 +3,7 @@
     <template v-if="loading">Loading...</template>
     <template v-else>
       <slot name="icon"/>
-      <div class="caption mb-2">{{ msg }}</div>
+      <div class="caption mb-2" v-html="msg"></div>
       <slot name="btn"/>
       <v-btn @click="fetch">Refresh</v-btn>
     </template>

@@ -57,9 +57,10 @@ export default new Router({
       }
     },
     {
-      path: '/profile',
+      path: '/profile/:id?',
       name: 'Profile',
       component: Profile,
+      props: true,
       meta: {
         auth: [10, 3, 4],
         icon: 'account_circle'

@@ -1,5 +1,6 @@
 export default {
   model: null,
   clipped: true,
-  miniVariant: false
+  miniVariant: false,
+  profile: false
 }

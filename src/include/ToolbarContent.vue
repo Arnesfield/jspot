@@ -6,7 +6,7 @@
     :fixed="false"
     class="primary lighten-1"
   >
-    <v-btn icon dark>
+    <v-btn icon dark @click="iconClick">
       <v-icon>{{ $route.meta.icon }}</v-icon>
     </v-btn>
     <v-toolbar-title v-text="title"></v-toolbar-title>
@@ -40,6 +40,13 @@ export default {
   computed: {
     title() {
       return this.$route.meta.title || this.$route.name || 'Application'
+    }
+  },
+  methods: {
+    iconClick() {
+      if (this.$route.name == 'Profile') {
+        this.$bus.nav.profile = !this.$bus.nav.profile
+      }
     }
   }
 }

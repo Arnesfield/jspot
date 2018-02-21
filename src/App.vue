@@ -11,16 +11,20 @@
     <navigation v-if="
       !exception && (authCheck || $bus.authHas($route.meta.auth, 10))
     "/>
-    <toolbar v-if="
-      !exception && (authCheck || $bus.authHas($route.meta.auth, 10))
-    "/>
     <v-content>
-      <toolbar-content v-if="authCheck"/>
+      <toolbar-content
+        v-if="
+          !exception && (authCheck || $bus.authHas($route.meta.auth, 10))
+        "
+      />
       <router-view/>
       <fab/>
       <dialog-delete/>
       <dialog-login/>
     </v-content>
+    <toolbar v-if="
+      !exception && (authCheck || $bus.authHas($route.meta.auth, 10))
+    "/>
     <snackbar/>
   </v-app>
 </template>

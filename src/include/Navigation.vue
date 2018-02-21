@@ -1,12 +1,15 @@
 <template>
 <v-navigation-drawer
-  app
+  :app="$route.name != 'Profile'"
   fixed
   :mini-variant="$bus.nav.miniVariant"
   :clipped="$bus.nav.clipped"
   v-model="$bus.nav.model"
-  tabindex="1"
   :temporary="$route.name == 'Profile'"
+  :style="
+    $route.name == 'Profile'
+    ? { 'max-height': '100%' } : null
+  "
 >
   <nav-user/>
   <v-list
@@ -132,6 +135,17 @@ export default {
   computed: {
     collapseText() {
       return this.$bus.nav.miniVariant ? 'Expand' : 'Collapse'
+    }
+  },
+
+  watch: {
+    '$route': function(to, from) {
+      if (to.name != 'Profile' && from.name == 'Profile') {
+        this.$bus.nav.model = false
+        setTimeout(() => {
+          this.$bus.navToggle()
+        }, 250)
+      }
     }
   },
 

@@ -19,6 +19,27 @@ class Users extends MY_Custom_Controller {
     ));
   }
 
+  public function profile() {
+    $id = $this->input->post('id');
+
+    if (!$id) {
+      $this->_json(FALSE);
+    }
+
+    // do not get admin
+    $users = $this->users_model->get(array(
+      'id' => $id,
+      'type !=' => 2
+    ));
+
+    if (!$users) {
+      $this->_json(FALSE);
+    }
+
+    $user = $users[0];
+    $this->_json(TRUE, 'user', $user);
+  }
+
   public function duplicateEmailCheck() {
     $email = $this->_filter($this->input->post('email'));
     $id = $this->input->post('id') ? $this->input->post('id') : FALSE;

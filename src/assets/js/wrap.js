@@ -65,5 +65,19 @@ export default {
       condition = e == 1
     }
     return condition ? 'Activated' : 'Deactivated'
+  },
+  fullname(user, mname) {
+    if (typeof user !== 'object' || user === null) {
+      return ''
+    }
+    if (typeof mname !== 'boolean') {
+      mname = true
+    }
+    
+    let fullname = user.fname + ' '
+    fullname += mname && user.mname ? user.mname + ' ' : ''
+    fullname += user.lname
+
+    return fullname
   }
 }

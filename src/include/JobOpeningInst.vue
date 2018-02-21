@@ -9,7 +9,7 @@
         <!-- job -->
 
         <v-list-tile>
-          <v-list-tile-action style="min-width: 42px; width: 42px">
+          <v-list-tile-action class="thin-action">
             <v-tooltip top>
               <v-icon slot="activator">person</v-icon>
               <span>Employer name</span>
@@ -25,7 +25,7 @@
         <!-- date -->
         
         <v-list-tile>
-          <v-list-tile-action style="min-width: 42px; width: 42px">
+          <v-list-tile-action class="thin-action">
             <v-tooltip top>
               <v-icon slot="activator">date_range</v-icon>
               <span>Work date</span>
@@ -41,7 +41,7 @@
         <!-- time -->
 
         <v-list-tile>
-          <v-list-tile-action style="min-width: 42px; width: 42px">
+          <v-list-tile-action class="thin-action">
             <v-tooltip top>
               <v-icon slot="activator">access_time</v-icon>
               <span>Work hours</span>
@@ -57,7 +57,7 @@
         <!-- age group -->
 
         <v-list-tile>
-          <v-list-tile-action style="min-width: 42px; width: 42px">
+          <v-list-tile-action class="thin-action">
             <v-tooltip top>
               <v-icon slot="activator">people</v-icon>
               <span>Age group</span>
@@ -175,3 +175,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.thin-action {
+  width: 42px;
+  min-width: 42px;
+}
+</style>
