@@ -91,5 +91,9 @@ export default {
       url = url.substring(0, url.indexOf('/'))
     }
     return 'https://www.google.com/s2/favicons?domain=' + url
+  },
+  localImg(url) {
+    // change this
+    return 'http://localhost/jspot/public/uploads/images/' + url
   }
 }

@@ -17,7 +17,7 @@
     </template>
     <template slot="items" slot-scope="props">
       <td>
-        <v-tooltip bottom>
+        <v-tooltip bottom v-if="props.item.type != 2">
           <router-link
             slot="activator"
             :to="'/profile/' + props.item.id"
@@ -25,6 +25,7 @@
           />
           <span>View profile</span>
         </v-tooltip>
+        <template v-else>{{ props.item.id }}</template>
       </td>
       <td>{{ props.item.email }}</td>
       <td>{{ props.item.fname }}</td>

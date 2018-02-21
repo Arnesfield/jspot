@@ -29,6 +29,9 @@ export default new Vue({
     },
     'dialog.global.delete': function(to, from) {
       this.$emit('dialog--global.delete', to, from)
+    },
+    'profile.listView': function(to, from) {
+      this.$emit('watch--profile.listView', to, from)
     }
   },
 

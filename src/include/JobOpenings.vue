@@ -10,9 +10,9 @@
     <v-subheader :key="'subheader-' + i">{{ t.title }}</v-subheader>
     <v-layout :key="'layout-' + i" row wrap>
       <v-flex
-        md4
+        :md4="!listView"
         xs12
-        sm6
+        :sm6="!listView"
         :key="i"
         v-for="(job, i) in jobs"
         v-if="Number(job.status) == t.n"
@@ -63,7 +63,8 @@ export default {
       { title: 'Hidden', n: 0 },
       { title: 'Hiring', n: 1 },
       { title: 'On hold', n: 2 }
-    ]
+    ],
+    listView: false
   }),
 
   watch: {
@@ -76,6 +77,10 @@ export default {
   },
 
   created() {
+    this.listView = this.$bus.profile.listView
+    this.$bus.$on('watch--profile.listView', (to, from) => {
+      this.listView = to
+    })
     this.fetch()
   },
 

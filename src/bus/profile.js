@@ -1,3 +1,4 @@
 export default {
-  type: null
+  type: null,
+  listView: false
 }

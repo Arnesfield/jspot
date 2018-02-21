@@ -3,7 +3,7 @@
     <v-container fluid class="no-bg dim pa-3">
       <v-avatar class="accent elevation-6">
         <template v-if="imgSrc">
-          <img v-if="imgSrc.isImg" :src="imgSrc.text" alt="avatar">
+          <img v-if="imgSrc.isImg" :src="$wrap.localImg(imgSrc.text)">
           <span v-else class="white--text headline">{{ imgSrc.text }}</span>
         </template>
         <template v-else>

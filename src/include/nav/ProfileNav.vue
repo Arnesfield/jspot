@@ -12,7 +12,7 @@
     <v-container fluid class="no-bg dim pa-5">
       <v-avatar class="mt-2 ml-4 primary lighten-1 elevation-4" size="204" style="position: absolute">
         <template v-if="imgSrc">
-          <img v-if="imgSrc.isImg" :src="imgSrc.text" alt="avatar">
+          <img v-if="imgSrc.isImg" :src="$wrap.localImg(imgSrc.text)">
           <span
             v-else
             class="white--text headline"

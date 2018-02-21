@@ -7,7 +7,8 @@ class Jobs_model extends MY_Custom_Model {
       ->select('
         j.*,
         u.fname AS creator_fname,
-        u.lname AS creator_lname
+        u.lname AS creator_lname,
+        u.img_src AS creator_img_src
       ')
       ->from('jobs j')
       ->join('users u', 'u.id = j.created_by')
