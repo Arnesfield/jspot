@@ -79,5 +79,17 @@ export default {
     fullname += user.lname
 
     return fullname
+  },
+  url(url) {
+    const pattern = /^https?:\/\/|^\/\//i
+    return pattern.test(url) ? url : 'https://' + url
+  },
+  urlImg(url) {
+    // trim protocol
+    url = url.replace(/(^\w+:|^)\/\//, '');
+    if (url.indexOf('/') > -1) {
+      url = url.substring(0, url.indexOf('/'))
+    }
+    return 'https://www.google.com/s2/favicons?domain=' + url
   }
 }

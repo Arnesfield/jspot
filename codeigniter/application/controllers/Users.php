@@ -37,6 +37,13 @@ class Users extends MY_Custom_Controller {
     }
 
     $user = $users[0];
+
+    // decode json and birthdate
+    $user['birthdate'] = $this->_formatDateToObj($user['birthdate']);
+    $user['places'] = json_decode($user['places'], TRUE);
+    $user['job_tags'] = json_decode($user['job_tags'], TRUE);
+    $user['socials'] = json_decode($user['socials'], TRUE);
+
     $this->_json(TRUE, 'user', $user);
   }
 

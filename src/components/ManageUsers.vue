@@ -16,7 +16,16 @@
       <manage-no-data :loading="loading" :fetch="fetch"/>
     </template>
     <template slot="items" slot-scope="props">
-      <td>{{ props.item.id }}</td>
+      <td>
+        <v-tooltip bottom>
+          <router-link
+            slot="activator"
+            :to="'/profile/' + props.item.id"
+            v-html="props.item.id"
+          />
+          <span>View profile</span>
+        </v-tooltip>
+      </td>
       <td>{{ props.item.email }}</td>
       <td>{{ props.item.fname }}</td>
       <td>{{ props.item.lname }}</td>

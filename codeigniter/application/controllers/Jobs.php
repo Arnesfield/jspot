@@ -8,16 +8,22 @@ class Jobs extends MY_Custom_Controller {
   }
 
   public function index() {
-    $jobs = $this->jobs_model->get();
+    $id = $this->input->post('id') ? $this->input->post('id') : FALSE;
+    $jobs = $this->jobs_model->get($id, array('j.status !=' => 0));
+    
 
-    // format date
+    // format date and json string
     foreach ($jobs as $key => $job) {
-      $jobs[$key]['dateFrom'] = $this->_formatDateToObj($job['dateFrom']);
-      $jobs[$key]['dateTo'] = $this->_formatDateToObj($job['dateTo']);
+      $jobs[$key]['dateFrom'] = strtotime($job['dateFrom']);
+      $jobs[$key]['dateTo'] = strtotime($job['dateTo']);
+      $jobs[$key]['location'] = json_decode($job['location'], TRUE);
+      $jobs[$key]['job_tags'] = json_decode($job['job_tags'], TRUE);
+      $jobs[$key]['age_group'] = json_decode($job['age_group'], TRUE);
     }
 
     $this->_json(TRUE, array(
-      'jobs' => $jobs
+      'jobs' => $jobs,
+      'id' => $id
     ));
   }
 

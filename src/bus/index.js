@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import nav from './nav'
 import fab from './fab'
+import tabs from './tabs'
 import dialog from './dialog'
+import profile from './profile'
 import session from './session'
 import progress from './progress'
 import settings from './settings'
@@ -10,7 +12,9 @@ export default new Vue({
   data: () => ({
     nav: nav,
     fab: fab,
+    tabs: tabs,
     dialog: dialog,
+    profile: profile,
     session: session,
     progress: progress,
     settings: settings

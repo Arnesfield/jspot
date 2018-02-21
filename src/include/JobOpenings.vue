@@ -1,7 +1,7 @@
 <template>
 <v-container
   :style="!jobs.length ? {
-    'height': 'calc(100% - 64px)',
+    'height': '100%',
     'display': 'flex'
   } : null"
   v-bind="{ ['grid-list-' + size]: true }"
@@ -27,39 +27,35 @@
       <manage-no-data
         :loading="loading"
         :fetch="fetch"
-        msg="You have not made any job openings :("
+        msg="No job openings :("
       >
         <div slot="icon" class="mb-3">
           <v-icon size="64px">work</v-icon>
         </div>
-        <v-btn
-          color="primary"
-          slot="btn"
-          @click="$bus.$emit('add--job-opening')"
-        >Create</v-btn>
       </manage-no-data>
     </v-layout>
   </template>
-
-  <dialog-job-opening/>
 
 </v-container>
 </template>
 
 <script>
-import DialogJobOpening from '@/include/dialogs/DialogJobOpening'
 import JobOpeningInst from '@/include/JobOpeningInst'
 import ManageNoData from '@/include/ManageNoData'
+import qs from 'qs'
 
 export default {
-  name: 'my-job-openings',
+  name: 'job-openings',
+  props: {
+    user: Object,
+    value: Boolean
+  },
   components: {
-    DialogJobOpening,
     JobOpeningInst,
     ManageNoData
   },
   data: () => ({
-    url: '/jobs/my',
+    url: '/jobs',
     jobs: [],
     loading: false,
     size: 'lg',
@@ -71,22 +67,19 @@ export default {
   }),
 
   watch: {
-    loading(e) {
-      this.$bus.progress.circular.MyJobOpenings.refresh = e
+    user(e) {
+      this.fetch()
+    },
+    jobs(e) {
+      this.$emit('input', e.length == 0)
     }
   },
 
   created() {
-    this.$bus.$on('add--job-opening', this.addJobOpening)
-    this.$bus.$on('update--my-job-openings', this.fetch)
     this.fetch()
   },
 
   methods: {
-    addJobOpening() {
-      this.$bus.$emit('dialog--job-opening.add')
-    },
-
     countItems(n) {
       // check items with status n
       // return the length
@@ -94,15 +87,22 @@ export default {
     },
 
     fetch() {
+      if (!this.user) {
+        this.jobs = []
+        return
+      }
+
+      let id = this.user.id
       this.loading = true
-      this.$http.post(this.url).then(res => {
+      this.$http.post(this.url, qs.stringify({
+        id: id
+      })).then(res => {
         console.error(res.data)
         if (!res.data.success) {
           throw new Error('Request failure.')
         }
-
-        this.jobs = res.data.jobs
         this.loading = false
+        this.jobs = res.data.jobs
       }).catch(e => {
         console.error(e)
         this.loading = false

@@ -10,6 +10,14 @@
       class="pl-0"
     >
       <v-list-tile-action>
+        <v-avatar size="24" tile>
+          <img :src="$wrap.urlImg(link)">
+        </v-avatar>
+      </v-list-tile-action>
+      <v-list-tile-content>
+        <a :href="$wrap.url(link)" target="1">{{ link }}</a>
+      </v-list-tile-content>
+      <v-list-tile-action>
         <v-btn
           icon
           :disabled="disabled"
@@ -18,9 +26,6 @@
           <v-icon>close</v-icon>
         </v-btn>
       </v-list-tile-action>
-      <v-list-tile-content>
-        <a :href="wrapUrl(link)" target="1">{{ link }}</a>
-      </v-list-tile-content>
     </v-list-tile>
   </v-list>
 
@@ -64,11 +69,6 @@ export default {
   },
 
   methods: {
-    wrapUrl(url) {
-      const pattern = /^https?:\/\/|^\/\//i
-      return pattern.test(url) ? url : 'https://' + url
-    },
-
     addLink() {
       if (!this.link) {
         return

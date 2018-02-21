@@ -4,7 +4,7 @@
     <div>
       <div class="headline mb-1">{{ item.title }}</div>
       <div class="grey--text">{{ item.description }}</div>
-      <v-list dense>
+      <v-list dense class="pb-0">
         
         <!-- job -->
 
@@ -12,13 +12,17 @@
           <v-list-tile-action class="thin-action">
             <v-tooltip top>
               <v-icon slot="activator">person</v-icon>
-              <span>Employer name</span>
+              <span>Employer</span>
             </v-tooltip>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title
-              v-text="item.creator_fname + ' ' + item.creator_lname"
-            />
+            <v-list-tile-title>
+              <router-link
+                slot="activator"
+                :to="'/profile/' + item.created_by"
+                v-text="item.creator_fname + ' ' + item.creator_lname"
+              />
+            </v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
 
@@ -69,9 +73,24 @@
             />
           </v-list-tile-content>
         </v-list-tile>
-
       </v-list>
-      <div class="subheading"></div>
+
+      <!-- location -->
+
+      <v-layout class="py-1">
+        <v-flex xs2>
+          <v-icon size="21.6px" class="px-3">location_on</v-icon>
+        </v-flex>
+        <v-flex xs8>
+          <template v-for="(place, i) in item.location">
+            <span
+              :key="i"
+              class="body-1"
+            >{{ place }}</span>{{ i != item.location.length-1 ? ', ' : '' }}
+          </template>
+        </v-flex>
+      </v-layout>
+
       <div>
         <v-chip :key="i-1" v-for="i in (item.job_tags.length > 10 ? 10 : item.job_tags.length)">
           {{ item.job_tags[i-1] }}
@@ -88,13 +107,13 @@
         </v-btn>
         <span>View detailed</span>
       </v-tooltip>
-      <v-tooltip top v-if="$bus.session.user.id == item.created_by">
+      <v-tooltip top v-if="isLogged && $bus.session.user.id == item.created_by">
         <v-btn icon slot="activator">
           <v-icon color="grey">edit</v-icon>
         </v-btn>
         <span>Edit</span>
       </v-tooltip>
-      <v-tooltip top v-if="$bus.session.user.id == item.created_by">
+      <v-tooltip top v-if="isLogged && $bus.session.user.id == item.created_by">
         <v-btn icon slot="activator" @click="deleteItem(item)">
           <v-icon color="grey">delete</v-icon>
         </v-btn>
@@ -104,13 +123,21 @@
     <v-spacer/>
     <status :item="item"/>
     <v-tooltip top v-if="
-      $bus.session.user.id != item.created_by
+      isLogged
+      && $bus.session.user.id != item.created_by
+      && $bus.session.user.type != 2
       && item.status == 1
     ">
       <v-btn icon slot="activator">
         <v-icon color="primary">arrow_forward</v-icon>
       </v-btn>
       <span>Apply</span>
+    </v-tooltip>
+    <v-tooltip top v-else-if="!isLogged && item.status == 1">
+      <v-btn icon slot="activator" disabled>
+        <v-icon color="primary">arrow_forward</v-icon>
+      </v-btn>
+      <span>Log in to apply!</span>
     </v-tooltip>
   </v-card-actions>
 </v-card>
@@ -129,6 +156,11 @@ export default {
     item: {
       type: Object,
       default: null
+    }
+  },
+  computed: {
+    isLogged() {
+      return this.$bus.session.user !== null
     }
   },
 

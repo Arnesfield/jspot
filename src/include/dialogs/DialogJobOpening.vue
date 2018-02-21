@@ -225,7 +225,7 @@ export default {
         location: JSON.stringify(this.location),
         job_tags: JSON.stringify(this.job_tags)
       })).then(res => {
-        console.error(res)
+        console.error(res.data)
         if (!res.data.success) {
           throw new Error('Request failure.')
         }

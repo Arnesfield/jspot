@@ -4,34 +4,49 @@
     :user="user"
     :editable="editable"
   />
-  <v-container
-    :style="!user ? {
-      'height': 'calc(100% - 64px)',
-      'display': 'flex'
+  <v-container v-if="!user" style="height: calc(100% - 64px); display: flex">
+    <v-layout justify-center align-center>
+      <manage-no-data
+        :loading="loading"
+        :fetch="() => { fetch(id) }"
+        msg="Unable to load user profile :(<br/>User might not exist."
+      >
+        <div slot="icon" class="mb-3">
+          <v-icon size="64px">account_circle</v-icon>
+        </div>
+      </manage-no-data>
+    </v-layout>
+  </v-container>
+
+  <v-tabs-items
+    v-model="$bus.tabs.profile"
+    :style="jobOpenings ? {
+      'height': 'calc(100% - 128px)'
     } : null"
   >
+    <v-tab-item
+      :style="jobOpenings ? {
+        'height': '100%'
+      } : null"
+    >
+      <!-- tab items for employer -->
+      <template v-if="$bus.profile.type == 3">
+        <job-openings v-model="jobOpenings" :user="user"/>
+      </template>
+      <!-- tab items for employee -->
+      <template v-if="$bus.profile.type == 4">
+        Test
+      </template>
+    </v-tab-item>
+  </v-tabs-items>
 
-    <template v-if="!user">
-      <v-layout justify-center align-center>
-        <manage-no-data
-          :loading="loading"
-          :fetch="() => { fetch(id) }"
-          msg="Unable to load user profile :(<br/>User might not exist."
-        >
-          <div slot="icon" class="mb-3">
-            <v-icon size="64px">account_circle</v-icon>
-          </div>
-        </manage-no-data>
-      </v-layout>
-    </template>
-
-  </v-container>
 </span>
 </template>
 
 <script>
 import ProfileNav from '@/include/nav/ProfileNav'
 import ManageNoData from '@/include/ManageNoData'
+import JobOpenings from '@/include/JobOpenings'
 import qs from 'qs'
 
 export default {
@@ -41,12 +56,14 @@ export default {
   },
   components: {
     ProfileNav,
-    ManageNoData
+    ManageNoData,
+    JobOpenings
   },
   data: () => ({
     url: '/users/profile',
     user: null,
     loading: false,
+    jobOpenings: true
   }),
   computed: {
     editable() {
@@ -65,6 +82,9 @@ export default {
     }
   },
   watch: {
+    user(e) {
+      this.$bus.profile.type = e ? e.type : null
+    },
     id(to, from) {
       if (to != from) {
         this.checkAuth()

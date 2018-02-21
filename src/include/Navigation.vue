@@ -140,11 +140,15 @@ export default {
 
   watch: {
     '$route': function(to, from) {
+      if (to.name == 'Profile') {
+        // also reset tabs
+        this.$bus.tabs.profile = '0'
+      }
       if (to.name != 'Profile' && from.name == 'Profile') {
         this.$bus.nav.model = false
         setTimeout(() => {
           this.$bus.navToggle()
-        }, 250)
+        }, 100)
       }
     }
   },
