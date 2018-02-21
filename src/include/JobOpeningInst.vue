@@ -125,7 +125,7 @@
 
         <!-- location -->
 
-        <v-layout class="py-2 mx-3">
+        <v-layout class="py-2 mx-3" v-if="item.location && item.location.length">
           <div>
             <v-icon size="21.6px">location_on</v-icon>
           </div>
