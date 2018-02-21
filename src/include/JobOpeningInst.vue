@@ -16,7 +16,7 @@
               <v-icon v-if="dSlim" color="grey">visibility</v-icon>
               <v-icon v-else color="grey">visibility_off</v-icon>
             </v-btn>
-            <span v-if="dSlim">Peak details</span>
+            <span v-if="dSlim">Peak few details</span>
             <span v-else>Unpeak details</span>
           </v-tooltip>
           <v-tooltip top v-if="isLogged && $bus.session.user.id == item.created_by">
@@ -138,17 +138,17 @@
             <v-icon size="21.6px">location_on</v-icon>
           </div>
           <div class="px-3">
-            <template v-for="(place, i) in item.location">
+            <template v-for="i in totalVisibleLocation(item)">
               <span
-                :key="i"
+                :key="i-1"
                 class="body-1"
-              >{{ place }}</span>{{ i != item.location.length-1 ? ', ' : '' }}
+              >{{ item.location[i-1] }}</span>{{ i-1 != totalVisibleLocation(item)-1 ? ', ' : '' }}
             </template>
           </div>
         </v-layout>
 
         <div>
-          <v-chip :key="i-1" v-for="i in (item.job_tags.length > totalVisibleTags ? totalVisibleTags : item.job_tags.length)">
+          <v-chip :key="i-1" v-for="i in totalVisibleTags(item)">
             {{ item.job_tags[i-1] }}
           </v-chip>
         </div>
@@ -188,8 +188,8 @@ export default {
   },
 
   computed: {
-    totalVisibleTags() {
-      return this.dSlim ? 5 : 10
+    totalVisible() {
+      return this.dSlim ? 2 : 5
     },
     isLogged() {
       return this.$bus.session.user !== null
@@ -213,6 +213,15 @@ export default {
   },
 
   methods: {
+    totalVisibleLocation(item) {
+      return item.location.length > this.totalVisible
+        ? this.totalVisible : item.location.length
+    },
+    totalVisibleTags(item) {
+      return item.job_tags.length > this.totalVisible
+        ? this.totalVisible : item.job_tags.length
+    },
+
     deleteItem(item) {
       this.$bus.$emit('dialog--delete.show', {
         item: item,
