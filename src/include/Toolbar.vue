@@ -6,7 +6,10 @@
     color="primary"
   >
     <v-toolbar-side-icon @click.stop="$bus.navToggle"/>
-    <v-toolbar-title>JSpot</v-toolbar-title>
+    <v-toolbar-title
+      @click="$router.push('/')"
+      class="clickable"
+    >JSpot</v-toolbar-title>
   </v-toolbar>
 </template>
 
