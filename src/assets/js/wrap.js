@@ -4,17 +4,17 @@ const leadZero = (num) => (num < 10 ? '0' : '') + num
 const shortMonth = (month) => month.substring(0, 3)
 
 let _date = function(e) {
-  let date = new Date(e * 1000)
-  
-  let year = date.getFullYear()
-  let month = shortMonth(monthNames[date.getMonth()])
-  let day = leadZero(date.getDay())
+  let date = new Date((Number(e) + 24*60*60) * 1000)
+
+  let year = date.getUTCFullYear()
+  let month = shortMonth(monthNames[date.getUTCMonth()])
+  let day = leadZero(date.getUTCDate())
   
   return month + ' ' + day + ', ' + year
 }
 
 let _time = function(e) {
-  let date = new Date(e * 1000)
+  let date = new Date((Number(e) + 24*60*60) * 1000)
 
   let hours = leadZero(date.getHours())
   let mins = leadZero(date.getMinutes())
@@ -27,10 +27,9 @@ export default {
   date: (e) => _date(e),
   time: (e) => _time(e),
   datetime(e) {
-    let rawDate = new Date(e * 1000)
 
-    let date = _date(rawDate);
-    let time = _time(rawDate);
+    let date = _date(e);
+    let time = _time(e);
 
     return date + ' ' + time
   },

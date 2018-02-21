@@ -6,6 +6,9 @@ export default {
     },
     MyJobOpenings: {
       refresh: false
+    },
+    JobOpenings: {
+      refresh: false
     }
   }
 }
