@@ -17,7 +17,7 @@
         v-for="(job, i) in jobs"
         v-if="Number(job.status) == t.n"
       >
-        <job-opening-inst :item='job'/>
+        <job-opening-inst :item='job' slim/>
       </v-flex>
     </v-layout>
   </template>
@@ -32,14 +32,23 @@
         <div slot="icon" class="mb-3">
           <v-icon size="64px">work</v-icon>
         </div>
+        <v-btn
+          v-if="$bus.session.user.id == user.id"
+          color="primary"
+          slot="btn"
+          @click="$bus.$emit('add--job-opening')"
+        >Create</v-btn>
       </manage-no-data>
     </v-layout>
   </template>
+
+  <dialog-job-opening v-if="$bus.session.user.id == user.id"/>
 
 </v-container>
 </template>
 
 <script>
+import DialogJobOpening from '@/include/dialogs/DialogJobOpening'
 import JobOpeningInst from '@/include/JobOpeningInst'
 import ManageNoData from '@/include/ManageNoData'
 import qs from 'qs'
@@ -51,6 +60,7 @@ export default {
     value: Boolean
   },
   components: {
+    DialogJobOpening,
     JobOpeningInst,
     ManageNoData
   },
@@ -81,10 +91,16 @@ export default {
     this.$bus.$on('watch--profile.listView', (to, from) => {
       this.listView = to
     })
+    this.$bus.$on('add--job-opening', this.addJobOpening)
+    this.$bus.$on('update--my-job-openings', this.fetch)
     this.fetch()
   },
 
   methods: {
+    addJobOpening() {
+      this.$bus.$emit('dialog--job-opening.add')
+    },
+
     countItems(n) {
       // check items with status n
       // return the length

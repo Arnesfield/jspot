@@ -11,6 +11,14 @@
             </v-btn>
             <span>View detailed</span>
           </v-tooltip>
+          <v-tooltip top>
+            <v-btn icon slot="activator" @click="dSlim = !dSlim">
+              <v-icon v-if="dSlim" color="grey">visibility</v-icon>
+              <v-icon v-else color="grey">visibility_off</v-icon>
+            </v-btn>
+            <span v-if="dSlim">Peak details</span>
+            <span v-else>Unpeak details</span>
+          </v-tooltip>
           <v-tooltip top v-if="isLogged && $bus.session.user.id == item.created_by">
             <v-btn icon slot="activator">
               <v-icon color="grey">edit</v-icon>
@@ -46,7 +54,7 @@
       
       <v-flex class="pa-3">
         <div class="headline mb-1">{{ item.title }}</div>
-        <div class="grey--text">{{ item.description }}</div>
+        <div v-if="!dSlim" class="grey--text">{{ item.description }}</div>
         <v-list dense class="pb-0">
           
           <!-- job -->
@@ -92,7 +100,7 @@
 
           <!-- time -->
 
-          <v-list-tile>
+          <v-list-tile v-if="!dSlim">
             <v-list-tile-action class="thin-action">
               <v-tooltip top>
                 <v-icon slot="activator">access_time</v-icon>
@@ -108,7 +116,7 @@
 
           <!-- age group -->
 
-          <v-list-tile>
+          <v-list-tile v-if="!dSlim">
             <v-list-tile-action class="thin-action">
               <v-tooltip top>
                 <v-icon slot="activator">people</v-icon>
@@ -140,7 +148,7 @@
         </v-layout>
 
         <div>
-          <v-chip :key="i-1" v-for="i in (item.job_tags.length > 10 ? 10 : item.job_tags.length)">
+          <v-chip :key="i-1" v-for="i in (item.job_tags.length > totalVisibleTags ? totalVisibleTags : item.job_tags.length)">
             {{ item.job_tags[i-1] }}
           </v-chip>
         </div>
@@ -165,9 +173,24 @@ export default {
     item: {
       type: Object,
       default: null
+    },
+    slim: {
+      type: Boolean,
+      default: false
     }
   },
+  data: () => ({
+    dSlim: false
+  }),
+
+  created() {
+    this.dSlim = this.slim ? true : false
+  },
+
   computed: {
+    totalVisibleTags() {
+      return this.dSlim ? 5 : 10
+    },
     isLogged() {
       return this.$bus.session.user !== null
     },
