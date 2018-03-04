@@ -3,11 +3,14 @@ import monthNames from './months'
 const leadZero = (num) => (num < 10 ? '0' : '') + num
 const shortMonth = (month) => month.substring(0, 3)
 
-let _date = function(e) {
+let _date = function(e, short) {
+  short = typeof short === 'boolean' ? short : true
+
   let date = new Date((Number(e) + 24*60*60) * 1000)
 
   let year = date.getUTCFullYear()
-  let month = shortMonth(monthNames[date.getUTCMonth()])
+  let temp = monthNames[date.getUTCMonth()]
+  let month = short ? shortMonth(temp) : temp
   let day = leadZero(date.getUTCDate())
   
   return month + ' ' + day + ', ' + year
@@ -24,13 +27,11 @@ let _time = function(e) {
 }
 
 export default {
-  date: (e) => _date(e),
+  date: (e, short) => _date(e, short),
   time: (e) => _time(e),
-  datetime(e) {
-
-    let date = _date(e);
-    let time = _time(e);
-
+  datetime(e, short) {
+    let date = _date(e, short)
+    let time = _time(e)
     return date + ' ' + time
   },
   HMSToHM(e) {
@@ -94,5 +95,16 @@ export default {
   localImg(url) {
     // change this
     return 'http://localhost/jspot/public/uploads/images/' + url
+  },
+  fileSize(num) {
+    let n = Number(num)
+    if (n >= 1000 * 1000 * 1000) {
+      return (n / 1000 / 1000 / 1000).toFixed(2) + ' GB'
+    } else if (n >= 1000 * 1000) {
+      return (n / 1000 / 1000).toFixed(2) + ' MB'
+    } else if (n >= 1000) {
+      return (n / 1000).toFixed(2) + ' KB'
+    }
+    return n + ' bytes'
   }
 }

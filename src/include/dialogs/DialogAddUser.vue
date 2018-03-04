@@ -413,7 +413,7 @@ export default {
         mode: this.mode,
         settings: this.settings
       })).then((res) => {
-        console.error(res.data)
+        console.warn(res.data)
         if (!res.data.success) {
           throw new Error('Request failure.')
         }

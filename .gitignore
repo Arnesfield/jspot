@@ -20,3 +20,7 @@ yarn-error.log*
 # Ignore images
 /public/uploads/images/*
 !/public/uploads/images/.gitkeep
+
+# Ignore job attachment files
+/public/uploads/attach/*
+!/public/uploads/attach/.gitkeep

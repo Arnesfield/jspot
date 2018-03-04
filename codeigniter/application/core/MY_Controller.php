@@ -133,6 +133,30 @@ class MY_Custom_Controller extends MY_View_Controller {
       'year' => $year
     );
   }
+
+  public function _uploadImage($file_name, $path = 'uploads/attach/') {
+    $config = array(
+      'upload_path' => './../'.$path,
+      'allowed_types' => 'jpg|png|pdf',
+      'max_size' => 5*1024,
+      'file_name' => 'F_' . time()
+    );
+
+    $this->load->library('upload', $config);
+
+    if (!$this->upload->do_upload($file_name)) {
+      $error = $this->upload->display_errors();
+      return array(
+        'success' => FALSE,
+        'error' => $error
+      );
+    }
+
+    return array(
+      'success' => TRUE,
+      'data' => $this->upload->data()
+    );
+  }
 }
 
 ?>

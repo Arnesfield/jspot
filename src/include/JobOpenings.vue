@@ -17,7 +17,11 @@
         v-for="(job, i) in jobs"
         v-if="Number(job.status) == t.n"
       >
-        <job-opening-inst :item='job' slim/>
+        <job-opening-inst
+          slim
+          :item='job'
+          @apply="apply"
+        />
       </v-flex>
     </v-layout>
   </template>
@@ -43,11 +47,13 @@
   </template>
 
   <dialog-job-opening v-if="$bus.session.user.id == user.id"/>
+  <dialog-job-apply @success="fetch"/>
 
 </v-container>
 </template>
 
 <script>
+import DialogJobApply from '@/include/dialogs/DialogJobApply'
 import DialogJobOpening from '@/include/dialogs/DialogJobOpening'
 import JobOpeningInst from '@/include/JobOpeningInst'
 import ManageNoData from '@/include/ManageNoData'
@@ -60,6 +66,7 @@ export default {
     value: Boolean
   },
   components: {
+    DialogJobApply,
     DialogJobOpening,
     JobOpeningInst,
     ManageNoData
@@ -100,6 +107,10 @@ export default {
   },
 
   methods: {
+    apply(job) {
+      this.$bus.$emit('dialog--job.apply', job)
+    },
+
     addJobOpening() {
       this.$bus.$emit('dialog--job-opening.add')
     },
@@ -121,7 +132,7 @@ export default {
       this.$http.post(this.url, qs.stringify({
         id: id
       })).then(res => {
-        console.error(res.data)
+        console.warn(res.data)
         if (!res.data.success) {
           throw new Error('Request failure.')
         }

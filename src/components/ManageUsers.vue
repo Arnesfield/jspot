@@ -142,7 +142,7 @@ export default {
           this.$http.post('/users/delete', qs.stringify({
             id: item.id
           })).then((res) => {
-            console.error(res.data)
+            console.warn(res.data)
             if (!res.data.success) {
               throw new Error('Request failure.')
             }
@@ -175,7 +175,7 @@ export default {
     fetch() {
       this.loading = true
       this.$http.post(this.url).then((res) => {
-        console.error(res.data)
+        console.warn(res.data)
         if (!res.data.success) {
           throw new Error('Request failure.')
         }

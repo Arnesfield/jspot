@@ -36,9 +36,35 @@
   cursor: pointer;
 }
 
+.thin-32 {
+  width: 32px;
+  min-width: 32px;
+}
+
+.thin-40 {
+  width: 40px;
+  min-width: 40px;
+}
+
+.thin-42 {
+  width: 42px;
+  min-width: 42px;
+}
+
+.thin-48 {
+  width: 48px;
+  min-width: 48px;
+}
+
 /* override */
 .multi-line-textarea textarea {
   min-height: 32px;
   height: 64px;
   max-height: 256px;
+}
+
+/* for offline purposes only */
+.material-icons {
+  /* visibility: hidden;
+  width: 24px; */
 }

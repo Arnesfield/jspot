@@ -6,15 +6,9 @@
         <status :item="item"/>
         <span>
           <v-tooltip top>
-            <v-btn icon slot="activator">
-              <v-icon color="grey">info</v-icon>
-            </v-btn>
-            <span>View detailed</span>
-          </v-tooltip>
-          <v-tooltip top>
             <v-btn icon slot="activator" @click="dSlim = !dSlim">
-              <v-icon v-if="dSlim" color="grey">visibility</v-icon>
-              <v-icon v-else color="grey">visibility_off</v-icon>
+              <v-icon v-if="dSlim" color="grey">info</v-icon>
+              <v-icon v-else color="grey">info_outline</v-icon>
             </v-btn>
             <span v-if="dSlim">Peak few details</span>
             <span v-else>Unpeak details</span>
@@ -39,7 +33,12 @@
           && $bus.session.user.type != 2
           && item.status == 1
         ">
-          <v-btn icon slot="activator">
+          <v-btn
+            icon
+            slot="activator"
+            @click="$emit('apply', item)"
+            @keypress.enter="$emit('apply', item)"
+          >
             <v-icon color="primary">arrow_forward</v-icon>
           </v-btn>
           <span>Apply</span>
@@ -60,7 +59,7 @@
           <!-- job -->
 
           <v-list-tile>
-            <v-list-tile-action class="thin-action">
+            <v-list-tile-action class="thin-42">
               <v-tooltip top>
                 <template v-if="imgSrc && imgSrc.isImg">
                   <v-avatar slot="activator" size="24">
@@ -85,7 +84,7 @@
           <!-- date -->
           
           <v-list-tile>
-            <v-list-tile-action class="thin-action">
+            <v-list-tile-action class="thin-42">
               <v-tooltip top>
                 <v-icon slot="activator">date_range</v-icon>
                 <span>Work date</span>
@@ -101,7 +100,7 @@
           <!-- time -->
 
           <v-list-tile v-if="!dSlim">
-            <v-list-tile-action class="thin-action">
+            <v-list-tile-action class="thin-42">
               <v-tooltip top>
                 <v-icon slot="activator">access_time</v-icon>
                 <span>Work hours</span>
@@ -117,7 +116,7 @@
           <!-- age group -->
 
           <v-list-tile v-if="!dSlim">
-            <v-list-tile-action class="thin-action">
+            <v-list-tile-action class="thin-42">
               <v-tooltip top>
                 <v-icon slot="activator">people</v-icon>
                 <span>Age group</span>
@@ -135,14 +134,17 @@
 
         <v-layout class="py-2 mx-3" v-if="item.location && item.location.length">
           <div>
-            <v-icon size="21.6px">location_on</v-icon>
+            <v-tooltip top>
+              <v-icon slot="activator" size="21.6px">location_on</v-icon>
+              <span>Age group</span>
+            </v-tooltip>
           </div>
           <div class="px-3">
             <template v-for="i in totalVisibleLocation(item)">
               <span
                 :key="i-1"
                 class="body-1"
-              >{{ item.location[i-1] }}</span>{{ i-1 != totalVisibleLocation(item)-1 ? ', ' : '' }}
+              >{{ item.location[i-1] }}</span>{{ i-1 != totalVisibleLocation(item)-1 ? ',' : '' }}
             </template>
           </div>
         </v-layout>
@@ -232,7 +234,7 @@ export default {
           this.$http.post('/jobs/delete', qs.stringify({
             id: item.id
           })).then((res) => {
-            console.error(res.data)
+            console.warn(res.data)
             if (!res.data.success) {
               throw new Error('Request failure.')
             }
@@ -264,10 +266,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.thin-action {
-  width: 42px;
-  min-width: 42px;
-}
-</style>

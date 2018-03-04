@@ -45,7 +45,7 @@
       <v-divider/>
 
       <v-list-tile>
-        <v-list-tile-action class="thin-action">
+        <v-list-tile-action class="thin-48">
           <v-icon v-if="user.type == 3">person</v-icon>
           <v-icon v-else-if="user.type == 4">person_outline</v-icon>
         </v-list-tile-action>
@@ -55,7 +55,7 @@
       </v-list-tile>
 
       <v-list-tile>
-        <v-list-tile-action class="thin-action">
+        <v-list-tile-action class="thin-48">
           <v-icon>email</v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
@@ -64,7 +64,7 @@
       </v-list-tile>
 
       <v-list-tile>
-        <v-list-tile-action class="thin-action">
+        <v-list-tile-action class="thin-48">
           <v-icon>phone</v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
@@ -125,7 +125,7 @@
           :key="i"
           v-for="(link, i) in user.socials"
         >
-          <v-list-tile-avatar class="thin-action">
+          <v-list-tile-avatar class="thin-48">
             <v-avatar size="24" tile>
               <img :src="$wrap.urlImg(link)">
             </v-avatar>
@@ -185,15 +185,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.thin-action {
-  width: 48px;
-  min-width: 48px;
-}
-
-.thinner-action {
-  width: 40px;
-  min-width: 40px;
-}
-</style>
