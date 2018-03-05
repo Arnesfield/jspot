@@ -17,7 +17,10 @@
         v-for="(job, i) in jobs"
         v-if="Number(job.status) == t.n"
       >
-        <job-opening-inst :item='job'/>
+        <job-opening-inst
+          :item='job'
+          @view="viewJob"
+        />
       </v-flex>
     </v-layout>
   </template>
@@ -42,11 +45,13 @@
   </template>
 
   <dialog-job-opening/>
+  <dialog-job-apply/>
 
 </v-container>
 </template>
 
 <script>
+import DialogJobApply from '@/include/dialogs/DialogJobApply'
 import DialogJobOpening from '@/include/dialogs/DialogJobOpening'
 import JobOpeningInst from '@/include/JobOpeningInst'
 import ManageNoData from '@/include/ManageNoData'
@@ -54,6 +59,7 @@ import ManageNoData from '@/include/ManageNoData'
 export default {
   name: 'my-job-openings',
   components: {
+    DialogJobApply,
     DialogJobOpening,
     JobOpeningInst,
     ManageNoData
@@ -85,6 +91,9 @@ export default {
   methods: {
     addJobOpening() {
       this.$bus.$emit('dialog--job-opening.add')
+    },
+    viewJob(job, viewOnly) {
+      this.$bus.$emit('dialog--job.apply', job, viewOnly)
     },
 
     countItems(n) {

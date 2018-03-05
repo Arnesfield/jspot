@@ -21,6 +21,8 @@
           slim
           :item='job'
           @apply="apply"
+          @view="viewJob"
+          :appliedIds="appliedIds"
         />
       </v-flex>
     </v-layout>
@@ -37,7 +39,7 @@
           <v-icon size="64px">work</v-icon>
         </div>
         <v-btn
-          v-if="$bus.session.user.id == user.id"
+          v-if="$bus.session.user && $bus.session.user.id == user.id"
           color="primary"
           slot="btn"
           @click="$bus.$emit('add--job-opening')"
@@ -46,7 +48,7 @@
     </v-layout>
   </template>
 
-  <dialog-job-opening v-if="$bus.session.user.id == user.id"/>
+  <dialog-job-opening v-if="$bus.session.user && $bus.session.user.id == user.id"/>
   <dialog-job-apply @success="fetch"/>
 
 </v-container>
@@ -62,7 +64,10 @@ import qs from 'qs'
 export default {
   name: 'job-openings',
   props: {
-    user: Object,
+    user: {
+      type: Object,
+      default: null
+    },
     value: Boolean
   },
   components: {
@@ -74,6 +79,7 @@ export default {
   data: () => ({
     url: '/jobs',
     jobs: [],
+    appliedIds: [],
     loading: false,
     size: 'lg',
     types: [
@@ -110,6 +116,9 @@ export default {
     apply(job) {
       this.$bus.$emit('dialog--job.apply', job)
     },
+    viewJob(job, viewOnly) {
+      this.$bus.$emit('dialog--job.apply', job, viewOnly)
+    },
 
     addJobOpening() {
       this.$bus.$emit('dialog--job-opening.add')
@@ -122,14 +131,13 @@ export default {
     },
 
     fetch() {
-      if (!this.user) {
-        this.jobs = []
-        return
+      let id = 0
+      if (this.user !== null) {
+        id = this.user.id
       }
 
-      let id = this.user.id
       this.loading = true
-      this.$http.post(this.url, qs.stringify({
+      this.$http.post(this.url, !this.user ? undefined : qs.stringify({
         id: id
       })).then(res => {
         console.warn(res.data)
@@ -138,6 +146,7 @@ export default {
         }
         this.loading = false
         this.jobs = res.data.jobs
+        this.appliedIds = res.data.appliedIds
       }).catch(e => {
         console.error(e)
         this.loading = false

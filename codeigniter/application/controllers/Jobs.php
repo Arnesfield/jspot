@@ -7,11 +7,7 @@ class Jobs extends MY_Custom_Controller {
     $this->load->model('jobs_model');
   }
 
-  public function index() {
-    $id = $this->input->post('id') ? $this->input->post('id') : FALSE;
-    $jobs = $this->jobs_model->get($id, array('j.status !=' => 0));
-    
-
+  private function _formatJobsArray($jobs) {
     // format date and json string
     foreach ($jobs as $key => $job) {
       $jobs[$key]['dateFrom'] = strtotime($job['dateFrom']);
@@ -20,10 +16,32 @@ class Jobs extends MY_Custom_Controller {
       $jobs[$key]['job_tags'] = json_decode($job['job_tags'], TRUE);
       $jobs[$key]['age_group'] = json_decode($job['age_group'], TRUE);
     }
+    return $jobs;
+  }
+
+  public function index() {
+    $this->load->model('apply_model');
+
+    $uid = $this->session->userdata('user')['id'];
+    $id = $this->input->post('id') ? $this->input->post('id') : FALSE;
+    $jobs = $this->jobs_model->get($id, array('j.status !=' => 0));
+    
+    // also get jobs applied by uid
+    $jobsAppliedBySess = $this->apply_model->getByUid($uid, array(
+      'a.status' => 1
+    ));
+    
+    $jobs = $this->_formatJobsArray($jobs);
+    $appliedIds = $this->jobs_model->_to_col($jobsAppliedBySess, 'job_id');
+
+    // cast to int
+    foreach ($appliedIds as $key => $value) {
+      $appliedIds[$key] = (int)$value;
+    }
 
     $this->_json(TRUE, array(
       'jobs' => $jobs,
-      'id' => $id
+      'appliedIds' => $appliedIds
     ));
   }
 
@@ -31,16 +49,7 @@ class Jobs extends MY_Custom_Controller {
     // get uid
     $uid = $this->session->userdata('user')['id'];
     $jobs = $this->jobs_model->get($uid);
-
-    // convert location and job_tags to json array
-    foreach ($jobs as $key => $job) {
-      // also format date to unix timestamp
-      $jobs[$key]['dateFrom'] = strtotime($job['dateFrom']);
-      $jobs[$key]['dateTo'] = strtotime($job['dateTo']);
-      $jobs[$key]['location'] = json_decode($job['location'], TRUE);
-      $jobs[$key]['job_tags'] = json_decode($job['job_tags'], TRUE);
-      $jobs[$key]['age_group'] = json_decode($job['age_group'], TRUE);
-    }
+    $jobs = $this->_formatJobsArray($jobs);
 
     $this->_json(TRUE, array(
       'jobs' => $jobs

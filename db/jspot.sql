@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 04, 2018 at 06:37 PM
+-- Generation Time: Mar 05, 2018 at 11:22 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -38,6 +38,13 @@ CREATE TABLE `apply` (
   `created_at` int(11) NOT NULL,
   `status` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `apply`
+--
+
+INSERT INTO `apply` (`id`, `user_id`, `job_id`, `subject`, `body`, `files`, `created_at`, `status`) VALUES
+(1, 3, 5, 'test', 'test', '[]', 1520244018, 1);
 
 -- --------------------------------------------------------
 
@@ -200,7 +207,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `apply`
 --
 ALTER TABLE `apply`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `jobs`

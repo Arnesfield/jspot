@@ -33,7 +33,7 @@
         color="primary lighten-1"
       >
         <v-tab :disabled="loading">Info</v-tab>
-        <v-tab :disabled="loading" >Apply</v-tab>
+        <v-tab :disabled="loading" v-if="!viewOnly">Apply</v-tab>
       </v-tabs>
     </v-layout>
     <!-- end of toolbar -->
@@ -46,7 +46,7 @@
         <v-tab-item>
           <job-details :job="job"/>
         </v-tab-item>
-        <v-tab-item>
+        <v-tab-item v-if="!viewOnly">
           <apply-form
             ref="form"
             class="px-4"
@@ -73,24 +73,26 @@
         @keypress.enter="show = false"
         v-text="'Cancel'"
       />
-      <v-btn
-        flat
-        tabindex="0"
-        v-if="tabs == '1'"
-        :disabled="loading"
-        @click="tabs = '0'"
-        @keypress.enter="tabs = '0'"
-        v-text="'Previous'"
-      />
-      <v-btn
-        :flat="tabs == '0'"
-        color="primary"
-        tabindex="0"
-        :disabled="loading"
-        @click="clickPrimary"
-        @keypress.enter="clickPrimary"
-        v-text="tabs == '0' ? 'Next' : 'Apply'"
-      />
+      <template v-if="!viewOnly">
+        <v-btn
+          flat
+          tabindex="0"
+          v-if="tabs == '1'"
+          :disabled="loading"
+          @click="tabs = '0'"
+          @keypress.enter="tabs = '0'"
+          v-text="'Previous'"
+        />
+        <v-btn
+          :flat="tabs == '0'"
+          color="primary"
+          tabindex="0"
+          :disabled="loading"
+          @click="clickPrimary"
+          @keypress.enter="clickPrimary"
+          v-text="tabs == '0' ? 'Next' : 'Apply'"
+        />
+      </template>
     </v-card-actions>
 
   </v-card>
@@ -100,23 +102,18 @@
 <script>
 import ApplyForm from '@/include/forms/ApplyForm'
 import JobDetails from '@/include/JobDetails'
-import DialogLoading from '@/include/DialogLoading'
 
 export default {
   name: 'dialog-job-opening',
   components: {
     ApplyForm,
-    JobDetails,
-    DialogLoading
+    JobDetails
   },
   data: () => ({
-    url: '/jobs/apply',
     show: false,
     job: null,
-
     tabs: '0',
-    formValid: false,
-
+    viewOnly: false,
     loading: false
   }),
 
@@ -130,8 +127,12 @@ export default {
   },
 
   created() {
-    this.$bus.$on('dialog--job.apply', (job) => {
+    this.$bus.$on('dialog--job.apply', (job, viewOnly) => {
+      if (typeof viewOnly !== 'boolean') {
+        viewOnly = false
+      }
       this.job = job
+      this.viewOnly = viewOnly
       this.show = true
     })
   },

@@ -6,19 +6,32 @@
         <status :item="item"/>
         <span>
           <v-tooltip top>
+            <v-btn
+              icon
+              slot="activator"
+              @click="$emit('view', item,
+                (isLogged && $bus.session.user.id == item.created_by) ||
+                appliedIds.indexOf(Number(item.id)) > -1
+              )"
+            >
+              <v-icon color="grey">info</v-icon>
+            </v-btn>
+            <span>View detailed</span>
+          </v-tooltip>
+          <v-tooltip top>
             <v-btn icon slot="activator" @click="dSlim = !dSlim">
-              <v-icon v-if="dSlim" color="grey">info</v-icon>
-              <v-icon v-else color="grey">info_outline</v-icon>
+              <v-icon v-if="dSlim" color="grey">visibility</v-icon>
+              <v-icon v-else color="grey">visibility_off</v-icon>
             </v-btn>
             <span v-if="dSlim">Peak few details</span>
             <span v-else>Unpeak details</span>
           </v-tooltip>
-          <v-tooltip top v-if="isLogged && $bus.session.user.id == item.created_by">
+          <!-- <v-tooltip top v-if="isLogged && $bus.session.user.id == item.created_by">
             <v-btn icon slot="activator">
               <v-icon color="grey">edit</v-icon>
             </v-btn>
             <span>Edit</span>
-          </v-tooltip>
+          </v-tooltip> -->
           <v-tooltip top v-if="isLogged && $bus.session.user.id == item.created_by">
             <v-btn icon slot="activator" @click="deleteItem(item)">
               <v-icon color="grey">delete</v-icon>
@@ -36,12 +49,16 @@
           <v-btn
             icon
             slot="activator"
-            @click="$emit('apply', item)"
+            @click="appliedIds.indexOf(Number(item.id)) > -1 ? undefined : $emit('apply', item)"
             @keypress.enter="$emit('apply', item)"
           >
-            <v-icon color="primary">arrow_forward</v-icon>
+            <v-icon color="primary">
+              <template v-if="appliedIds.indexOf(Number(item.id)) > -1">done</template>
+              <template v-else>arrow_forward</template>
+            </v-icon>
           </v-btn>
-          <span>Apply</span>
+          <span v-if="appliedIds.indexOf(Number(item.id)) > -1">You applied to this job!</span>
+          <span v-else>Apply</span>
         </v-tooltip>
         <v-tooltip top v-else-if="!isLogged && item.status == 1">
           <v-btn icon slot="activator" disabled>
@@ -172,6 +189,10 @@ export default {
     Status
   },
   props: {
+    appliedIds: {
+      type: Array,
+      default: []
+    },
     item: {
       type: Object,
       default: null
