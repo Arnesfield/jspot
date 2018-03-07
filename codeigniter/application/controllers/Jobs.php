@@ -7,18 +7,6 @@ class Jobs extends MY_Custom_Controller {
     $this->load->model('jobs_model');
   }
 
-  private function _formatJobsArray($jobs) {
-    // format date and json string
-    foreach ($jobs as $key => $job) {
-      $jobs[$key]['dateFrom'] = strtotime($job['dateFrom']);
-      $jobs[$key]['dateTo'] = strtotime($job['dateTo']);
-      $jobs[$key]['location'] = json_decode($job['location'], TRUE);
-      $jobs[$key]['job_tags'] = json_decode($job['job_tags'], TRUE);
-      $jobs[$key]['age_group'] = json_decode($job['age_group'], TRUE);
-    }
-    return $jobs;
-  }
-
   public function index() {
     $this->load->model('apply_model');
 
@@ -123,48 +111,6 @@ class Jobs extends MY_Custom_Controller {
     ), array(
       'id' => $id
     ));
-    $this->_json($res);
-  }
-
-  public function apply() {
-    $this->load->model('apply_model');
-
-    $uid = $this->session->userdata('user')['id'];
-    $jid = $this->input->post('jid');
-    $subject = $this->_filter($this->input->post('subject'));
-    $body = $this->_filter($this->input->post('body'));
-    $length = $this->input->post('length') ? $this->input->post('length') : 0;
-
-    $file_names = array();
-
-    // upload first
-    // if all upload successful, proceed to add info to db
-    for ($i = 0; $i < $length; $i++) {
-      $res = $this->_uploadImage('file_'.$i);
-      if (!$res['success']) {
-        $this->_json(FALSE, 'error', strip_tags($res['error']));
-      } else {
-        array_push($file_names, $res['data']['file_name']);
-      }
-    }
-    
-    $json_file_names = json_encode($file_names);
-
-    $data = array(
-      'user_id' => $uid,
-      'job_id' => $jid,
-      'subject' => $subject,
-      'body' => $body,
-      'files' => $json_file_names,
-      'created_at' => time(),
-      'status' => 1
-    );
-    $res = $this->apply_model->insert($data);
-
-    if (!$res) {
-      $this->_json($res, 'error', 'Unable to submit your application.');
-    }
-
     $this->_json($res);
   }
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 05, 2018 at 11:22 AM
+-- Generation Time: Mar 07, 2018 at 12:07 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -36,6 +36,7 @@ CREATE TABLE `apply` (
   `body` text NOT NULL,
   `files` text NOT NULL,
   `created_at` int(11) NOT NULL,
+  `updated_at` int(11) NOT NULL,
   `status` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -43,8 +44,9 @@ CREATE TABLE `apply` (
 -- Dumping data for table `apply`
 --
 
-INSERT INTO `apply` (`id`, `user_id`, `job_id`, `subject`, `body`, `files`, `created_at`, `status`) VALUES
-(1, 3, 5, 'test', 'test', '[]', 1520244018, 1);
+INSERT INTO `apply` (`id`, `user_id`, `job_id`, `subject`, `body`, `files`, `created_at`, `updated_at`, `status`) VALUES
+(1, 3, 5, 'test', 'test', '[]', 1520244018, 1520244018, 1),
+(2, 3, 3, 'Some application', 'Hello I would like to apply for this job lorem ipsum dolor sit amet for testing.', '[\"F_1520416460.pdf\"]', 1520416460, 1520420218, 2);
 
 -- --------------------------------------------------------
 
@@ -207,7 +209,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `apply`
 --
 ALTER TABLE `apply`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `jobs`

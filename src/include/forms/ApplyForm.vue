@@ -106,7 +106,7 @@ export default {
     }
   },
   data: () => ({
-    url: '/jobs/apply',
+    url: '/apply',
     form: false,
     subject: null,
     body: null,

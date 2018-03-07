@@ -157,6 +157,21 @@ class MY_Custom_Controller extends MY_View_Controller {
       'data' => $this->upload->data()
     );
   }
+
+  public function _formatJobsArray($jobs, $cb = FALSE) {
+    // format date and json string
+    foreach ($jobs as $key => $job) {
+      $jobs[$key]['dateFrom'] = strtotime($job['dateFrom']);
+      $jobs[$key]['dateTo'] = strtotime($job['dateTo']);
+      $jobs[$key]['location'] = json_decode($job['location'], TRUE);
+      $jobs[$key]['job_tags'] = json_decode($job['job_tags'], TRUE);
+      $jobs[$key]['age_group'] = json_decode($job['age_group'], TRUE);
+      if ($cb) {
+        $jobs = $cb($jobs, $key, $job);
+      }
+    }
+    return $jobs;
+  }
 }
 
 ?>

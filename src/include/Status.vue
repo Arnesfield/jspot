@@ -7,7 +7,7 @@
   </v-btn>
   <span
     :key="i"
-    v-for="i in 4"
+    v-for="i in 3"
     v-if="status(i-1)"
     v-html="'Status: ' + msg[i-1]"
   ></span>

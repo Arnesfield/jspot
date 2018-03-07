@@ -46,6 +46,8 @@ export default {
     iconClick() {
       if (this.$route.name == 'Profile') {
         this.$bus.nav.profile = !this.$bus.nav.profile
+      } else {
+        this.$bus.navToggle()
       }
     }
   }

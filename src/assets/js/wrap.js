@@ -1,5 +1,8 @@
 import monthNames from './months'
 
+const dev = true
+const base_url = dev ? 'http://localhost/jspot/public/' : 'to be set'
+
 const leadZero = (num) => (num < 10 ? '0' : '') + num
 const shortMonth = (month) => month.substring(0, 3)
 
@@ -16,22 +19,24 @@ let _date = function(e, short) {
   return month + ' ' + day + ', ' + year
 }
 
-let _time = function(e) {
+let _time = function(e, noSeconds) {
+  noSeconds = typeof noSeconds === 'boolean' ? noSeconds : false
+
   let date = new Date((Number(e) + 24*60*60) * 1000)
 
   let hours = leadZero(date.getHours())
   let mins = leadZero(date.getMinutes())
   let secs = leadZero(date.getSeconds())
 
-  return hours + ':' + mins + ':' + secs
+  return hours + ':' + mins + (noSeconds ? '' : ':' + secs)
 }
 
 export default {
   date: (e, short) => _date(e, short),
-  time: (e) => _time(e),
-  datetime(e, short) {
+  time: (e, noSeconds) => _time(e, noSeconds),
+  datetime(e, short, noSeconds) {
     let date = _date(e, short)
-    let time = _time(e)
+    let time = _time(e, noSeconds)
     return date + ' ' + time
   },
   HMSToHM(e) {
@@ -93,8 +98,7 @@ export default {
     return 'https://www.google.com/s2/favicons?domain=' + url
   },
   localImg(url) {
-    // change this
-    return 'http://localhost/jspot/public/uploads/images/' + url
+    return base_url + 'uploads/images/' + url
   },
   fileSize(num) {
     let n = Number(num)
@@ -106,5 +110,17 @@ export default {
       return (n / 1000).toFixed(2) + ' KB'
     }
     return n + ' bytes'
-  }
+  },
+  localAttach(u) {
+    return base_url + 'uploads/attach/' + u
+  },
+  applyStatus(e) {
+    const status = {
+      0: 'Denied',
+      1: 'Pending',
+      2: 'Accepted',
+      3: 'Hired'
+    }
+    return status[Number(e)] ? status[Number(e)] : ''
+  },
 }

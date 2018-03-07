@@ -107,6 +107,13 @@ export default {
         ]
       },
       {
+        header: '',
+        auth: 4,
+        items: [
+          { title: 'My job applications', icon: 'work', to: '/my/applications' }
+        ]
+      },
+      {
         header: 'Manage',
         auth: 2,
         items: [

@@ -1,6 +1,3 @@
-# avoid listing files
-Options -Indexes
-
 # remove index.php
 RewriteEngine On
 # RewriteBase /api/

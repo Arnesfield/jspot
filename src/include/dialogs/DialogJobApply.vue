@@ -34,6 +34,7 @@
       >
         <v-tab :disabled="loading">Info</v-tab>
         <v-tab :disabled="loading" v-if="!viewOnly">Apply</v-tab>
+        <v-tab :disabled="loading" v-if="viewApplyMode">Application</v-tab>
       </v-tabs>
     </v-layout>
     <!-- end of toolbar -->
@@ -55,6 +56,9 @@
             @close="onClose"
           />
         </v-tab-item>
+        <v-tab-item v-if="viewApplyMode">
+          <apply-details :item="job"/>
+        </v-tab-item>
       </v-tabs-items>
 
     </v-card-text>
@@ -73,16 +77,37 @@
         @keypress.enter="show = false"
         v-text="'Cancel'"
       />
-      <template v-if="!viewOnly">
+      <v-btn
+        flat
+        tabindex="0"
+        v-if="tabs == '1'"
+        :disabled="loading"
+        @click="tabs = '0'"
+        @keypress.enter="tabs = '0'"
+        v-text="'Previous'"
+      />
+      <template v-if="viewApplyMode">
         <v-btn
           flat
           tabindex="0"
-          v-if="tabs == '1'"
+          color="primary"
+          v-if="tabs == '0'"
           :disabled="loading"
-          @click="tabs = '0'"
-          @keypress.enter="tabs = '0'"
-          v-text="'Previous'"
+          @click="tabs = '1'"
+          @keypress.enter="tabs = '1'"
+          v-text="'Next'"
         />
+        <v-btn
+          tabindex="0"
+          color="error"
+          v-if="$bus.session.user && $bus.session.user.id == job.a_user_id && tabs == '1'"
+          :disabled="loading"
+          @click="clickDelete"
+          @keypress.enter="clickDelete"
+          v-text="'Delete'"
+        />
+      </template>
+      <template v-if="!viewOnly">
         <v-btn
           :flat="tabs == '0'"
           color="primary"
@@ -102,18 +127,21 @@
 <script>
 import ApplyForm from '@/include/forms/ApplyForm'
 import JobDetails from '@/include/JobDetails'
+import ApplyDetails from '@/include/ApplyDetails'
 
 export default {
   name: 'dialog-job-opening',
   components: {
     ApplyForm,
-    JobDetails
+    JobDetails,
+    ApplyDetails
   },
   data: () => ({
     show: false,
     job: null,
     tabs: '0',
     viewOnly: false,
+    viewApplyMode: false,
     loading: false
   }),
 
@@ -127,17 +155,28 @@ export default {
   },
 
   created() {
-    this.$bus.$on('dialog--job.apply', (job, viewOnly) => {
+    this.$bus.$on('dialog--job.apply', (job, viewOnly, viewApplyMode) => {
       if (typeof viewOnly !== 'boolean') {
         viewOnly = false
       }
+      if (typeof viewApplyMode !== 'boolean') {
+        viewApplyMode = false
+      }
       this.job = job
       this.viewOnly = viewOnly
+      this.viewApplyMode = viewApplyMode
+      if (this.viewApplyMode) {
+        this.tabs = '1'
+      }
       this.show = true
     })
   },
 
   methods: {
+    clickDelete() {
+      this.$emit('delete', this.job)
+    },
+
     clickPrimary() {
       // check tabs
       if (this.tabs == '0') {
@@ -160,8 +199,14 @@ export default {
       }
 
       this.job = null
+      this.viewOnly = false
+      this.viewApplyMode = false
       this.tabs = '0'
       this.loading = false
+    },
+    close() {
+      this.clear()
+      this.show = false
     }
   }
 }
