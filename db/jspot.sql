@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 07, 2018 at 12:07 PM
+-- Generation Time: Mar 08, 2018 at 02:55 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -35,6 +35,8 @@ CREATE TABLE `apply` (
   `subject` text NOT NULL,
   `body` text NOT NULL,
   `files` text NOT NULL,
+  `interview_date` int(11) NOT NULL,
+  `interview_time` time NOT NULL,
   `created_at` int(11) NOT NULL,
   `updated_at` int(11) NOT NULL,
   `status` tinyint(4) NOT NULL
@@ -44,9 +46,9 @@ CREATE TABLE `apply` (
 -- Dumping data for table `apply`
 --
 
-INSERT INTO `apply` (`id`, `user_id`, `job_id`, `subject`, `body`, `files`, `created_at`, `updated_at`, `status`) VALUES
-(1, 3, 5, 'test', 'test', '[]', 1520244018, 1520244018, 1),
-(2, 3, 3, 'Some application', 'Hello I would like to apply for this job lorem ipsum dolor sit amet for testing.', '[\"F_1520416460.pdf\"]', 1520416460, 1520420218, 2);
+INSERT INTO `apply` (`id`, `user_id`, `job_id`, `subject`, `body`, `files`, `interview_date`, `interview_time`, `created_at`, `updated_at`, `status`) VALUES
+(1, 3, 5, 'test', 'test', '[]', 1522166400, '23:00:00', 1520244018, 1520244018, 1),
+(2, 3, 3, 'Some application', 'Hello I would like to apply for this job lorem ipsum dolor sit amet for testing.', '[\"F_1520416460.pdf\"]', 1521907200, '08:00:00', 1520416460, 1520420218, 2);
 
 -- --------------------------------------------------------
 
@@ -80,7 +82,7 @@ INSERT INTO `jobs` (`id`, `title`, `description`, `timeFrom`, `timeTo`, `dateFro
 (2, 'Test', '', '00:01:00', '00:59:00', '2018-01-13', '2018-02-01', '[\"Mandaluyong\",\"Manila\"]', '[\"photography\",\"animation\"]', '{\"from\":18,\"to\":24}', 2, 1519094267, 1519237596, 2),
 (3, 'Test', 'This work is about something lorem ipsum dolor sit amet.', '12:00:00', '23:00:00', '2018-01-01', '2018-02-11', '[\"Manila\",\"Quezon\"]', '[\"programming\"]', '{\"from\":18,\"to\":24}', 2, 1519095062, 1519107426, 1),
 (4, 'Sample', 'Some lorem ipsum', '00:00:00', '12:00:00', '2018-01-01', '2018-03-20', '[\"Makati\",\"Manila\",\"Quezon\",\"Mandaluyong\"]', '[\"art\",\"programming\"]', '{\"from\":25,\"to\":34}', 2, 1519102595, 1519234560, 1),
-(5, 'New job opening!', 'Wooo nice', '12:00:00', '18:30:00', '2018-01-01', '2018-03-02', '[\"Manila\",\"Quezon\"]', '[\"programming\",\"art\",\"animation\",\"photography\"]', '{\"from\":18,\"to\":24}', 2, 1519234849, 1519234849, 1);
+(5, 'New job opening!', 'Wooo nice', '12:00:00', '18:30:00', '2018-01-01', '2018-03-02', '[\"Manila\",\"Quezon\"]', '[\"programming\",\"art\",\"animation\",\"photography\"]', '{\"from\":18,\"to\":24}', 2, 1519234849, 1520517112, 1);
 
 -- --------------------------------------------------------
 

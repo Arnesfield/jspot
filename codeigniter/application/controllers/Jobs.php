@@ -16,7 +16,8 @@ class Jobs extends MY_Custom_Controller {
     
     // also get jobs applied by uid
     $jobsAppliedBySess = $this->apply_model->getByUid($uid, array(
-      'a.status' => 1
+      'a.status !=' => -1,
+      'a.status !=' => 0,
     ));
     
     $jobs = $this->_formatJobsArray($jobs);

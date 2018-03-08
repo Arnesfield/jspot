@@ -35,6 +35,10 @@
         <v-tab :disabled="loading">Info</v-tab>
         <v-tab :disabled="loading" v-if="!viewOnly">Apply</v-tab>
         <v-tab :disabled="loading" v-if="viewApplyMode">Application</v-tab>
+        <v-tab
+          :disabled="loading"
+          v-if="$bus.session.user && $bus.session.user.id == job.created_by"
+        >Applicants: {{ applicants.length }}</v-tab>
       </v-tabs>
     </v-layout>
     <!-- end of toolbar -->
@@ -58,6 +62,60 @@
         </v-tab-item>
         <v-tab-item v-if="viewApplyMode">
           <apply-details :item="job"/>
+        </v-tab-item>
+        <v-tab-item v-if="$bus.session.user && $bus.session.user.id == job.created_by">
+          <manage-no-data
+            :loading="fetchLoading"
+            :fetch="fetchApplicants"
+            msg="No job applicants :("
+            v-if="!applicants.length"
+          >
+            <div slot="icon" class="mb-3">
+              <v-icon size="64px">people</v-icon>
+            </div>
+          </manage-no-data>
+
+          <template v-else>
+            <v-list
+              dense
+              two-line
+            >
+              <template v-for="(a, i) in applicants">
+                <v-list-tile
+                  ripple
+                  :key="'tile-' + i"
+                  @click="viewApply(a)"
+                >
+                  <v-list-tile-action>
+                    <v-avatar
+                      size="24"
+                      v-if="imgSrc(a) && imgSrc(a).isImg"
+                      class="elevation-1"
+                    >
+                      <img :src="$wrap.localImg(imgSrc(a).text)">
+                    </v-avatar>
+                    <v-icon v-else>person</v-icon>  
+                  </v-list-tile-action>
+                  <v-list-tile-content>
+                    <v-list-tile-title
+                      v-text="a.applier_fname + ' ' + a.applier_lname"
+                    />
+                    <v-list-tile-sub-title
+                      v-text="$wrap.datetime(a.a_created_at, true, true)"
+                    />
+                  </v-list-tile-content>
+                  <v-list-tile-action>
+                    <apply-status :item="a"/>
+                  </v-list-tile-action>
+                </v-list-tile>
+                <v-divider
+                  :key="'divider-' + i"
+                  v-if="applicants.length-1 != i"
+                />
+              </template>
+            </v-list>
+          </template>
+
         </v-tab-item>
       </v-tabs-items>
 
@@ -121,28 +179,41 @@
     </v-card-actions>
 
   </v-card>
+
+  <dialog-apply-action/>
+
 </v-dialog>
 </template>
 
 <script>
+import qs from 'qs'
 import ApplyForm from '@/include/forms/ApplyForm'
 import JobDetails from '@/include/JobDetails'
 import ApplyDetails from '@/include/ApplyDetails'
+import ManageNoData from '@/include/ManageNoData'
+import DialogApplyAction from './DialogApplyAction'
+import ApplyStatus from '@/include/ApplyStatus'
 
 export default {
   name: 'dialog-job-opening',
   components: {
     ApplyForm,
     JobDetails,
-    ApplyDetails
+    ApplyDetails,
+    ManageNoData,
+    DialogApplyAction,
+    ApplyStatus
   },
   data: () => ({
+    url: '/apply/applicants',
     show: false,
     job: null,
     tabs: '0',
     viewOnly: false,
     viewApplyMode: false,
-    loading: false
+    loading: false,
+    fetchLoading: false,
+    applicants: []
   }),
 
   watch: {
@@ -150,6 +221,12 @@ export default {
       // if exit, clear
       if (!to) {
         this.clear()
+        return
+      }
+
+      // check if sess is this
+      if (this.$bus.session.user && this.$bus.session.user.id == this.job.created_by) {
+        this.fetchApplicants()
       }
     }
   },
@@ -170,6 +247,7 @@ export default {
       }
       this.show = true
     })
+    this.$bus.$on('dialog--job-apply.update-applicants', this.fetchApplicants)
   },
 
   methods: {
@@ -202,11 +280,52 @@ export default {
       this.viewOnly = false
       this.viewApplyMode = false
       this.tabs = '0'
+      this.applicants = []
       this.loading = false
+      this.fetchLoading = false
     },
     close() {
       this.clear()
       this.show = false
+    },
+
+    viewApply(a) {
+      this.$bus.$emit('dialog--apply-action.show', a)
+    },
+
+    fetchApplicants() {
+      this.loading = true
+      this.fetchLoading = true
+      this.$http.post(this.url, qs.stringify({
+        jid: this.job.id
+      })).then(res => {
+        if (!res.data.success) {
+          throw new Error('Request failure.')
+        }
+        this.applicants = res.data.applicants
+        this.loading = false
+        this.fetchLoading = false
+      }).catch(e => {
+        console.error(e)
+        this.loading = false
+        this.fetchLoading = false
+      })
+    },
+
+    imgSrc(user) {
+      if (typeof user !== 'object' || user === null) {
+        return null
+      }
+      if (typeof user.applier_img_src !== 'string' || !user.applier_img_src.length) {
+        return {
+          isImg: false,
+          text: user.applier_fname.charAt(0).toUpperCase()
+        }
+      } 
+      return {
+        isImg: true,
+        text: user.applier_img_src
+      }
     }
   }
 }

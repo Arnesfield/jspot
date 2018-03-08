@@ -191,7 +191,7 @@ export default {
   props: {
     appliedIds: {
       type: Array,
-      default: []
+      default: () => []
     },
     item: {
       type: Object,

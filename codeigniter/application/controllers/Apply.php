@@ -35,6 +35,8 @@ class Apply extends MY_Custom_Controller {
       'subject' => $subject,
       'body' => $body,
       'files' => $json_file_names,
+      'interview_date' => 0,
+      'interview_time' => '00:00:00',
       'created_at' => time(),
       'updated_at' => time(),
       'status' => 1
@@ -53,15 +55,39 @@ class Apply extends MY_Custom_Controller {
     $uid = $this->session->userdata('user')['id'];
     
     // get applications with job info using uid
-    $applications = $this->apply_model->getWithJobsByUid($uid);
-    $applications = $this->_formatJobsArray($applications, function($jobs, $key, $job) {
-      $jobs[$key]['a_files'] = json_decode($job['a_files'], TRUE);
-      return $jobs;
-    });
+    $applications = $this->apply_model->getWithJobs(array(
+      'a.user_id' => $uid
+    ));
+    $applications = $this->formatApplyArray($applications);
 
     $this->_json(TRUE, array(
       'applications' => $applications
     ));
+  }
+
+  public function applicants() {
+    // get uid
+    $uid = $this->session->userdata('user')['id'];
+    $jid = $this->input->post('jid') ? $this->input->post('jid') : 0;
+    
+    // get applications with job info using uid
+    $applicants = $this->apply_model->getWithJobs(array(
+      'j.created_by' => $uid,
+      'j.id' => $jid
+    ));
+    $applicants = $this->formatApplyArray($applicants);
+
+    $this->_json(TRUE, array(
+      'applicants' => $applicants
+    ));
+  }
+
+  private function formatApplyArray($applications) {
+    return $this->_formatJobsArray($applications, function($jobs, $key, $job) {
+      $jobs[$key]['a_files'] = json_decode($job['a_files'], TRUE);
+      $jobs[$key]['a_interview_time'] = substr($job['a_interview_time'], 0, strrpos($job['a_interview_time'], ':'));
+      return $jobs;
+    });
   }
 
   public function delete() {
@@ -70,6 +96,26 @@ class Apply extends MY_Custom_Controller {
       'updated_at' => time(),
       'status' => -1
     );
+    $where = array('id' => $id);
+    $res = $this->apply_model->update($data, $where);
+    $this->_json($res);
+  }
+
+  public function update() {
+    $id = $this->input->post('id');
+    $status = $this->input->post('status');
+    $date = $this->input->post('date') ? $this->input->post('date') : FALSE;
+    $time = $this->input->post('time') ? $this->input->post('time') : FALSE;
+
+    $data = array('status' => $status);
+
+    if ($date) {
+      $data['interview_date'] = strtotime($date);
+    }
+    if ($time) {
+      $data['interview_time'] = $time . ':00';
+    }
+
     $where = array('id' => $id);
     $res = $this->apply_model->update($data, $where);
     $this->_json($res);

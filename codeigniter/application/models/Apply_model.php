@@ -22,7 +22,7 @@ class Apply_model extends MY_Custom_Model {
     return $this->_res($query);
   }
 
-  public function getWithJobsByUid($uid, $where = FALSE) {
+  public function getWithJobs($where = FALSE) {
     $this->db
       ->select('
         a.id AS a_id,
@@ -30,6 +30,8 @@ class Apply_model extends MY_Custom_Model {
         a.subject AS a_subject,
         a.body AS a_body,
         a.files AS a_files,
+        a.interview_date AS a_interview_date,
+        a.interview_time AS a_interview_time,
         a.created_at AS a_created_at,
         a.status AS a_status,
         j.*,
@@ -45,7 +47,6 @@ class Apply_model extends MY_Custom_Model {
       ->join('users u', 'u.id = j.created_by')
       ->join('users ap', 'ap.id = a.user_id')
       ->where(array(
-        'a.user_id' => $uid,
         'a.status !=' => -1,
         'j.status !=' => -1,
         'u.status' => 1,

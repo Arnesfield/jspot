@@ -1,6 +1,35 @@
 <template>
 <div>
 
+  <v-layout v-if="item.a_status == 2 && item.a_interview_date">
+    <v-flex xs12 sm4>
+      <div class="subheader">Interview details</div>
+    </v-flex>
+    <v-flex xs12 class="py-1">
+      <v-card>
+        <v-layout>
+          <div class="py-2 px-3">
+            <v-icon color="primary">event</v-icon>
+          </div>
+          <div
+            class="py-2 subheading"
+            v-text="$wrap.date(item.a_interview_date)"
+          />
+        </v-layout>
+
+        <v-layout>
+          <div class="py-2 px-3">
+            <v-icon color="primary">access_time</v-icon>
+          </div>
+          <div
+            class="py-2 subheading"
+            v-text="item.a_interview_time"
+          />
+        </v-layout>
+      </v-card>
+    </v-flex>
+  </v-layout>
+
   <v-layout>
     <v-flex xs12 sm4>
       <div class="subheader">Applicant</div>
