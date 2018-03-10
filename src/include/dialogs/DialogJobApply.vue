@@ -37,7 +37,7 @@
         <v-tab :disabled="loading" v-if="viewApplyMode">Application</v-tab>
         <v-tab
           :disabled="loading"
-          v-if="$bus.session.user && $bus.session.user.id == job.created_by"
+          v-if="viewApplicants && $bus.session.user && $bus.session.user.id == job.created_by"
         >Applicants: {{ applicants.length }}</v-tab>
       </v-tabs>
     </v-layout>
@@ -63,7 +63,7 @@
         <v-tab-item v-if="viewApplyMode">
           <apply-details :item="job"/>
         </v-tab-item>
-        <v-tab-item v-if="$bus.session.user && $bus.session.user.id == job.created_by">
+        <v-tab-item v-if="viewApplicants && $bus.session.user && $bus.session.user.id == job.created_by">
           <manage-no-data
             :loading="fetchLoading"
             :fetch="fetchApplicants"
@@ -195,7 +195,7 @@ import DialogApplyAction from './DialogApplyAction'
 import ApplyStatus from '@/include/ApplyStatus'
 
 export default {
-  name: 'dialog-job-opening',
+  name: 'dialog-job-apply',
   components: {
     ApplyForm,
     JobDetails,
@@ -211,6 +211,7 @@ export default {
     tabs: '0',
     viewOnly: false,
     viewApplyMode: false,
+    viewApplicants: true,
     loading: false,
     fetchLoading: false,
     applicants: []
@@ -232,16 +233,20 @@ export default {
   },
 
   created() {
-    this.$bus.$on('dialog--job.apply', (job, viewOnly, viewApplyMode) => {
+    this.$bus.$on('dialog--job.apply', (job, viewOnly, viewApplyMode, viewApplicants) => {
       if (typeof viewOnly !== 'boolean') {
         viewOnly = false
       }
       if (typeof viewApplyMode !== 'boolean') {
         viewApplyMode = false
       }
+      if (typeof viewApplicants !== 'boolean') {
+        viewApplicants = true
+      }
       this.job = job
       this.viewOnly = viewOnly
       this.viewApplyMode = viewApplyMode
+      this.viewApplicants = viewApplicants
       if (this.viewApplyMode) {
         this.tabs = '1'
       }
@@ -279,6 +284,7 @@ export default {
       this.job = null
       this.viewOnly = false
       this.viewApplyMode = false
+      this.viewApplicants = true
       this.tabs = '0'
       this.applicants = []
       this.loading = false

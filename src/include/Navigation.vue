@@ -108,6 +108,13 @@ export default {
       },
       {
         header: '',
+        auth: 3,
+        items: [
+          { title: 'Applicants', icon: 'people', to: '/my/applicants' }
+        ]
+      },
+      {
+        header: '',
         auth: 4,
         items: [
           { title: 'My job applications', icon: 'work', to: '/my/applications' }

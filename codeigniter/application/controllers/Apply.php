@@ -65,19 +65,41 @@ class Apply extends MY_Custom_Controller {
     ));
   }
 
-  public function applicants() {
+  public function applicants($return = FALSE) {
     // get uid
     $uid = $this->session->userdata('user')['id'];
-    $jid = $this->input->post('jid') ? $this->input->post('jid') : 0;
+    $jid = $this->input->post('jid') ? $this->input->post('jid') : FALSE;
+
+    $where = array('j.created_by' => $uid);
+    if ($jid !== FALSE) {
+      $where['j.id'] = $jid;
+    }
     
     // get applications with job info using uid
-    $applicants = $this->apply_model->getWithJobs(array(
-      'j.created_by' => $uid,
-      'j.id' => $jid
-    ));
+    $applicants = $this->apply_model->getWithJobs($where);
     $applicants = $this->formatApplyArray($applicants);
 
+    if ($return) {
+      return $applicants;
+    } else {
+      $this->_json(TRUE, array(
+        'applicants' => $applicants
+      ));
+    }
+  }
+
+  public function jobs() {
+    // get uid
+    $this->load->model('jobs_model');
+
+    $uid = $this->session->userdata('user')['id'];
+    $jobs = $this->jobs_model->get($uid);
+    $jobs = $this->_formatJobsArray($jobs);
+
+    $applicants = $this->applicants(TRUE);
+
     $this->_json(TRUE, array(
+      'jobs' => $jobs,
       'applicants' => $applicants
     ));
   }

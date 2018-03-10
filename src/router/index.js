@@ -9,6 +9,7 @@ import Profile from '@/components/Profile'
 
 // employer
 import MyJobOpenings from '@/components/employer/MyJobOpenings'
+import MyApplicants from '@/components/employer/MyApplicants'
 
 // employer
 import MyJobApplications from '@/components/employee/MyJobApplications'
@@ -79,6 +80,16 @@ export default new Router({
         auth: 3,
         icon: 'work',
         title: 'My job openings'
+      }
+    },
+    {
+      path: '/my/applicants',
+      name: 'MyApplicants',
+      component: MyApplicants,
+      meta: {
+        auth: 3,
+        icon: 'people',
+        title: 'My job applicants'
       }
     },
 
