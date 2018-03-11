@@ -189,15 +189,19 @@ export default {
   },
 
   created() {
-    this.$bus.$on('dialog--job-opening.add', (mode) => {
+    this.$bus.$on('dialog--job-opening.add', this.jobOpeningAdd)
+  },
+  beforeDestroy() {
+    this.$bus.$off('dialog--job-opening.add', this.jobOpeningAdd)
+  },
+
+  methods: {
+    jobOpeningAdd(mode) {
       if (typeof mode !== 'string') {
         this.mode = 'Create'
       }
       this.show = true
-    })
-  },
-
-  methods: {
+    },
     submit() {
       if (!this.$refs.form.validate()) {
         this.loading = false

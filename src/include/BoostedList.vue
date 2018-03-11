@@ -22,10 +22,18 @@ export default {
   }),
   created() {
     this.$bus.$on('update--dashboard', this.fetch)
-    this.$bus.$on('change--session.auth', () => { this.fetch() })
+    this.$bus.$on('change--session.auth', this.fetchWrap)
     this.fetch()
   },
+  beforeDestroy() {
+    this.$bus.$off('update--dashboard', this.fetch)
+    this.$bus.$off('change--session.auth', this.fetchWrap)
+  },
+
   methods: {
+    fetchWrap() {
+      this.fetch()
+    },
     fetch() {
       this.loading = true
       this.$http.post(this.url).then(res => {

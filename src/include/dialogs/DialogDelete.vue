@@ -54,22 +54,27 @@ export default {
     loading: false
   }),
   created() {
-    this.$bus.$on('dialog--global.delete', (to, from) => {
+    this.$bus.$on('dialog--global.delete', this.globalDelete)
+    this.$bus.$on('dialog--delete.show', this.deleteShow)
+  },
+  beforeDestroy() {
+    this.$bus.$off('dialog--global.delete', this.globalDelete)
+    this.$bus.$off('dialog--delete.show', this.deleteShow)
+  },
+
+  methods: {
+    globalDelete(to, from) {
       // if closed, reset
       if (!to) {
         this.item = null
       }
-    })
-
-    this.$bus.$on('dialog--delete.show', (props) => {
+    },
+    deleteShow(props) {
       Object.keys(props).forEach(e => {
         this[e] = props[e] ? props[e] : null
       })
       this.$bus.dialog.global.delete = true
-    })
-  },
-
-  methods: {
+    },
     doDelete() {
       if (typeof this.fn === 'function') {
         this.loading = true

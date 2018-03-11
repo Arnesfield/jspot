@@ -111,22 +111,29 @@ export default {
   },
 
   created() {
-    this.$bus.$on('add--user', () => {
+    this.$bus.$on('add--user', this.addUser)
+    this.$bus.$on('dialog--manage-user.add', this.manageUserAdd)
+    this.$bus.$on('update--manage-users', this.fetch)
+    this.fetch()
+  },
+  beforeDestroy() {
+    this.$bus.$off('add--user', this.addUser)
+    this.$bus.$off('dialog--manage-user.add', this.manageUserAdd)
+    this.$bus.$off('update--manage-users', this.fetch)
+  },
+
+  methods: {
+    addUser() {
       this.dialogMode = 'Add'
       this.$bus.dialog.ManageUsers.add = true
-    })
-    this.$bus.$on('dialog--manage-user.add', (to, from) => {
+    },
+    manageUserAdd(to, from) {
       if (!to) {
         // reset from edit to add on dialog close
         this.dialogMode = 'Add'
         this.selected = null
       }
-    })
-    this.$bus.$on('update--manage-users', this.fetch)
-    this.fetch()
-  },
-
-  methods: {
+    },
     edit(item) {
       this.selected = item
       this.dialogMode = 'Edit'

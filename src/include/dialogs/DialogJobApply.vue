@@ -33,7 +33,11 @@
         color="primary lighten-1"
       >
         <v-tab :disabled="loading">Info</v-tab>
-        <v-tab :disabled="loading" v-if="!viewOnly">Apply</v-tab>
+        <v-tab :disabled="loading" v-if="
+          $bus.session.user &&
+          $bus.authHas($bus.session.auth, [3,4]) &&
+          !viewOnly
+        ">Apply</v-tab>
         <v-tab :disabled="loading" v-if="viewApplyMode">Application</v-tab>
         <v-tab
           :disabled="loading"
@@ -233,7 +237,16 @@ export default {
   },
 
   created() {
-    this.$bus.$on('dialog--job.apply', (job, viewOnly, viewApplyMode, viewApplicants) => {
+    this.$bus.$on('dialog--job.apply', this.jobApply)
+    this.$bus.$on('dialog--job-apply.update-applicants', this.fetchApplicants)
+  },
+  beforeDestroy() {
+    this.$bus.$off('dialog--job.apply', this.jobApply)
+    this.$bus.$off('dialog--job-apply.update-applicants', this.fetchApplicants)
+  },
+
+  methods: {
+    jobApply(job, viewOnly, viewApplyMode, viewApplicants) {
       if (typeof viewOnly !== 'boolean') {
         viewOnly = false
       }
@@ -251,11 +264,8 @@ export default {
         this.tabs = '1'
       }
       this.show = true
-    })
-    this.$bus.$on('dialog--job-apply.update-applicants', this.fetchApplicants)
-  },
+    },
 
-  methods: {
     clickDelete() {
       this.$emit('delete', this.job)
     },

@@ -120,6 +120,9 @@ export default {
     this.$bus.$on('dialog--job-apply.update-applicants', this.fetch)
     this.fetch()
   },
+  beforeDestroy() {
+    this.$bus.$off('dialog--job-apply.update-applicants', this.fetch)
+  },
 
   methods: {
     getApplicants(jid) {

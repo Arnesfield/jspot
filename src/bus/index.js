@@ -8,6 +8,7 @@ import profile from './profile'
 import session from './session'
 import progress from './progress'
 import settings from './settings'
+import toNumberArray from '@/assets/js/toNumberArray'
 
 export default new Vue({
   data: () => ({
@@ -55,21 +56,25 @@ export default new Vue({
     },
 
     authCheck(routeAuth) {
-      // convert routeAuth to array
-      if (typeof routeAuth !== 'object') {
-        routeAuth = [routeAuth]
-      }
-      return routeAuth.indexOf(Number(this.session.auth)) > -1
-        && routeAuth.indexOf(10) == -1
-        && routeAuth.indexOf(0) == -1
+      // check if routeAuth in session auth
+      return this.authHas(routeAuth, this.session.auth)
+        && !this.authHas(routeAuth, [0, 10])
     },
 
-    authHas(auth, n) {
-      // convertto array
-      if (typeof auth !== 'object') {
-        auth = [auth]
+    authHas(auth, n, concat) {
+      // convert to array
+      auth = toNumberArray(auth)
+      // also convert n to array
+      n = toNumberArray(n)
+      
+      // do concat
+      if (typeof concat === 'object' || typeof concat === 'number') {
+        n = toNumberArray(n.concat(concat))
       }
-      return auth.indexOf(typeof n === 'number' ? n : Number(n)) > -1
+      // check if some n exists in auth
+      let result = false
+      auth.every(e => !(result = n.indexOf(e) > -1))
+      return result
     },
 
     sessionCheck(route, http) {
@@ -90,7 +95,7 @@ export default new Vue({
         this.session[e.key] = data[e.key] || e.def
       })
       // set settings if user exists
-      if (!data.user) {
+      if (!data.user || !data.user.settings) {
         return
       }
      

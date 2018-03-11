@@ -111,8 +111,13 @@ export default {
   created() {
     this.$bus.$on('search', this.fetch)
     this.$bus.$on('update--dashboard', this.fetch)
-    this.$bus.$on('change--session.auth', () => { this.fetch() })
+    this.$bus.$on('change--session.auth', this.fetchWrap)
     this.fetch()
+  },
+  beforeDestroy() {
+    this.$bus.$off('update--dashboard')
+    this.$bus.$off('search', this.fetch)
+    this.$bus.$off('change--session.auth', this.fetchWrap)
   },
 
   methods: {
@@ -123,6 +128,9 @@ export default {
         }
         return n-1 === i
       })
+    },
+    fetchWrap() {
+      this.fetch()
     },
     fetch(search) {
       if (typeof search !== 'string' && !search) {

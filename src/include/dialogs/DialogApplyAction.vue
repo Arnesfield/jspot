@@ -138,13 +138,17 @@ export default {
     }
   },
   created() {
-    this.$bus.$on('dialog--apply-action.show', (job) => {
-      this.job = job
-      this.show = true
-    })
+    this.$bus.$on('dialog--apply-action.show', this.applyActionShow)
+  },
+  beforeDestroy() {
+    this.$bus.$off('dialog--apply-action.show', this.applyActionShow)
   },
 
   methods: {
+    applyActionShow(job) {
+      this.job = job
+      this.show = true
+    },
     clear() {
       this.job = null
       this.date = null

@@ -8,23 +8,15 @@
       style="z-index: 5; position: fixed"
       class="ma-0"
     />
-    <navigation v-if="
-      !exception && (authCheck || $bus.authHas($route.meta.auth, 10))
-    "/>
+    <navigation v-if="!exception && authCheck"/>
     <v-content>
-      <toolbar-content
-        v-if="
-          !exception && (authCheck || $bus.authHas($route.meta.auth, 10))
-        "
-      />
+      <toolbar-content v-if="!exception && authCheck"/>
       <router-view/>
       <fab/>
       <dialog-delete/>
       <dialog-login/>
     </v-content>
-    <toolbar v-if="
-      !exception && (authCheck || $bus.authHas($route.meta.auth, 10))
-    "/>
+    <toolbar v-if="!exception && authCheck"/>
     <snackbar/>
   </v-app>
 </template>
@@ -51,7 +43,8 @@ export default {
   },
   computed: {
     authCheck() {
-      return this.$bus.authCheck(this.$route.meta.auth)
+      return this.$bus.authHas(this.$route.meta.auth, this.$bus.session.auth, 10)
+        && !this.$bus.authHas(this.$route.meta.auth, 0)
     },
     exception() {
       return this.$route.name == 'NotFound'

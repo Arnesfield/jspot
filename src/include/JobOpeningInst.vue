@@ -72,7 +72,7 @@
         </v-tooltip>
       </div>
       
-      <v-flex class="pa-3">
+      <v-flex class="pa-3" @click="dSlim = !dSlim">
         <div class="headline mb-1">{{ item.title }}</div>
         <div v-if="!dSlim" class="grey--text">{{ item.description }}</div>
         <v-list dense class="pb-0 transparent">

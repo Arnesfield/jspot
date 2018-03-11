@@ -4,6 +4,7 @@
   prepend-icon="search"
   append-icon="close"
   :append-icon-cb="clearInput"
+  :loading="loading"
   label="Search"
   class="mx-3"
   solo-inverted
@@ -18,13 +19,14 @@ import debounce from 'lodash/debounce'
 export default {
   name: 'searchbar',
   data: () => ({
-    input: null
+    input: null,
+    loading: false
   }),
   watch: {
     $route(to, from) {
       // only clear if to and from not dashboard
       if (to.name !== 'Dashboard' && from.name !== 'Dashboard') {
-        this.input = null
+        this.clearInput()
       }
     },
     input(e) {
@@ -32,6 +34,7 @@ export default {
       if (this.$route.name === 'Dashboard') {
         this.$bus.progress.active = true
       }
+      this.loading = true
       this.$bus.search.input = e
       this.search()
     }
@@ -40,6 +43,7 @@ export default {
   methods: {
     clearInput() {
       this.input = null
+      this.$bus.search.input = null
     },
     search: debounce(function(e) {
       if (typeof e !== 'string') {
@@ -58,6 +62,7 @@ export default {
       }
 
       // emit search
+      this.loading = false
       this.$bus.$emit('search', this.input)
     }, 500)
   }

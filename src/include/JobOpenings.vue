@@ -40,7 +40,7 @@
           <v-icon size="64px">work</v-icon>
         </div>
         <v-btn
-          v-if="$bus.session.user && $bus.session.user.id == user.id"
+          v-if="$bus.session.user && user && $bus.session.user.id == user.id"
           color="primary"
           slot="btn"
           @click="$bus.$emit('add--job-opening')"
@@ -49,7 +49,7 @@
     </v-layout>
   </template>
 
-  <dialog-job-opening v-if="$bus.session.user && $bus.session.user.id == user.id"/>
+  <dialog-job-opening v-if="$bus.session.user && user && $bus.session.user.id == user.id"/>
   <dialog-job-apply @success="fetch"/>
 
 </v-container>
@@ -105,15 +105,22 @@ export default {
 
   created() {
     this.listView = this.$bus.profile.listView
-    this.$bus.$on('watch--profile.listView', (to, from) => {
-      this.listView = to
-    })
+    this.$bus.$on('watch--profile.listView', this.profileListView)
     this.$bus.$on('add--job-opening', this.addJobOpening)
     this.$bus.$on('update--my-job-openings', this.fetch)
     this.fetch()
   },
+  beforeDestroy() {
+    this.$bus.$off('watch--profile.listView', this.profileListView)
+    this.$bus.$off('add--job-opening', this.addJobOpening)
+    this.$bus.$off('update--my-job-openings', this.fetch)
+  },
 
   methods: {
+    profileListView(to, from) {
+      this.listView = to
+    },
+
     apply(job) {
       this.$bus.$emit('dialog--job.apply', job)
     },

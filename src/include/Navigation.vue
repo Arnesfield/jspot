@@ -93,9 +93,15 @@ export default {
     lists: [
       {
         header: '',
+        auth: [2, 3, 4],
+        items: [
+          { title: 'Dashboard', icon: 'dashboard', to: '/dashboard' }
+        ]
+      },
+      {
+        header: '',
         auth: [3, 4],
         items: [
-          { title: 'Dashboard', icon: 'dashboard', to: '/dashboard' },
           { title: 'Profile', icon: 'account_circle', to: '/profile' }
         ]
       },
@@ -176,6 +182,27 @@ export default {
         }
 
         this.$bus.$emit('snackbar--show', 'Logout successfully.')
+        // unregister listeners
+        // this.$bus.$off([
+        //   'dialog--job-apply.update-applicants',
+        //   'add--job-opening',
+        //   'update--my-job-openings',
+        //   'add--user',
+        //   'dialog--manage-user.add',
+        //   'update--manage-users',
+        //   'update--dashboard',
+        //   'dialog--manage-user.add',
+        //   'dialog--apply-action.show',
+        //   'dialog--global.delete',
+        //   'dialog--delete.show',
+        //   'dialog--job.apply',
+        //   'dialog--job-apply.update-applicants',
+        //   'dialog--job-opening.add',
+        //   'watch--profile.listView',
+        //   'add--job-opening',
+        //   'update--my-job-openings',
+        //   'update--dashboard'
+        // ])
         this.$bus.sessionCheck(this.$route, this.$http)
       }).catch(e => {
         console.error(e)

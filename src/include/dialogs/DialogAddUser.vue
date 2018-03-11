@@ -305,7 +305,15 @@ export default {
   },
 
   created() {
-    this.$bus.$on('dialog--manage-user.add', (to, from) => {
+    this.$bus.$on('dialog--manage-user.add', this.manageUserAdd)
+    this.alsoPassword = this.mode == 'Add'
+  },
+  beforeDestroy() {
+    this.$bus.$off('dialog--manage-user.add', this.manageUserAdd)
+  },
+
+  methods: {
+    manageUserAdd(to, from) {
       this.alsoPassword = this.mode == 'Add'
       if (to && this.mode == 'Edit') {
         this.doEdit()
@@ -313,11 +321,7 @@ export default {
       if (!to) {
         this.clear()
       }
-    })
-    this.alsoPassword = this.mode == 'Add'
-  },
-
-  methods: {
+    },
     doEdit() {
       this.alsoPassword = this.mode == 'Add'
 

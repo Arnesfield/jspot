@@ -88,6 +88,10 @@ export default {
     this.$bus.$on('update--my-job-openings', this.fetch)
     this.fetch()
   },
+  beforeDestroy() {
+    this.$bus.$off('add--job-opening', this.addJobOpening)
+    this.$bus.$off('update--my-job-openings', this.fetch)
+  },
 
   methods: {
     addJobOpening() {

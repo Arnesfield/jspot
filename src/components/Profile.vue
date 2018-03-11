@@ -98,6 +98,9 @@ export default {
     this.$bus.$on('change--session.auth', this.checkAuth)
     this.checkAuth()
   },
+  beforeDestroy() {
+    this.$bus.$off('change--session.auth', this.checkAuth)
+  },
 
   methods: {
     checkAuth() {
@@ -119,7 +122,7 @@ export default {
     },
     fetch(id) {
       if (typeof id === 'undefined') {
-        id = this.$bus.session.user.id
+        id = this.$bus.session.user ? this.$bus.session.user.id : false
       }
       this.loading = true
       this.$http.post(this.url, qs.stringify({
