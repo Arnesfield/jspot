@@ -6,12 +6,28 @@
     color="primary"
   >
     <v-toolbar-side-icon @click.stop="$bus.navToggle"/>
-    <v-toolbar-title
-      @click="$router.push('/')"
-      class="clickable"
-    >JSpot</v-toolbar-title>
+    <v-flex hidden-xs-only hidden-sm-only xs2>
+      <v-toolbar-title
+        @click="$router.push('/')"
+        class="clickable"
+      >JSpot</v-toolbar-title>
+    </v-flex>
+
+    <!-- search -->
+    <!-- <template v-if="$route.name === 'Dashboard'"> -->
+      <v-flex xs12 sm9 md7>
+        <searchbar/>
+      </v-flex>
+    <!-- </template> -->
 
     <!-- side -->
+    <template v-if="$route.name === 'Dashboard'">
+      <v-spacer/>
+      <btn-refresh
+        click="update--dashboard"
+        :refresh="$bus.progress.circular.Dashboard.refresh"
+      />
+    </template>
     <template v-if="$route.name === 'ManageUsers'">
       <v-spacer/>
       <btn-refresh
@@ -51,11 +67,13 @@
 </template>
 
 <script>
+import Searchbar from '@/include/Searchbar'
 import BtnRefresh from '@/include/BtnRefresh'
 
 export default {
   name: 'toolbar',
   components: {
+    Searchbar,
     BtnRefresh
   }
 }

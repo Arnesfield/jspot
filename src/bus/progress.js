@@ -9,6 +9,9 @@ export default {
     },
     JobOpenings: {
       refresh: false
+    },
+    Dashboard: {
+      refresh: false
     }
   }
 }

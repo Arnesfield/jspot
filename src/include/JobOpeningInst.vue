@@ -1,5 +1,9 @@
 <template>
-<v-card class="pa-0s">
+<v-card
+  ripple
+  class="pa-0 clickable"
+  style="overflow: hidden"
+>
   <v-card-title class="pb-0" style="padding: 8px !important">
     <v-layout>
       <div class="grey lighten-3 pa-1" style="width: 64px">
@@ -71,7 +75,7 @@
       <v-flex class="pa-3">
         <div class="headline mb-1">{{ item.title }}</div>
         <div v-if="!dSlim" class="grey--text">{{ item.description }}</div>
-        <v-list dense class="pb-0">
+        <v-list dense class="pb-0 transparent">
           
           <!-- job -->
 
@@ -153,7 +157,7 @@
           <div>
             <v-tooltip top>
               <v-icon slot="activator" size="21.6px">location_on</v-icon>
-              <span>Age group</span>
+              <span>Location</span>
             </v-tooltip>
           </div>
           <div class="px-3">

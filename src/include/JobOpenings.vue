@@ -10,9 +10,10 @@
     <v-subheader :key="'subheader-' + i">{{ t.title }}</v-subheader>
     <v-layout :key="'layout-' + i" row wrap>
       <v-flex
-        :md4="!listView"
         xs12
-        :sm6="!listView"
+        sm12
+        :md6="!listView"
+        :lg4="!listView"
         :key="i"
         v-for="(job, i) in jobs"
         v-if="Number(job.status) == t.n"

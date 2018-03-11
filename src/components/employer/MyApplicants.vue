@@ -10,16 +10,20 @@
     <template v-for="(job, i) in jobs" v-if="(temp = getApplicants(job.id)).length">
       <v-layout :key="'layout-' + i">
         <v-subheader class="pl-0">
-          <v-btn
-            small
-            icon
-            @click="viewJob(job)"
-          >
-            <v-icon
+          <v-tooltip top>
+            <v-btn
               small
-              color="grey"
-            >info</v-icon>
-          </v-btn>
+              icon
+              slot="activator"
+              @click="viewJob(job)"
+            >
+              <v-icon
+                small
+                color="grey"
+              >info</v-icon>
+            </v-btn>
+            <span>Job info</span>
+          </v-tooltip>
           <span>{{ job.title }}</span>
         </v-subheader>
       </v-layout>

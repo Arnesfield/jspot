@@ -172,6 +172,63 @@ class MY_Custom_Controller extends MY_View_Controller {
     }
     return $jobs;
   }
+
+  public function _getAge($time) {
+    $date = date('Y-m-d', strtotime($time));
+
+    $dobObject = new DateTime($date);
+    $nowObject = new DateTime();
+
+    $diff = $dobObject->diff($nowObject);
+
+    return $diff->y;
+  }
+
+  public function _getClosestAge($time) {
+    $age = $this->_getAge($time);
+    if ($age >= 55) {
+      return 55;
+    } else if ($age >= 45) {
+      return 45;
+    } else if ($age >= 35) {
+      return 35;
+    } else if ($age >= 25) {
+      return 25;
+    } else if ($age >= 18) {
+      return 18;
+    }
+
+    return FALSE;
+  }
+
+  public function _usersDecode($users, $col = FALSE) {
+    $fields = array(
+      'places' => 'places',
+      'job_tags' => 'job_tags',
+      'socials' => 'socials'
+    );
+
+    if ($col) {
+      foreach ($fields as $key => $value) {
+        $fields[$key] = $value;
+      }
+    }
+
+    foreach ($users as $key => $user) {
+      $users[$key][$fields['places']] = json_decode($user[$fields['places']], TRUE);
+      $users[$key][$fields['job_tags']] = json_decode($user[$fields['job_tags']], TRUE);
+      $users[$key][$fields['socials']] = json_decode($user[$fields['socials']], TRUE);
+    }
+    return $users;
+  }
+
+  public function _concat($arr) {
+    $str = '';
+    foreach ($arr as $key => $value) {
+      $str .= $value.' ';
+    }
+    return trim($str);
+  }
 }
 
 ?>

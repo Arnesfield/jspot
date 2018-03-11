@@ -56,7 +56,7 @@ export default new Router({
       name: 'Dashboard',
       component: Dashboard,
       meta: {
-        auth: [3, 4],
+        auth: [10, 3, 4],
         icon: 'dashboard'
       }
     },

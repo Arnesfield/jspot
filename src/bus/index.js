@@ -2,6 +2,7 @@ import Vue from 'vue'
 import nav from './nav'
 import fab from './fab'
 import tabs from './tabs'
+import search from './search'
 import dialog from './dialog'
 import profile from './profile'
 import session from './session'
@@ -13,6 +14,7 @@ export default new Vue({
     nav: nav,
     fab: fab,
     tabs: tabs,
+    search: search,
     dialog: dialog,
     profile: profile,
     session: session,
