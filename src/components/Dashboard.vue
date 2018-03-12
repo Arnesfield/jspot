@@ -38,7 +38,21 @@ export default {
     BoostedList,
     SearchDashboard
   },
+  created() {
+    this.$bus.$on('change--session.auth', this.checkAuth)
+    this.checkAuth()
+  },
+  beforeDestroy() {
+    this.$bus.$off('change--session.auth', this.checkAuth)
+  },
+  
   methods: {
+    checkAuth() {
+      // goto manage users if auth is admin
+      if (this.$bus.session.auth && this.$bus.authHas(this.$bus.session.auth, 2)) {
+        this.$router.push('/manage/users')
+      }
+    },
     fetchedBoosted(e) {
       if (this.$refs.searchDashboard) {
         this.$refs.searchDashboard.fetchedBoosted(e)

@@ -93,7 +93,7 @@ export default {
     lists: [
       {
         header: '',
-        auth: [2, 3, 4],
+        auth: [3, 4],
         items: [
           { title: 'Dashboard', icon: 'dashboard', to: '/dashboard' }
         ]

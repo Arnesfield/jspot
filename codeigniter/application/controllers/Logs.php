@@ -36,7 +36,7 @@ class Logs extends MY_Custom_Controller {
   private function createMagicDates($views) {
     $TODAY = strtotime('00:00:00');
     $myViews = array();
-    for ($i = 30; $i >= -1; $i--) {
+    for ($i = 30; $i >= 0; $i--) {
       $day = $i + 1;
       $dayAfter = $i;
       

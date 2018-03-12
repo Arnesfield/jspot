@@ -2,15 +2,15 @@
 <v-card>
   <v-card-title primary-title>
     <div>
-    <h3 class="title mb-2" v-html="title"></h3>
-    <div
-      class="caption grey--text"
-    >
-      <template>Showing views from</template>
-      <template>{{ getStartDate() }}</template>
-      <template>to</template>
-      <template>{{ getEndDate() }}</template>
-    </div>
+      <h3 class="title mb-2" v-html="title"></h3>
+      <div
+        class="caption grey--text"
+      >
+        <template>Showing views from</template>
+        <strong>{{ getStartDate() }}</strong>
+        <template>to</template>
+        <strong>{{ getEndDate() }}</strong>.
+      </div>
     </div>
   </v-card-title>
   <v-card-text class="pt-1">
@@ -49,6 +49,7 @@ export default {
     views: null,
     jobs: null,
     titles: null,
+    colors: {},
     loading: false
   }),
   watch: {
@@ -64,12 +65,14 @@ export default {
   },
   created() {
     this.$bus.$on('update--boosts', this.fetch)
+    this.$bus.$on('update--dashboard', this.fetch)
   },
   mounted() {
     this.fetch()
   },
   beforeDestroy() {
     this.$bus.$off('update--boosts', this.fetch)
+    this.$bus.$off('update--dashboard', this.fetch)
   },
   methods: {
     getStartDate() {
@@ -100,6 +103,7 @@ export default {
       const primaryColor = 'rgb(30, 136, 229)'
 
       let colors = [primaryColor]
+      this.colors = {}
 
       let datasets = [{
         label: 'Profile',
@@ -121,6 +125,10 @@ export default {
           // if color exists, do dynamic again
           color = dynamicColors()
         } while (colors.indexOf(color) > -1)
+
+        // insert that color
+        colors.push(color)
+        this.$set(this.colors, key, color)
 
         datasets.push({
           label: label,
@@ -165,6 +173,8 @@ export default {
           }
         }
       })
+
+      this.$emit('color', this.colors)
     },
     fetch() {
       this.loading = true
