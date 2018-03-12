@@ -21,6 +21,7 @@
     class="pt-0"
     v-if="!isBoosted"
   >
+    <v-spacer/>
     <v-btn
       flat
       to="/boosts"

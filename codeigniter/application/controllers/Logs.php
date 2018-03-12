@@ -142,6 +142,12 @@ class Logs extends MY_Custom_Controller {
     if ($uid == $vid && $type == 'users') {
       $this->_json(FALSE);
     }
+    
+    // do not proceed if viewer is an admin
+    // use session instead
+    if ($this->session->userdata('user')['type'] == 2) {
+      $this->_json(FALSE);
+    }
 
     if ($type == 'jobs') {
       // get the creator of that job

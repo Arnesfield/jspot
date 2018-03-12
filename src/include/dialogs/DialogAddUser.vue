@@ -3,7 +3,7 @@
   v-model="$bus.dialog.ManageUsers.add"
   transition="fade-transition"
   scrollable
-  :persistent="loading"
+  :persistent="true"
   max-width="900"
 >
   <v-card>

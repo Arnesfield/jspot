@@ -3,7 +3,7 @@
   v-model="show"
   transition="fade-transition"
   scrollable
-  :persistent="loading"
+  :persistent="true"
   max-width="900"
 >
   <v-card>
