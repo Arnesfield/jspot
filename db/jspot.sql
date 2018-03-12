@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 12, 2018 at 04:30 PM
+-- Generation Time: Mar 12, 2018 at 06:52 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -197,6 +197,7 @@ INSERT INTO `users` (`id`, `password`, `fname`, `lname`, `bio`, `birthdate`, `im
 CREATE TABLE `views` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
+  `job_id` int(11) NOT NULL,
   `viewer_id` int(11) NOT NULL,
   `viewed_at` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -205,13 +206,17 @@ CREATE TABLE `views` (
 -- Dumping data for table `views`
 --
 
-INSERT INTO `views` (`id`, `user_id`, `viewer_id`, `viewed_at`) VALUES
-(1, 3, 2, 1520843261),
-(2, 3, 2, 1520846744),
-(3, 3, 2, 1520852746),
-(4, 3, 2, 1520852750),
-(5, 2, 3, 1520865745),
-(6, 3, 2, 1520866579);
+INSERT INTO `views` (`id`, `user_id`, `job_id`, `viewer_id`, `viewed_at`) VALUES
+(1, 3, 0, 2, 1520843261),
+(2, 3, 0, 2, 1520846744),
+(3, 3, 0, 2, 1520852746),
+(4, 3, 0, 2, 1520852750),
+(5, 2, 0, 3, 1520865745),
+(6, 3, 0, 2, 1520866579),
+(7, 3, 0, 2, 1520870202),
+(8, 0, 5, 3, 1520870324),
+(9, 0, 2, 3, 1520872556),
+(10, 0, 3, 3, 1520872560);
 
 --
 -- Indexes for dumped tables
@@ -314,7 +319,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `views`
 --
 ALTER TABLE `views`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

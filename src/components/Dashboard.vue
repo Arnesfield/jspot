@@ -2,13 +2,14 @@
 <div>
   <v-container
     grid-list-lg
+    class="pb-0"
     v-if="$bus.authHas($bus.session.auth, [3, 4])"
   >
-    <v-layout>
+    <v-layout row wrap>
       <v-flex xs12 sm12 md12 lg4>
         <boost-ad/>
       </v-flex>
-      <v-flex xs12 sm12 md12 lg8>
+      <v-flex hidden-sm-and-down md12 lg8>
         <views-graph/>
       </v-flex>
     </v-layout>

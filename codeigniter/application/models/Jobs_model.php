@@ -2,6 +2,13 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Jobs_model extends MY_Custom_Model {
+  public function simpleGet($id) {
+    $this->db
+      ->from('jobs')
+      ->where('id', $id);
+    $query = $this->db->get();
+    return $this->_res($query);
+  }
   public function get($id = NULL, $where = NULL) {
     $this->db
       ->select('

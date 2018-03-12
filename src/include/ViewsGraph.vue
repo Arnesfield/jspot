@@ -32,6 +32,7 @@
 <script>
 import qs from 'qs'
 import Chart from 'chart.js'
+import dynamicColors from '@/assets/js/dynamicColors'
 
 export default {
   name: 'views-graph',
@@ -44,7 +45,10 @@ export default {
   },
   data: () => ({
     url: '/logs/views',
+    chart: null,
     views: null,
+    jobs: null,
+    titles: null,
     loading: false
   }),
   watch: {
@@ -85,35 +89,63 @@ export default {
       if (!this.$refs.chart || this.views === null) {
         return
       }
+      // destroy current chart
+      if (this.chart !== null) {
+        this.chart.destroy()
+      }
+
       let dates = Object.keys(this.views)
       let views = Object.values(this.views)
+
+      const primaryColor = 'rgb(30, 136, 229)'
+
+      let colors = [primaryColor]
+
+      let datasets = [{
+        label: 'Profile',
+        backgroundColor: primaryColor,
+        borderColor: primaryColor,
+        data: views,
+        fill: false
+      }]
+
+      // loop through keys of jobs or titles
+      let jobKeys = Object.keys(this.jobs)
+      jobKeys.forEach(key => {
+        let label = this.titles[key]
+        let jobDates = Object.keys(this.jobs[key])
+        let jobViews = Object.values(this.jobs[key])
+        // generate color
+        let color = null
+        do {
+          // if color exists, do dynamic again
+          color = dynamicColors()
+        } while (colors.indexOf(color) > -1)
+
+        datasets.push({
+          label: label,
+          backgroundColor: color,
+          borderColor: color,
+          data: jobViews,
+          fill: false
+        })
+      })
       
-      new Chart(this.$refs.chart, {
+      // create chart
+      this.chart = new Chart(this.$refs.chart, {
         type: 'line',
         data: {
           labels: dates,
-          datasets: [{
-            label: null,
-            // backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-            backgroundColor: '#1e88e5',
-            borderColor: '#1e88e5',
-            data: views,
-            fill: false
-          }]
+          datasets: datasets
         },
         options: {
           responsive: true,
-          legend: {
-            display: false
-          },
+          // legend: {
+          //   display: false
+          // },
           tooltips: {
             mode: 'index',
-            intersect: false,
-            callbacks: {
-              label: function(tooltipItem) {
-                return tooltipItem.yLabel;
-              }
-            }
+            intersect: false
           },
           hover: {
             mode: 'nearest',
@@ -149,6 +181,8 @@ export default {
         }
         this.loading = false
         this.views = res.data.views
+        this.jobs = res.data.jobs
+        this.titles = res.data.titles
         this.setChart()
       }).catch(e => {
         console.warn(e)

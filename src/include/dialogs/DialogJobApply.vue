@@ -215,6 +215,7 @@ export default {
   },
   data: () => ({
     url: '/apply/applicants',
+    logsViewedUrl: '/logs/viewed',
     show: false,
     job: null,
     tabs: '0',
@@ -234,6 +235,9 @@ export default {
         return
       }
 
+      // insert view
+      this.insertViewed()
+
       // check if sess is this
       if (this.$bus.session.user && this.$bus.session.user.id == this.job.created_by) {
         this.fetchApplicants()
@@ -251,6 +255,17 @@ export default {
   },
 
   methods: {
+    insertViewed() {
+      if (!this.job && typeof this.job.id === 'undefined' || this.job.id === null) {
+        return
+      }
+      this.$http.post(this.logsViewedUrl, qs.stringify({
+        id: this.job.id,
+        type: 'jobs'
+      })).then(res => {}).catch(e => {
+        console.warn(e)
+      })
+    },
     jobApply(job, viewOnly, viewApplyMode, viewApplicants) {
       if (typeof viewOnly !== 'boolean') {
         viewOnly = false
