@@ -1,15 +1,17 @@
 <template>
 <div>
   <views-graph/>
-  <div class="mt-4">
-    <v-layout justify-center align-center>
-      <v-flex lg10>
-        <div>
-          <profile-boost-form/>
-        </div>
-      </v-flex>
-    </v-layout>
-  </div>
+  <v-layout
+    class="mt-4"
+    align-center
+    justify-center
+  >
+    <v-flex lg10>
+      <div>
+        <profile-boost-form/>
+      </div>
+    </v-flex>
+  </v-layout>
 </div>
 </template>
 
@@ -22,12 +24,6 @@ export default {
   components: {
     ViewsGraph,
     ProfileBoostForm
-  },
-  data: () => ({
-
-  }),
-  methods: {
-
   }
 }
 </script>

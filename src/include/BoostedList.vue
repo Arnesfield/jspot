@@ -1,18 +1,48 @@
 <template>
-<div>
+<v-flex
+  xs12
+  sm12
+  md6
+  lg4
+  v-if="combined.length"
+>
   <v-subheader>Boosted</v-subheader>
 
   <div class="elevation-1 white">
-
+    <template v-for="(item) in combined">
+      <job-opening-inst
+        v-if="item.title"
+        slim
+        :item="item"
+        :key="'job-' + item.id"
+        class="mb-2 pa-0"
+        @view="viewJob"
+        @apply="apply"
+      />
+      <user-inst
+        :key="'user-' + item.id"
+        v-else-if="item.fname"
+        class="mb-2 pa-0"
+        :item="item"
+      />
+    </template>
   </div>
-</div>
+</v-flex>
 </template>
 
 <script>
 import createCombined from '@/assets/js/createCombined'
+import DialogJobApply from '@/include/dialogs/DialogJobApply'
+import JobOpeningInst from '@/include/JobOpeningInst'
+import UserInst from '@/include/UserInst'
 
 export default {
   name: 'boosted-list',
+  components: {
+    DialogJobApply,
+    JobOpeningInst,
+    UserInst
+  },
   data: () => ({
     url: '/boost/suggest',
     jobs: [],
@@ -44,6 +74,7 @@ export default {
         this.jobs = res.data.jobs
         this.users = res.data.users
         this.combined = createCombined(this.jobs, this.users)
+        this.$emit('fetched', this.combined)
         this.loading = false
       }).catch(e => {
         console.error(e)

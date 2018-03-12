@@ -22,7 +22,7 @@ class Boost_model extends MY_Custom_Model {
     return $this->db->insert('boosts', $data);
   }
 
-  public function getUsers($where) {
+  public function getUsers($where, $fulltext = FALSE) {
     $this->db
       ->select('
         u.*,
@@ -33,11 +33,15 @@ class Boost_model extends MY_Custom_Model {
       ->join('users u', 'u.id = b.ref_id')
       ->where(array(
         'b.status' => 1,
-        'tbl_name' => 'users'
+        'b.tbl_name' => 'users'
       ));
     
     if ($where) {
       $this->db->where($where);
+    }
+
+    if ($fulltext) {
+      $this->db->where($fulltext, NULL, FALSE);
     }
 
     $this->db
@@ -48,7 +52,7 @@ class Boost_model extends MY_Custom_Model {
     return $this->_res($query);
   }
 
-  public function getJobs($where) {
+  public function getJobs($where, $fulltext = FALSE) {
     $this->db
       ->select('
         j.*,
@@ -59,11 +63,15 @@ class Boost_model extends MY_Custom_Model {
       ->join('jobs j', 'j.id = b.ref_id')
       ->where(array(
         'b.status' => 1,
-        'tbl_name' => 'jobs'
+        'b.tbl_name' => 'jobs'
       ));
     
     if ($where) {
       $this->db->where($where);
+    }
+
+    if ($fulltext) {
+      $this->db->where($fulltext, NULL, FALSE);
     }
 
     $this->db

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 12, 2018 at 01:13 PM
+-- Generation Time: Mar 12, 2018 at 04:30 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -70,7 +70,7 @@ CREATE TABLE `boosts` (
 --
 
 INSERT INTO `boosts` (`id`, `ref_id`, `tbl_name`, `created_at`, `ends_at`, `status`) VALUES
-(1, 2, 'users', 1520856771, 1520943171, 1);
+(1, 2, 'users', 1520868583, 1520954983, 1);
 
 -- --------------------------------------------------------
 
@@ -209,7 +209,9 @@ INSERT INTO `views` (`id`, `user_id`, `viewer_id`, `viewed_at`) VALUES
 (1, 3, 2, 1520843261),
 (2, 3, 2, 1520846744),
 (3, 3, 2, 1520852746),
-(4, 3, 2, 1520852750);
+(4, 3, 2, 1520852750),
+(5, 2, 3, 1520865745),
+(6, 3, 2, 1520866579);
 
 --
 -- Indexes for dumped tables
@@ -312,7 +314,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `views`
 --
 ALTER TABLE `views`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

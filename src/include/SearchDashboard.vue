@@ -10,6 +10,7 @@
   <template v-if="combined.length">
 
     <v-layout row wrap>
+      <slot name="col"/>
       <v-flex
         xs12
         sm12
@@ -48,7 +49,6 @@
           />
         </template>
       </v-flex>
-      <slot name="col"/>
     </v-layout>
 
   </template>
@@ -92,7 +92,7 @@ export default {
     DialogJobApply,
     JobOpeningInst,
     UserInst,
-    ManageNoData,
+    ManageNoData
   },
   data: () => ({
     url: '/search',
@@ -100,7 +100,7 @@ export default {
     users: [],
     combined: [],
     loading: false,
-    maxCol: 2
+    maxCol: 3
   }),
   watch: {
     loading(e) {
@@ -153,6 +153,9 @@ export default {
         console.error(e)
         this.loading = false
       })
+    },
+    fetchedBoosted(combined) {
+      this.maxCol = combined.length == 0 ? 3 : 2
     },
 
     apply(job) {
