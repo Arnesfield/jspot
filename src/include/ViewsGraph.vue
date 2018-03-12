@@ -14,6 +14,10 @@
     </div>
   </v-card-title>
   <v-card-text class="pt-1">
+    <div
+      v-if="loading && !views"
+      class="text-xs-center caption grey--text pa-2"
+    >Loading...</div>
     <div class="line-graph-container">
       <canvas
         ref="chart"
@@ -50,9 +54,6 @@ export default {
     views: {
       deep: true,
       handler(e) {
-        if (e === null) {
-          return
-        }
         this.setChart()
       }
     }
@@ -86,7 +87,7 @@ export default {
       }
       let dates = Object.keys(this.views)
       let views = Object.values(this.views)
-      // return;
+      
       new Chart(this.$refs.chart, {
         type: 'line',
         data: {
@@ -137,7 +138,7 @@ export default {
       this.loading = true
       let id =
         typeof this.id === 'undefined' || this.id === null
-          ? false
+          ? null
           : this.id
       this.$http.post(this.url, qs.stringify({
         id: id
@@ -146,9 +147,9 @@ export default {
         if (!res.data.success) {
           throw new Error('Request failure.')
         }
+        this.loading = false
         this.views = res.data.views
         this.setChart()
-        this.loading = false
       }).catch(e => {
         console.warn(e)
         this.loading = false

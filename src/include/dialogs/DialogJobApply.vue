@@ -3,7 +3,12 @@
   v-model="show"
   transition="fade-transition"
   scrollable
-  :persistent="loading"
+  :persistent="loading || (
+    tabs == '1' &&
+    $bus.session.user &&
+    $bus.authHas($bus.session.auth, [3,4]) &&
+    !viewOnly
+  )"
   max-width="640"
 >
   <v-card v-if="job">

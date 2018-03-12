@@ -22,7 +22,7 @@
               <template v-if="!allow && endsAt">
                 <v-divider class="mt-2"/>
                 <div class="subheading mt-2">
-                  <template>You have boosted! Boost again after</template>
+                  <template>You have boosted! You can boost again after</template>
                   <strong>{{ endsAt }}</strong>.
                 </div>
               </template>
@@ -32,7 +32,7 @@
             <!-- <v-spacer/> -->
             <v-btn
               color="warning"
-              @click="submit"
+              @click="dialog = true"
               :disabled="loading || !allow"
               :loading="loading"
             >Boost</v-btn>
@@ -41,6 +41,32 @@
       </v-form>
     </v-flex>
   </v-layout>
+
+  <v-dialog
+    v-model="dialog"
+    transition="fade-transition"
+    max-width="280"
+  >
+    <v-card>
+      <v-card-title
+        primary-title
+        class="title"
+      >Confirm Boost</v-card-title>
+      <v-card-text class="pt-0 pb-1">This will boost your profile up in the dashboard.</v-card-text>
+      <v-card-actions>
+        <v-spacer/>
+        <v-btn
+          flat
+          @click="dialog = false"
+        >Cancel</v-btn>
+        <v-btn
+          flat
+          color="warning"
+          @click="submit"
+        >Boost</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </v-card>
 </template>
 
@@ -53,10 +79,15 @@ export default {
     allow: false,
     endsAt: null,
     checkLoading: false,
-    loading: false
+    loading: false,
+    dialog: false
   }),
   created() {
+    this.$bus.$on('update--boosts', this.fetch)
     this.fetch()
+  },
+  beforeDestroy() {
+    this.$bus.$off('update--boosts', this.fetch)
   },
   methods: {
     fetch(successCb) {
@@ -83,6 +114,7 @@ export default {
           throw new Error('Request failure.')
         }
         this.loading = false
+        this.dialog = false
         this.fetch(() => {
           this.$bus.$emit('snackbar--show', {
             text: 'Boosted your profile!',
@@ -112,6 +144,7 @@ export default {
           }
         })
         this.loading = false
+        this.dialog = false
       })
     }
   }
