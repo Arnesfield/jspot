@@ -28,6 +28,13 @@
         :refresh="$bus.progress.circular.Dashboard.refresh"
       />
     </template>
+    <template v-if="$route.name === 'Boosts'">
+      <v-spacer/>
+      <btn-refresh
+        click="update--boosts"
+        :refresh="$bus.progress.circular.Boosts.refresh"
+      />
+    </template>
     <template v-if="$route.name === 'ManageUsers'">
       <v-spacer/>
       <btn-refresh

@@ -2,6 +2,26 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Boost_model extends MY_Custom_Model {
+  public function getLatestBoost($id, $tbl_name = 'users') {
+    $this->db
+      ->from('boosts')
+      ->where(array(
+        'ref_id' => $id,
+        'tbl_name' => $tbl_name,
+        'status' => 1
+      ))
+      ->order_by('ends_at', 'DESC')
+      ->order_by('created_at', 'DESC')
+      ->limit(1);
+
+    $query = $this->db->get();
+    return $this->_res($query);
+  }
+
+  public function insert($data) {
+    return $this->db->insert('boosts', $data);
+  }
+
   public function getUsers($where) {
     $this->db
       ->select('

@@ -61,6 +61,7 @@ export default {
   },
   data: () => ({
     url: '/users/profile',
+    logsViewedUrl: '/logs/viewed',
     user: null,
     loading: false,
     jobOpenings: true
@@ -96,6 +97,7 @@ export default {
   },
   created() {
     this.$bus.$on('change--session.auth', this.checkAuth)
+    this.insertViewed()
     this.checkAuth()
   },
   beforeDestroy() {
@@ -103,6 +105,16 @@ export default {
   },
 
   methods: {
+    insertViewed() {
+      if (typeof this.id === 'undefined' || this.id === null) {
+        return
+      }
+      this.$http.post(this.logsViewedUrl, qs.stringify({
+        id: this.id
+      })).then(res => {}).catch(e => {
+        console.warn(e)
+      })
+    },
     checkAuth() {
       // if id not set, get sess id
       // if sess id not set, redirect to login

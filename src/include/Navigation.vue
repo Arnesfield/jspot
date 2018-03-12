@@ -127,6 +127,13 @@ export default {
         ]
       },
       {
+        header: '',
+        auth: [3, 4],
+        items: [
+          { title: 'Boosts', icon: 'trending_up', to: '/boosts' }
+        ]
+      },
+      {
         header: 'Manage',
         auth: 2,
         items: [

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 11, 2018 at 02:12 PM
+-- Generation Time: Mar 12, 2018 at 01:13 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -64,6 +64,13 @@ CREATE TABLE `boosts` (
   `ends_at` int(11) NOT NULL,
   `status` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `boosts`
+--
+
+INSERT INTO `boosts` (`id`, `ref_id`, `tbl_name`, `created_at`, `ends_at`, `status`) VALUES
+(1, 2, 'users', 1520856771, 1520943171, 1);
 
 -- --------------------------------------------------------
 
@@ -181,6 +188,29 @@ INSERT INTO `users` (`id`, `password`, `fname`, `lname`, `bio`, `birthdate`, `im
 (2, '$2y$10$o92osqp/bG8JBOvlqVKj0.KaETjrxaiSWwXh7Luw6Gw6MIPQAfnV2', 'Jefferson', 'Rylee', '', '1999-03-13', 'rylee.jpg', '[\"programming\"]', '[\"Manila\"]', '[\"twitter.com\\/Arnesfield\"]', 'rylee@email.com', 3, '09876543210', '', '', 0, 1519017628, 1519041879, '\"\"', 1),
 (3, '$2y$10$kzXRXhZLoDNYd1jottSyu.FLHW9OfuOVLnLLUSH3g8/4vprJlDbIW', 'Cayle', 'Anielle', 'Some bio', '1998-06-19', '', '[\"art\",\"photography\",\"animation\"]', '[\"Manila\"]', '[\"facebook.com\"]', 'cayle@email.com', 4, '09876543210', '', '', 0, 1519215119, 1519238897, '\"\"', 1);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `views`
+--
+
+CREATE TABLE `views` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `viewer_id` int(11) NOT NULL,
+  `viewed_at` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `views`
+--
+
+INSERT INTO `views` (`id`, `user_id`, `viewer_id`, `viewed_at`) VALUES
+(1, 3, 2, 1520843261),
+(2, 3, 2, 1520846744),
+(3, 3, 2, 1520852746),
+(4, 3, 2, 1520852750);
+
 --
 -- Indexes for dumped tables
 --
@@ -233,6 +263,12 @@ ALTER TABLE `users` ADD FULLTEXT KEY `FULLTEXT_INDEX_FNAME` (`fname`);
 ALTER TABLE `users` ADD FULLTEXT KEY `FULLTEXT_INDEX_LNAME` (`lname`);
 
 --
+-- Indexes for table `views`
+--
+ALTER TABLE `views`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -246,7 +282,7 @@ ALTER TABLE `apply`
 -- AUTO_INCREMENT for table `boosts`
 --
 ALTER TABLE `boosts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `jobs`
@@ -271,6 +307,12 @@ ALTER TABLE `tags`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `views`
+--
+ALTER TABLE `views`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

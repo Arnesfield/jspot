@@ -6,6 +6,7 @@ import Login from '@/components/Login'
 import Dashboard from '@/components/Dashboard'
 import NotFound from '@/components/NotFound'
 import Profile from '@/components/Profile'
+import Boosts from '@/components/Boosts'
 
 // employer
 import MyJobOpenings from '@/components/employer/MyJobOpenings'
@@ -68,6 +69,16 @@ export default new Router({
       meta: {
         auth: [10, 3, 4],
         icon: 'account_circle'
+      }
+    },
+    {
+      path: '/boosts',
+      name: 'Boosts',
+      component: Boosts,
+      props: true,
+      meta: {
+        auth: [3, 4],
+        icon: 'trending_up'
       }
     },
     

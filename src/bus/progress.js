@@ -12,6 +12,9 @@ export default {
     },
     Dashboard: {
       refresh: false
+    },
+    Boosts: {
+      refresh: false
     }
   }
 }
