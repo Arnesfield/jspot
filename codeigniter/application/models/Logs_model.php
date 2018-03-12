@@ -38,7 +38,10 @@ class Logs_model extends MY_Custom_Model {
       ->select('j.*')
       ->from('jobs j')
       ->join('users u', 'u.id = j.created_by')
-      ->where('u.id', $uid);
+      ->where(array(
+        'u.id' => $uid,
+        'u.type' => 3
+      ));
     $query = $this->db->get();
     return $this->_res($query);
   }

@@ -74,6 +74,13 @@ class Logs extends MY_Custom_Controller {
 
   private function getJobsViews($uid) {
     $jobs = $this->logs_model->getJobIdsOfUser($uid);
+
+    if (!$jobs) {
+      return array(
+        'jobs' => array(),
+        'titles' => array()
+      );
+    }
     
     // make jobs id => title
     $jobTitles = array();
