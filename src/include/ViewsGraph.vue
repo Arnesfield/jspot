@@ -195,7 +195,7 @@ export default {
         this.titles = res.data.titles
         this.setChart()
       }).catch(e => {
-        console.warn(e)
+        console.error(e)
         this.loading = false
       })
     }

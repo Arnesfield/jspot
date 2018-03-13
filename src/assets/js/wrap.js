@@ -9,7 +9,7 @@ const shortMonth = (month) => month.substring(0, 3)
 let _date = function(e, short) {
   short = typeof short === 'boolean' ? short : true
 
-  let date = new Date((Number(e) + 24*60*60) * 1000)
+  let date = new Date((Number(e)/* + 24*60*60 */) * 1000)
 
   let year = date.getUTCFullYear()
   let temp = monthNames[date.getUTCMonth()]
@@ -22,7 +22,7 @@ let _date = function(e, short) {
 let _time = function(e, noSeconds) {
   noSeconds = typeof noSeconds === 'boolean' ? noSeconds : false
 
-  let date = new Date((Number(e) + 24*60*60) * 1000)
+  let date = new Date((Number(e)/*  + 24*60*60 */) * 1000)
 
   let hours = leadZero(date.getHours())
   let mins = leadZero(date.getMinutes())

@@ -1,12 +1,13 @@
 <template>
-<v-card>
+<v-card hover>
   <v-layout>
     <v-flex
-      hidden-xs-only
-      hidden-sm-only
+      xs1
+      sm2
+      md3
       lg4
       class="primary"
-    ></v-flex>
+    />
     <v-flex>
       <v-form>
         <v-card class="elevation-0">
@@ -29,12 +30,15 @@
           <v-card-actions class="py-3 px-2">
             <!-- <v-spacer/> -->
             <v-btn
-              color="warning"
-              @click="dialog = true"
-              :disabled="loading || !allow"
+              :color="isBoosted ? 'success' : 'warning'"
+              @click="clickBoost"
+              :disabled="loading"
               :loading="loading"
             >
-              <template v-if="isBoosted">Boosted</template>
+              <template v-if="isBoosted">
+                <v-icon>check</v-icon>
+                <span>Boosted</span>
+              </template>
               <template v-else>Boost</template>
             </v-btn>
           </v-card-actions>
@@ -106,6 +110,11 @@ export default {
     this.$bus.$off('update--boosts', this.fetch)
   },
   methods: {
+    clickBoost() {
+      if (this.allow) {
+        this.dialog = true
+      }
+    },
     fetch(successCb) {
       this.checkLoading = true
       this.$http.post(this.checkUrl).then(res => {

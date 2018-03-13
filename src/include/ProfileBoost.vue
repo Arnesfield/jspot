@@ -1,8 +1,6 @@
 <template>
 <div>
-  <views-graph/>
   <v-layout
-    class="mt-4"
     align-center
     justify-center
   >
@@ -16,13 +14,11 @@
 </template>
 
 <script>
-import ViewsGraph from '@/include/ViewsGraph'
 import ProfileBoostForm from '@/include/forms/ProfileBoostForm'
 
 export default {
   name: 'profile-boost',
   components: {
-    ViewsGraph,
     ProfileBoostForm
   }
 }

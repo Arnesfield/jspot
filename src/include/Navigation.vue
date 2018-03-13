@@ -16,10 +16,7 @@
     class="pb-0"
     :class="{ 'py-0': i != 0 }"
     :key="i"
-    v-if="
-      ($bus.authHas(list.auth, 0) && $bus.authHas($bus.session.auth, 0))
-      || $bus.authCheck(list.auth)
-    "
+    v-if="$bus.authHas(list.auth, $bus.session.auth, 10)"
     v-for="(list, i) in lists"
     :subheader="Boolean(list.header)"
   >

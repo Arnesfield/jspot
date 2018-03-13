@@ -22,7 +22,7 @@ class Jobs_model extends MY_Custom_Model {
       ->where('j.status !=', -1);
     
     if ($id) {
-      $this->db->where('created_by', $id);
+      $this->db->where('j.created_by', $id);
     }
 
     if ($where) {
@@ -30,8 +30,8 @@ class Jobs_model extends MY_Custom_Model {
     }
 
     $this->db
-      ->order_by('updated_at', 'DESC')
-      ->order_by('created_at', 'DESC');
+      ->order_by('j.updated_at', 'DESC')
+      ->order_by('j.created_at', 'DESC');
 
     $query = $this->db->get();
     return $this->_res($query);

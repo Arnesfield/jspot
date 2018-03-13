@@ -27,19 +27,18 @@
       />
     </template>
   </div>
+
 </v-flex>
 </template>
 
 <script>
 import createCombined from '@/assets/js/createCombined'
-import DialogJobApply from '@/include/dialogs/DialogJobApply'
 import JobOpeningInst from '@/include/JobOpeningInst'
 import UserInst from '@/include/UserInst'
 
 export default {
   name: 'boosted-list',
   components: {
-    DialogJobApply,
     JobOpeningInst,
     UserInst
   },
@@ -80,6 +79,13 @@ export default {
         console.error(e)
         this.loading = false
       })
+    },
+
+    apply(job) {
+      this.$bus.$emit('dialog--job.apply', job)
+    },
+    viewJob(job, viewOnly) {
+      this.$bus.$emit('dialog--job.apply', job, viewOnly)
     }
   }
 }

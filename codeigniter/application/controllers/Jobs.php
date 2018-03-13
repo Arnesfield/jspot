@@ -45,10 +45,41 @@ class Jobs extends MY_Custom_Controller {
     ));
   }
 
+  public function boosts() {
+    $this->load->model('boost_model');
+    // get uid
+    $uid = $this->session->userdata('user')['id'];
+    $jobs = $this->jobs_model->get($uid);
+    $boosted = $this->boost_model->getJobs(array(
+      'j.created_by' => $uid,
+      'b.ends_at >' => time()
+    ));
+
+    // replace jobs with boosted jobs if same id
+    if ($boosted) {
+      $jobIds = $this->boost_model->_to_col($jobs, 'id');
+      $boostedJobIds = $this->boost_model->_to_col($boosted, 'id');
+
+      foreach ($boostedJobIds as $key => $bid) {
+        // if boosted job id exists, replace that with the boosted
+        if (($indexOfJob = array_search($bid, $jobIds)) !== FALSE) {
+          $jobs[$indexOfJob] = $boosted[$key];
+        }
+      }
+    }
+
+    $jobs = $this->_formatJobsArray($jobs);
+
+    $this->_json(TRUE, array(
+      'jobs' => $jobs
+    ));
+  }
+
   public function add() {
     $mode = $this->input->post('mode');
     $title = $this->_filter($this->input->post('title'));
     $description = $this->_filter($this->input->post('description'));
+    $payment = $this->input->post('payment');
     $timeFrom = $this->input->post('timeFrom');
     $timeTo = $this->input->post('timeTo');
     $dateFrom = $this->input->post('dateFrom');
@@ -69,6 +100,7 @@ class Jobs extends MY_Custom_Controller {
     $data = array(
       'title' => $title,
       'description' => $description,
+      'payment' => $payment,
       'timeFrom' => $timeFrom,
       'timeTo' => $timeTo,
       'dateFrom' => $dateFrom,

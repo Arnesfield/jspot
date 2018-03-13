@@ -92,6 +92,23 @@
 
         <v-layout row>
           <v-flex hidden-xs-only sm4>
+            <v-subheader>Payment</v-subheader>
+          </v-flex>
+          <v-flex sm8>
+            <v-text-field
+              label="Payment"
+              placeholder="How much is the pay?"
+              v-model="payment"
+              :disabled="loading"
+              prepend-icon="payment"
+              :rules="[$vfRule('required')]"
+              required
+            />
+          </v-flex>
+        </v-layout>
+
+        <v-layout row>
+          <v-flex hidden-xs-only sm4>
             <v-subheader>Demographic</v-subheader>
           </v-flex>
           <v-flex sm8>
@@ -168,6 +185,7 @@ export default {
     title: null,
     age_group: null,
     description: null,
+    payment: null,
     location: [],
     job_tags: [],
     time: null,
@@ -221,6 +239,7 @@ export default {
         mode: this.mode,
         title: this.title,
         description: this.description,
+        payment: this.payment,
         age_group: JSON.stringify(this.age_group),
         timeFrom: this.time.from + ':00',
         timeTo: this.time.to + ':00',
@@ -259,6 +278,7 @@ export default {
       this.formValid = false
       this.title = null
       this.description = null
+      this.payment = null
       this.location = []
       this.job_tags = []
       this.time = null

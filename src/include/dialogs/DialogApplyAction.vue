@@ -10,7 +10,8 @@
     <v-toolbar
       dark
       card
-      color="primary"
+      dense
+      color="primary lighten-1"
     >
       <v-btn
         icon
@@ -28,7 +29,7 @@
       height="3"
       :active="loading"
       indeterminate
-      class="ma-0 primary"
+      class="ma-0 primary lighten-1"
     />
 
     <v-card-text>

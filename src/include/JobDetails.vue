@@ -53,7 +53,7 @@
 
   <!-- description -->
 
-  <v-layout>
+  <v-layout v-if="job.description">
 
     <v-flex xs12 sm4>
       <div class="subheader">Job description</div>
@@ -138,7 +138,28 @@
 
   </v-layout>
 
-  <!-- location -->
+  <!-- payment -->
+
+  <v-layout>
+
+    <v-flex xs12 sm4>
+      <div class="subheader">Payment</div>
+    </v-flex>
+    <v-flex xs12 class="py-1">
+      <v-layout>
+        <div class="py-2 px-3">
+          <v-icon>payment</v-icon>
+        </div>
+        <div
+          class="py-2 subheading"
+          v-text="job.payment"
+        ></div>
+      </v-layout>
+    </v-flex>
+
+  </v-layout>
+
+  <!-- tags -->
 
   <v-layout>
 

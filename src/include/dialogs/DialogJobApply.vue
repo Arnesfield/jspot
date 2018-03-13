@@ -263,7 +263,7 @@ export default {
         id: this.job.id,
         type: 'jobs'
       })).then(res => {}).catch(e => {
-        console.warn(e)
+        console.error(e)
       })
     },
     jobApply(job, viewOnly, viewApplyMode, viewApplicants) {

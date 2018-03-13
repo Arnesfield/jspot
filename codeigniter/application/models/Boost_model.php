@@ -27,7 +27,7 @@ class Boost_model extends MY_Custom_Model {
       ->select('
         u.*,
         b.created_at AS b_created_at,
-        b.ends_at AS b_ends_at
+        MAX(b.ends_at) AS b_ends_at
       ')
       ->from('boosts b')
       ->join('users u', 'u.id = b.ref_id')
@@ -45,6 +45,7 @@ class Boost_model extends MY_Custom_Model {
     }
 
     $this->db
+      ->group_by('b.ref_id')
       ->order_by('created_at', 'DESC')
       ->order_by('ends_at', 'DESC');
     
@@ -53,17 +54,23 @@ class Boost_model extends MY_Custom_Model {
   }
 
   public function getJobs($where, $fulltext = FALSE) {
+    // also include creator
     $this->db
       ->select('
         j.*,
         b.created_at AS b_created_at,
-        b.ends_at AS b_ends_at
+        u.fname AS creator_fname,
+        u.lname AS creator_lname,
+        u.img_src AS creator_img_src,
+        MAX(b.ends_at) AS b_ends_at
       ')
       ->from('boosts b')
       ->join('jobs j', 'j.id = b.ref_id')
+      ->join('users u', 'u.id = j.created_by')
       ->where(array(
         'b.status' => 1,
-        'b.tbl_name' => 'jobs'
+        'b.tbl_name' => 'jobs',
+        'j.status !=' => -1
       ));
     
     if ($where) {
@@ -75,6 +82,7 @@ class Boost_model extends MY_Custom_Model {
     }
 
     $this->db
+      ->group_by('b.ref_id')
       ->order_by('created_at', 'DESC')
       ->order_by('ends_at', 'DESC');
     

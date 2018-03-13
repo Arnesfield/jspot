@@ -112,7 +112,7 @@ export default {
       this.$http.post(this.logsViewedUrl, qs.stringify({
         id: this.id
       })).then(res => {}).catch(e => {
-        console.warn(e)
+        console.error(e)
       })
     },
     checkAuth() {
