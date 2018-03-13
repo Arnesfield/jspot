@@ -7,8 +7,15 @@
   bottom
   right
 >
-  <template v-if="fab !== null">
-    <v-tooltip left slot="activator" :disabled="!fab.tip">
+  <template v-if="fab !== null && !fab.hidden">
+    <v-tooltip
+      :top="fab.tipPos ? fab.tipPos === 'top' : false"
+      :bottom="fab.tipPos ? fab.tipPos === 'bottom' : false"
+      :left="fab.tipPos ? fab.tipPos === 'left' : true"
+      :right="fab.tipPos ? fab.tipPos === 'right' : false"
+      slot="activator"
+      :disabled="!fab.tip"
+    >
       <v-btn
         slot="activator"
         v-model="$bus.fab.model"

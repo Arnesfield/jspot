@@ -15,6 +15,14 @@ export default {
       click: 'add--job-opening',
       tip: 'Create job opening',
       btns: null
+    },
+    Profile: {
+      hidden: true,
+      color: 'accent',
+      before: '',
+      click: null,
+      tip: null,
+      btns: null
     }
   }
 }

@@ -29,9 +29,15 @@ export default {
     loading: false
   }),
   created() {
-    this.$bus.$on('dialog--login', () => {
+    this.$bus.$on('dialog--login', this.login)
+  },
+  beforeDestroy() {
+    this.$bus.$off('dialog--login', this.login)
+  },
+  methods: {
+    login() {
       this.show = true
-    })
+    }
   }
 }
 </script>

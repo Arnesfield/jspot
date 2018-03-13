@@ -42,6 +42,23 @@ export default new Vue({
   },
 
   methods: {
+    setFabViewer() {
+      this.fab.inst.Profile.hidden = true
+      this.fab.inst.Profile.click = null
+    },
+    setFabViewerLogged() {
+      this.fab.inst.Profile.hidden = false
+      this.fab.inst.Profile.before = 'rate_review'
+      this.fab.inst.Profile.tip = 'Submit a review'
+      this.fab.inst.Profile.click = 'profile--review'
+    },
+    setFabMyself() {
+      this.fab.inst.Profile.hidden = false
+      this.fab.inst.Profile.before = 'edit'
+      this.fab.inst.Profile.tip = 'Edit'
+      this.fab.inst.Profile.click = 'profile--edit'
+    },
+
     navToggle() {
       if (this.nav.model) {
         if (this.nav.miniVariant) {

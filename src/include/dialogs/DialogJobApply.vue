@@ -20,6 +20,7 @@
       height="3"
       :active="loading"
       indeterminate
+      background-color="primary lighten-1"
       class="ma-0 primary lighten-1"
     />
     <v-layout class="primary lighten-1" style="min-height: 48px">

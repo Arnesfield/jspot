@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 13, 2018 at 12:44 PM
+-- Generation Time: Mar 13, 2018 at 03:30 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -135,6 +135,30 @@ INSERT INTO `places` (`id`, `name`, `status`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `reviews`
+--
+
+CREATE TABLE `reviews` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `reviewer_id` int(11) NOT NULL,
+  `subject` varchar(255) NOT NULL,
+  `body` text NOT NULL,
+  `rating` tinyint(4) NOT NULL,
+  `created_at` int(11) NOT NULL,
+  `status` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `reviews`
+--
+
+INSERT INTO `reviews` (`id`, `user_id`, `reviewer_id`, `subject`, `body`, `rating`, `created_at`, `status`) VALUES
+(1, 3, 2, 'Nice', 'New message here', 3, 1520951429, 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tags`
 --
 
@@ -235,7 +259,26 @@ INSERT INTO `views` (`id`, `user_id`, `job_id`, `viewer_id`, `viewed_at`) VALUES
 (21, 2, 0, 3, 1520938580),
 (22, 2, 0, 3, 1520938619),
 (23, 0, 2, 3, 1520938630),
-(24, 0, 6, 3, 1520938634);
+(24, 0, 6, 3, 1520938634),
+(25, 3, 0, 2, 1520943483),
+(26, 3, 0, 2, 1520943595),
+(27, 3, 0, 2, 1520943628),
+(28, 3, 0, 2, 1520945049),
+(29, 3, 0, 2, 1520945092),
+(30, 3, 0, 2, 1520945098),
+(31, 3, 0, 2, 1520945159),
+(32, 3, 0, 2, 1520945377),
+(33, 0, 5, 3, 1520946457),
+(34, 2, 0, 3, 1520946471),
+(35, 2, 0, 3, 1520946962),
+(36, 2, 0, 3, 1520947005),
+(37, 2, 0, 3, 1520947069),
+(38, 0, 5, 3, 1520947430),
+(39, 3, 0, 2, 1520947698),
+(40, 3, 0, 2, 1520947911),
+(41, 3, 0, 2, 1520948430),
+(42, 3, 0, 2, 1520948437),
+(43, 3, 0, 2, 1520951332);
 
 --
 -- Indexes for dumped tables
@@ -269,6 +312,12 @@ ALTER TABLE `jobs` ADD FULLTEXT KEY `FULLTEXT_INDEX_TITLE` (`title`);
 ALTER TABLE `places`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `name` (`name`);
+
+--
+-- Indexes for table `reviews`
+--
+ALTER TABLE `reviews`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `tags`
@@ -323,6 +372,12 @@ ALTER TABLE `places`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT for table `reviews`
+--
+ALTER TABLE `reviews`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `tags`
 --
 ALTER TABLE `tags`
@@ -338,7 +393,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `views`
 --
 ALTER TABLE `views`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

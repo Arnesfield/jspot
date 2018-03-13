@@ -9,7 +9,8 @@
     </v-flex>
     <v-flex sm9>
       <v-text-field
-        label="Enter subject"
+        label="Subject"
+        placeholder="Enter subject"
         v-model="subject"
         :disabled="loading"
         prepend-icon="subject"
@@ -27,7 +28,8 @@
     </v-flex>
     <v-flex sm9>
       <v-text-field
-        label="Enter message body"
+        label="Message body"
+        placeholder="Enter message body"
         v-model="body"
         :disabled="loading"
         prepend-icon="message"

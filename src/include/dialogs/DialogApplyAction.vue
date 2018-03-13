@@ -29,6 +29,7 @@
       height="3"
       :active="loading"
       indeterminate
+      background-color="primary lighten-1"
       class="ma-0 primary lighten-1"
     />
 
