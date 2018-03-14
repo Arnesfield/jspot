@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 13, 2018 at 03:30 PM
+-- Generation Time: Mar 14, 2018 at 09:53 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -142,7 +142,6 @@ CREATE TABLE `reviews` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `reviewer_id` int(11) NOT NULL,
-  `subject` varchar(255) NOT NULL,
   `body` text NOT NULL,
   `rating` tinyint(4) NOT NULL,
   `created_at` int(11) NOT NULL,
@@ -153,8 +152,12 @@ CREATE TABLE `reviews` (
 -- Dumping data for table `reviews`
 --
 
-INSERT INTO `reviews` (`id`, `user_id`, `reviewer_id`, `subject`, `body`, `rating`, `created_at`, `status`) VALUES
-(1, 3, 2, 'Nice', 'New message here', 3, 1520951429, 1);
+INSERT INTO `reviews` (`id`, `user_id`, `reviewer_id`, `body`, `rating`, `created_at`, `status`) VALUES
+(1, 3, 2, 'New message here', 3, 1520951429, 1),
+(2, 3, 2, 'Messageee', 3, 1520961429, 1),
+(3, 2, 3, 'Messagee hehe', 4, 1520955410, 1),
+(4, 2, 3, 'New messagee lol', 5, 1521012687, 1),
+(5, 2, 3, 'Test', 5, 1521017583, 1);
 
 -- --------------------------------------------------------
 
@@ -278,7 +281,61 @@ INSERT INTO `views` (`id`, `user_id`, `job_id`, `viewer_id`, `viewed_at`) VALUES
 (40, 3, 0, 2, 1520947911),
 (41, 3, 0, 2, 1520948430),
 (42, 3, 0, 2, 1520948437),
-(43, 3, 0, 2, 1520951332);
+(43, 3, 0, 2, 1520951332),
+(44, 3, 0, 2, 1520951651),
+(45, 3, 0, 2, 1520951829),
+(46, 3, 0, 2, 1520951833),
+(47, 0, 5, 3, 1521004049),
+(48, 0, 5, 3, 1521004064),
+(49, 0, 5, 3, 1521004092),
+(50, 0, 3, 3, 1521004135),
+(51, 0, 5, 3, 1521004190),
+(52, 0, 3, 3, 1521004211),
+(53, 2, 0, 3, 1521006894),
+(54, 2, 0, 3, 1521007238),
+(55, 2, 0, 3, 1521007444),
+(56, 2, 0, 3, 1521009743),
+(57, 2, 0, 3, 1521010175),
+(58, 2, 0, 3, 1521010297),
+(59, 2, 0, 3, 1521011007),
+(60, 2, 0, 3, 1521011062),
+(61, 2, 0, 3, 1521011112),
+(62, 2, 0, 3, 1521011118),
+(63, 2, 0, 3, 1521012262),
+(64, 2, 0, 3, 1521012292),
+(65, 2, 0, 3, 1521012424),
+(66, 2, 0, 3, 1521012516),
+(67, 2, 0, 3, 1521013222),
+(68, 2, 0, 3, 1521013408),
+(69, 2, 0, 3, 1521013449),
+(70, 2, 0, 3, 1521013505),
+(71, 2, 0, 3, 1521013538),
+(72, 2, 0, 3, 1521013545),
+(73, 2, 0, 3, 1521013568),
+(74, 2, 0, 3, 1521013604),
+(75, 2, 0, 3, 1521013646),
+(76, 2, 0, 3, 1521013665),
+(77, 2, 0, 3, 1521014038),
+(78, 2, 0, 3, 1521014057),
+(79, 2, 0, 3, 1521014060),
+(80, 2, 0, 3, 1521014107),
+(81, 2, 0, 3, 1521014109),
+(82, 2, 0, 3, 1521014126),
+(83, 2, 0, 3, 1521014131),
+(84, 2, 0, 3, 1521014212),
+(85, 2, 0, 3, 1521014302),
+(86, 2, 0, 3, 1521014317),
+(87, 2, 0, 3, 1521014358),
+(88, 2, 0, 3, 1521014943),
+(89, 2, 0, 3, 1521014984),
+(90, 2, 0, 3, 1521014987),
+(91, 2, 0, 3, 1521015095),
+(92, 2, 0, 3, 1521015335),
+(93, 2, 0, 3, 1521015373),
+(94, 2, 0, 3, 1521015413),
+(95, 2, 0, 3, 1521015746),
+(96, 2, 0, 3, 1521015875),
+(97, 2, 0, 3, 1521016013);
 
 --
 -- Indexes for dumped tables
@@ -375,7 +432,7 @@ ALTER TABLE `places`
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tags`
@@ -393,7 +450,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `views`
 --
 ALTER TABLE `views`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

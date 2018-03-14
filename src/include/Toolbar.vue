@@ -65,8 +65,11 @@
         <span v-else>View as grid</span>
       </v-tooltip>
       <btn-refresh
-        click="update--my-job-openings"
-        :refresh="$bus.progress.circular.JobOpenings.refresh"
+        :click="[
+          'update--my-job-openings',
+          'update--reviews'
+        ]"
+        :refresh="$bus.progress.circular.Profile.refresh"
       />
     </template>
 

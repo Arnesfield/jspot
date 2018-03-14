@@ -8,21 +8,32 @@ class Reviews extends MY_Custom_Controller {
   }
 
   public function index() {
-    $uid = $this->input->post('id') ? $this->input->post('id') : $this->session->userdata('user')['id'];
-    // get all reviews of received
+    // if has post id, get reviews received by that id
+    // if none, get reviews given by sess id
+    $where = array();
+    $tbl = '';
+    if ($id = $this->input->post('id')) {
+      $tbl = 'u';
+      $where['r.user_id'] = $id;
+    } else {
+      $tbl = 're';
+      $where['r.reviewer_id'] = $this->session->userdata('user')['id'];
+    }
+
+    $reviews = $this->reviews_model->get($where);
+    
+    $this->_json(TRUE, 'reviews', $reviews);
   }
 
   public function review() {
     $reviewer_id = $this->session->userdata('user')['id'];
     $uid = $this->input->post('id');
-    $subject = $this->_filter($this->input->post('subject'));
     $body = $this->_filter($this->input->post('body'));
     $rating = $this->input->post('rating');
 
     $data = array(
       'user_id' => $uid,
       'reviewer_id' => $reviewer_id,
-      'subject' => $subject,
       'body' => $body,
       'rating' => $rating,
       'created_at' => time(),

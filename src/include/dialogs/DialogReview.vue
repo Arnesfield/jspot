@@ -32,16 +32,6 @@
       <v-form ref="form" v-model="form">
 
         <v-text-field
-          label="Subject"
-          placeholder="Enter subject"
-          v-model="subject"
-          :disabled="loading"
-          prepend-icon="subject"
-          :rules="[$vfRule('required')]"
-          required
-        />
-
-        <v-text-field
           label="Message body"
           placeholder="Enter message body"
           v-model="body"
@@ -112,7 +102,6 @@ export default {
     url: '/reviews/review',
     form: false,
     id: null,
-    subject: null,
     body: null,
     rating: 0,
     ratingError: false,
@@ -163,7 +152,6 @@ export default {
       this.$http.post(this.url, qs.stringify({
         id: this.id,
         body: this.body,
-        subject: this.subject,
         rating: this.rating
       })).then(res => {
         if (!res.data.success) {
@@ -172,6 +160,7 @@ export default {
         this.show = false
         this.loading = false
         this.$bus.$emit('snackbar--show', 'Review has been submitted.')
+        this.$bus.$emit('update--reviews')
       }).catch(e => {
         console.error(e)
         this.loading = false
@@ -183,7 +172,6 @@ export default {
         this.$refs.form.reset()
       }
 
-      this.subject = null
       this.body = null
       this.rating = 0
       this.ratingError = false

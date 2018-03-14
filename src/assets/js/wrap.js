@@ -1,7 +1,5 @@
 import monthNames from './months'
-
-const dev = true
-const base_url = dev ? 'http://localhost/jspot/public/' : 'to be set'
+import base_url from './baseURL'
 
 const leadZero = (num) => (num < 10 ? '0' : '') + num
 const shortMonth = (month) => month.substring(0, 3)

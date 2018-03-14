@@ -7,7 +7,7 @@ export default {
     MyJobOpenings: {
       refresh: false
     },
-    JobOpenings: {
+    Profile: {
       refresh: false
     },
     Dashboard: {

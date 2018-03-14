@@ -28,6 +28,7 @@
         <template v-if="$bus.profile.type == 4">
           <v-tab>Activity</v-tab>
         </template>
+        <v-tab>Reviews</v-tab>
       </v-tabs>
     </template>
 

@@ -47,10 +47,6 @@ export default {
       type: String,
       default: 'fname'
     },
-    lname: {
-      type: String,
-      default: 'lname'
-    },
     img: {
       type: String,
       default: 'imgSrc'

@@ -1,6 +1,7 @@
 export default {
   global: {
-    delete: null
+    delete: null,
+    confirm: null
   },
   ManageUsers: {
     add: null

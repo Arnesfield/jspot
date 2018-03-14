@@ -87,7 +87,6 @@
                   size="24"
                   class="elevation-1"
                   fname="creator_fname"
-                  lname="creator_lname"
                   img="creator_img_src"
                   slot="activator"
                   v-if="typeof item.creator_img_src === 'string' && item.creator_img_src.length"

@@ -102,7 +102,6 @@
                       size="24"
                       class="elevation-1"
                       fname="applier_fname"
-                      lname="applier_lname"
                       img="applier_img_src"
                       v-if="typeof a.applier_img_src === 'string' && a.applier_img_src.length"
                     />

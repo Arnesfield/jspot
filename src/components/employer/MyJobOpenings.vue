@@ -79,6 +79,7 @@ export default {
 
   watch: {
     loading(e) {
+      this.$bus.progress.active = e
       this.$bus.progress.circular.MyJobOpenings.refresh = e
     }
   },

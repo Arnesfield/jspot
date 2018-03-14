@@ -42,7 +42,6 @@
             size="24"
             class="elevation-1"
             fname="applier_fname"
-            lname="applier_lname"
             img="applier_img_src"
             v-if="typeof item.applier_img_src === 'string' && item.applier_img_src.length"
           />

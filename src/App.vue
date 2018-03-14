@@ -14,6 +14,7 @@
       <router-view/>
       <fab/>
       <dialog-delete/>
+      <dialog-confirm/>
       <dialog-login/>
     </v-content>
     <toolbar v-if="!exception && authCheck"/>
@@ -27,6 +28,7 @@ import Fab from '@/include/Fab'
 import Toolbar from '@/include/Toolbar'
 import ToolbarContent from '@/include/ToolbarContent'
 import DialogDelete from '@/include/dialogs/DialogDelete'
+import DialogConfirm from '@/include/dialogs/DialogConfirm'
 import DialogLogin from '@/include/dialogs/DialogLogin'
 import Snackbar from '@/include/Snackbar'
 
@@ -38,6 +40,7 @@ export default {
     Toolbar,
     ToolbarContent,
     DialogDelete,
+    DialogConfirm,
     DialogLogin,
     Snackbar
   },

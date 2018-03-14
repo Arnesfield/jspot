@@ -7,7 +7,7 @@
   >
     <v-btn
       icon
-      @click="$bus.$emit(click)"
+      @click="refreshClick"
       slot="activator"
     >
       <v-progress-circular
@@ -27,11 +27,22 @@
 export default {
   name: 'btn-refresh',
   props: {
-    click: String,
+    click: [String, Array],
     refresh: Boolean,
     tip: {
       type: String,
       default: 'left'
+    }
+  },
+  methods: {
+    refreshClick() {
+      if (typeof this.click === 'string') {
+        this.$bus.$emit(this.click)
+      } else {
+        this.click.forEach(e => {
+          this.$bus.$emit(e)
+        })
+      }
     }
   }
 }

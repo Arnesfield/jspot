@@ -20,24 +20,34 @@
 
   <v-tabs-items
     v-model="$bus.tabs.profile"
-    :style="jobOpenings ? {
+    :style="noData ? {
       'height': 'calc(100% - 128px)'
     } : null"
   >
-    <v-tab-item
-      :style="jobOpenings ? {
-        'height': '100%'
-      } : null"
-    >
-      <!-- tab items for employer -->
-      <template v-if="$bus.profile.type == 3">
-        <job-openings v-model="jobOpenings" :user="user"/>
-      </template>
-      <!-- tab items for employee -->
-      <template v-if="$bus.profile.type == 4">
-        Test
-      </template>
-    </v-tab-item>
+    <template v-if="$bus.profile.type == 3">
+      <v-tab-item :style="jobOpenings ? { height: '100%' } : null">
+        <job-openings
+          v-model="jobOpenings"
+          :user="user"
+        />
+      </v-tab-item>
+      <v-tab-item>
+        Activity employer
+      </v-tab-item>
+      <v-tab-item :style="reviews ? { height: '100%' } : null">
+        <reviews v-model="reviews" :user="user"/>
+      </v-tab-item>
+    </template>
+
+    <template v-else-if="$bus.profile.type == 4">
+      <v-tab-item>
+        Activity employee
+      </v-tab-item>
+      <v-tab-item :style="reviews ? { height: '100%' } : null">
+        <reviews v-model="reviews" :user="user"/>
+      </v-tab-item>
+    </template>
+
   </v-tabs-items>
 
   <dialog-review/>
@@ -50,6 +60,7 @@ import ProfileNav from '@/include/nav/ProfileNav'
 import ManageNoData from '@/include/ManageNoData'
 import DialogReview from '@/include/dialogs/DialogReview'
 import JobOpenings from '@/include/JobOpenings'
+import Reviews from '@/include/Reviews'
 import qs from 'qs'
 
 export default {
@@ -61,16 +72,33 @@ export default {
     ProfileNav,
     ManageNoData,
     DialogReview,
-    JobOpenings
+    JobOpenings,
+    Reviews
   },
   data: () => ({
     url: '/users/profile',
     logsViewedUrl: '/logs/viewed',
     user: null,
     loading: false,
-    jobOpenings: true
+    jobOpenings: true,
+    reviews: true
   }),
   computed: {
+    noData() {
+      if (this.$bus.profile.type == 3) {
+        if (this.$bus.tabs.profile == '0') {
+          return this.jobOpenings
+        } else if (this.$bus.tabs.profile == '2') {
+          return this.reviews
+        }
+      }
+      else if (this.$bus.profile.type == 4) {
+        if (this.$bus.tabs.profile == '1') {
+          return this.reviews
+        }
+      }
+      return false
+    },
     editable() {
       // editable if id is same as session uid
       let id = null

@@ -95,11 +95,15 @@ export default {
     user(e) {
       this.fetch()
     },
-    jobs(e) {
-      this.$emit('input', e.length == 0)
+    jobs: {
+      deep: true,
+      handler(e) {
+        this.$emit('input', e.length == 0)
+      }
     },
     loading(e) {
-      this.$bus.progress.circular.JobOpenings.refresh = e
+      this.$bus.progress.active = e
+      this.$bus.progress.circular.Profile.refresh = e
     }
   },
 

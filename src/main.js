@@ -10,14 +10,14 @@ import bus from './bus'
 import routerCond from './router/cond'
 import formRules from './assets/js/formRules'
 import wrap from './assets/js/wrap'
+import _baseURL from './assets/js/baseURL'
 import colors from 'vuetify/es5/util/colors'
 
 import 'vuetify/dist/vuetify.min.css'
 import './assets/css/common.css'
 import './assets/css/override.css'
 
-const dev = true
-const baseURL = dev ? 'http://localhost/jspot/public/api' : 'to be set'
+const baseURL = _baseURL + 'api'
 const http = axios.create({
   baseURL: baseURL,
   withCredentials: true
