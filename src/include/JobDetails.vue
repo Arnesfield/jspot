@@ -10,13 +10,15 @@
     <v-flex xs12 class="py-1">
       <v-layout>
         <div class="py-2 px-3">
-          <v-avatar
+          <icon-img
+            :item="job"
             size="24"
-            v-if="imgSrc && imgSrc.isImg"
             class="elevation-1"
-          >
-            <img :src="$wrap.localImg(imgSrc.text)">
-          </v-avatar>
+            fname="creator_fname"
+            lname="creator_lname"
+            img="creator_img_src"
+            v-if="typeof job.creator_img_src === 'string' && job.creator_img_src.length"
+          />
           <v-icon v-else>person</v-icon>
         </div>
         <div class="py-2 subheading">
@@ -183,28 +185,15 @@
 </template>
 
 <script>
+import IconImg from '@/include/IconImg'
+
 export default {
   name: 'job-details',
+  components: {
+    IconImg
+  },
   props: {
     job: Object
-  },
-  computed: {
-    imgSrc() {
-      let user = this.job
-      if (typeof user !== 'object' || user === null) {
-        return null
-      }
-      if (typeof user.creator_img_src !== 'string' || !user.creator_img_src.length) {
-        return {
-          isImg: false,
-          text: user.creator_fname.charAt(0).toUpperCase()
-        }
-      } 
-      return {
-        isImg: true,
-        text: user.creator_img_src
-      }
-    }
   }
 }
 </script>

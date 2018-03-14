@@ -96,15 +96,17 @@
                   :key="'tile-' + i"
                   @click="viewApply(a)"
                 >
-                  <v-list-tile-action>
-                    <v-avatar
+                  <v-list-tile-action class="thin-48">
+                    <icon-img
+                      :item="a"
                       size="24"
-                      v-if="imgSrc(a) && imgSrc(a).isImg"
                       class="elevation-1"
-                    >
-                      <img :src="$wrap.localImg(imgSrc(a).text)">
-                    </v-avatar>
-                    <v-icon v-else>person</v-icon>  
+                      fname="applier_fname"
+                      lname="applier_lname"
+                      img="applier_img_src"
+                      v-if="typeof a.applier_img_src === 'string' && a.applier_img_src.length"
+                    />
+                    <v-icon v-else>person</v-icon>
                   </v-list-tile-action>
                   <v-list-tile-content>
                     <v-list-tile-title
@@ -203,6 +205,7 @@ import ApplyDetails from '@/include/ApplyDetails'
 import ManageNoData from '@/include/ManageNoData'
 import DialogApplyAction from './DialogApplyAction'
 import ApplyStatus from '@/include/ApplyStatus'
+import IconImg from '@/include/IconImg'
 
 export default {
   name: 'dialog-job-apply',
@@ -212,7 +215,8 @@ export default {
     ApplyDetails,
     ManageNoData,
     DialogApplyAction,
-    ApplyStatus
+    ApplyStatus,
+    IconImg
   },
   data: () => ({
     url: '/apply/applicants',
@@ -347,22 +351,6 @@ export default {
         this.loading = false
         this.fetchLoading = false
       })
-    },
-
-    imgSrc(user) {
-      if (typeof user !== 'object' || user === null) {
-        return null
-      }
-      if (typeof user.applier_img_src !== 'string' || !user.applier_img_src.length) {
-        return {
-          isImg: false,
-          text: user.applier_fname.charAt(0).toUpperCase()
-        }
-      } 
-      return {
-        isImg: true,
-        text: user.applier_img_src
-      }
     }
   }
 }

@@ -8,15 +8,13 @@
   <v-card-title class="pb-0" style="padding: 8px !important">
     <v-layout class="">
       <div class="pa-2 mr-3 grey lighten-3">
-        <v-avatar class="accent elevation-1">
-          <template v-if="temp = imgSrc()">
-            <img v-if="temp.isImg" :src="$wrap.localImg(temp.text)">
-            <span v-else class="white--text headline">{{ temp.text }}</span>
-          </template>
-          <template v-else>
-            <span class="white--text headline">?</span>
-          </template>
-        </v-avatar>
+        <icon-img
+          :item="item"
+          img="img_src"
+          color="accent"
+          class="elevation-1"
+          textClass="white--text headline"
+        />
       </div>
 
       <div class="py-3">
@@ -64,8 +62,13 @@
 </template>
 
 <script>
+import IconImg from '@/include/IconImg'
+
 export default {
   name: 'user-inst',
+  components: {
+    IconImg
+  },
   props: {
     item: Object
   },
@@ -81,22 +84,6 @@ export default {
     totalVisibleTags(item) {
       return item.job_tags.length > this.totalVisible
         ? this.totalVisible : item.job_tags.length
-    },
-    imgSrc() {
-      let user = this.item
-      if (typeof user !== 'object' || user === null) {
-        return null
-      }
-      if (typeof user.img_src !== 'string' || !user.img_src.length) {
-        return {
-          isImg: false,
-          text: user.fname.charAt(0).toUpperCase()
-        }
-      } 
-      return {
-        isImg: true,
-        text: user.img_src
-      }
     }
   }
 }

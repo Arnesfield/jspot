@@ -40,14 +40,16 @@
             @click="viewApply(a)"
           >
             <v-list-tile-action>
-              <v-avatar
+              <icon-img
+                :item="a"
                 size="24"
-                v-if="imgSrc(a) && imgSrc(a).isImg"
                 class="elevation-1"
-              >
-                <img :src="$wrap.localImg(imgSrc(a).text)">
-              </v-avatar>
-              <v-icon v-else>person</v-icon>  
+                fname="applier_fname"
+                lname="applier_lname"
+                img="applier_img_src"
+                v-if="typeof a.applier_img_src === 'string' && a.applier_img_src.length"
+              />
+              <v-icon v-else>person</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
               <v-list-tile-title
@@ -96,13 +98,15 @@ import ApplyStatus from '@/include/ApplyStatus'
 import ManageNoData from '@/include/ManageNoData'
 import DialogJobApply from '@/include/dialogs/DialogJobApply'
 // DialogApplyAction already in DialogJobApply
+import IconImg from '@/include/IconImg'
 
 export default {
   name: 'my-applicants',
   components: {
     ApplyStatus,
     ManageNoData,
-    DialogJobApply
+    DialogJobApply,
+    IconImg
   },
   data: () => ({
     url: '/apply/jobs',
@@ -150,22 +154,6 @@ export default {
     },
     viewApply(a) {
       this.$bus.$emit('dialog--apply-action.show', a)
-    },
-
-    imgSrc(user) {
-      if (typeof user !== 'object' || user === null) {
-        return null
-      }
-      if (typeof user.applier_img_src !== 'string' || !user.applier_img_src.length) {
-        return {
-          isImg: false,
-          text: user.applier_fname.charAt(0).toUpperCase()
-        }
-      } 
-      return {
-        isImg: true,
-        text: user.applier_img_src
-      }
     }
   }
 }

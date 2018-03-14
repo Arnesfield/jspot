@@ -10,19 +10,16 @@
 <template v-if="user">
   <div class="bg" style="background-image: url('./static/images/bg-2.sm.jpg')">
     <v-container fluid class="no-bg dim pa-5">
-      <v-avatar class="mt-2 ml-4 accent elevation-4" size="204" style="position: absolute">
-        <template v-if="imgSrc">
-          <img v-if="imgSrc.isImg" :src="$wrap.localImg(imgSrc.text)">
-          <span
-            v-else
-            class="white--text headline"
-            style="font-size: 48px !important"
-          >{{ imgSrc.text }}</span>
-        </template>
-        <template v-else>
-          <span class="white--text headline">?</span>
-        </template>
-      </v-avatar>
+      <icon-img
+        :item="user"
+        size="204"
+        color="accent"
+        class="mt-2 ml-4 elevation-4"
+        img="img_src"
+        style="position: absolute"
+        textClass="white--text headline"
+        :textStyle="{ 'font-size': '48px !important' }"
+      />
       <v-btn
         icon
         dark
@@ -143,34 +140,18 @@
 </template>
 
 <script>
+import IconImg from '@/include/IconImg'
+
 export default {
   name: 'profile-nav',
+  components: {
+    IconImg
+  },
   props: {
     user: Object,
     editable: {
       type: Boolean,
       default: false
-    }
-  },
-  data: () => ({
-    
-  }),
-  computed: {
-    imgSrc() {
-      let user = this.user
-      if (typeof user !== 'object' || user === null) {
-        return null
-      }
-      if (typeof user.img_src !== 'string' || !user.img_src.length) {
-        return {
-          isImg: false,
-          text: user.fname.charAt(0).toUpperCase()
-        }
-      } 
-      return {
-        isImg: true,
-        text: user.img_src
-      }
     }
   },
 

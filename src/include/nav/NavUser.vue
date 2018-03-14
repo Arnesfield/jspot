@@ -1,15 +1,13 @@
 <template>
   <div class="bg" style="background-image: url('./static/images/bg-2.sm.jpg')">
     <v-container fluid class="no-bg dim pa-3">
-      <v-avatar class="accent elevation-6">
-        <template v-if="imgSrc">
-          <img v-if="imgSrc.isImg" :src="$wrap.localImg(imgSrc.text)">
-          <span v-else class="white--text headline">{{ imgSrc.text }}</span>
-        </template>
-        <template v-else>
-          <span class="white--text headline">?</span>
-        </template>
-      </v-avatar>
+      <icon-img
+        :item="this.$bus.session.user"
+        img="img_src"
+        color="accent"
+        class="elevation-6"
+        textClass="white--text headline"
+      />
     </v-container>
     <v-list class="no-bg dim">
       <v-list-tile>
@@ -23,8 +21,13 @@
 </template>
 
 <script>
+import IconImg from '@/include/IconImg'
+
 export default {
   name: 'nav-user',
+  components: {
+    IconImg
+  },
   computed: {
     email() {
       let user = this.$bus.session.user
@@ -32,22 +35,6 @@ export default {
         return ''
       }
       return user.email
-    },
-    imgSrc() {
-      let user = this.$bus.session.user
-      if (typeof user !== 'object' || user === null) {
-        return null
-      }
-      if (typeof user.img_src !== 'string' || !user.img_src.length) {
-        return {
-          isImg: false,
-          text: user.fname.charAt(0).toUpperCase()
-        }
-      } 
-      return {
-        isImg: true,
-        text: user.img_src
-      }
     }
   }
 }

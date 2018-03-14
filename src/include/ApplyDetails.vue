@@ -37,13 +37,15 @@
     <v-flex xs12 class="py-1">
       <v-layout>
         <div class="py-2 px-3">
-          <v-avatar
+          <icon-img
+            :item="item"
             size="24"
-            v-if="imgSrc && imgSrc.isImg"
             class="elevation-1"
-          >
-            <img :src="$wrap.localImg(imgSrc.text)">
-          </v-avatar>
+            fname="applier_fname"
+            lname="applier_lname"
+            img="applier_img_src"
+            v-if="typeof item.applier_img_src === 'string' && item.applier_img_src.length"
+          />
           <v-icon v-else>person</v-icon>
         </div>
         <div class="py-2 subheading">
@@ -164,33 +166,17 @@
 </template>
 
 <script>
+import IconImg from '@/include/IconImg'
 import ApplyStatus from '@/include/ApplyStatus'
 
 export default {
   name: 'apply-details',
   components: {
+    IconImg,
     ApplyStatus
   },
   props: {
     item: Object
-  },
-  computed: {
-    imgSrc() {
-      let user = this.item
-      if (typeof user !== 'object' || user === null) {
-        return null
-      }
-      if (typeof user.applier_img_src !== 'string' || !user.applier_img_src.length) {
-        return {
-          isImg: false,
-          text: user.applier_fname.charAt(0).toUpperCase()
-        }
-      } 
-      return {
-        isImg: true,
-        text: user.applier_img_src
-      }
-    }
   }
 }
 </script>

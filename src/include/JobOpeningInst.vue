@@ -82,11 +82,16 @@
           <v-list-tile>
             <v-list-tile-action class="thin-42">
               <v-tooltip top>
-                <template v-if="imgSrc && imgSrc.isImg">
-                  <v-avatar slot="activator" size="24">
-                    <img :src="$wrap.localImg(imgSrc.text)">
-                  </v-avatar>
-                </template>
+                <icon-img
+                  :item="item"
+                  size="24"
+                  class="elevation-1"
+                  fname="creator_fname"
+                  lname="creator_lname"
+                  img="creator_img_src"
+                  slot="activator"
+                  v-if="typeof item.creator_img_src === 'string' && item.creator_img_src.length"
+                />
                 <v-icon v-else slot="activator">person</v-icon>
                 <span>Employer</span>
               </v-tooltip>
@@ -186,11 +191,13 @@
 <script>
 import qs from 'qs'
 import Status from '@/include/Status'
+import IconImg from '@/include/IconImg'
 
 export default {
   name: 'job-opening-inst',
   components: {
-    Status
+    Status,
+    IconImg
   },
   props: {
     appliedIds: {
@@ -220,22 +227,6 @@ export default {
     },
     isLogged() {
       return this.$bus.session.user !== null
-    },
-    imgSrc() {
-      let user = this.item
-      if (typeof user !== 'object' || user === null) {
-        return null
-      }
-      if (typeof user.creator_img_src !== 'string' || !user.creator_img_src.length) {
-        return {
-          isImg: false,
-          text: user.creator_fname.charAt(0).toUpperCase()
-        }
-      } 
-      return {
-        isImg: true,
-        text: user.creator_img_src
-      }
     }
   },
 
