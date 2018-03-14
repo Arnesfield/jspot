@@ -2,35 +2,33 @@
 <v-container
   :style="!reviews.length || true ? {
     'height': '100%',
-    'display': 'flex'
   } : null"
   grid-list-lg
 >
-  
-  <v-layout
-    row
-    wrap
-    v-if="reviews.length"
-  >
 
-    <v-flex
-      xs12
-      sm12
-      md6
-      lg4
-      :key="i"
-      v-for="i in maxCol"
-    >
-      <template v-for="(item, j) in indexCheck(i)">
-        <review-inst
-          :key="'review-' + i + '-' + j"
-          :item="item"
-          @delete="deleteReview(item)"
-        />
-      </template>
-    </v-flex>
-
-  </v-layout>
+  <template v-if="reviews.length">
+    <ratings-graph :id="user ? user.id : null"/>
+    <v-subheader class="mt-2">User reviews</v-subheader>
+    <v-layout row wrap>
+      <v-flex
+        xs12
+        sm12
+        md6
+        lg4
+        :key="i"
+        v-for="i in maxCol"
+        class="pt-0"
+      >
+        <template v-for="(item, j) in indexCheck(i)">
+          <review-inst
+            :key="'review-' + i + '-' + j"
+            :item="item"
+            @delete="deleteReview(item)"
+          />
+        </template>
+      </v-flex>
+    </v-layout>
+  </template>
 
   <v-layout
     v-else
@@ -55,12 +53,14 @@
 <script>
 import qs from 'qs'
 import ReviewInst from '@/include/ReviewInst'
+import RatingsGraph from '@/include/RatingsGraph'
 import ManageNoData from '@/include/ManageNoData'
 
 export default {
   name: 'reviews',
   components: {
     ReviewInst,
+    RatingsGraph,
     ManageNoData
   },
   props: {
@@ -131,6 +131,7 @@ export default {
             }
 
             this.$bus.$emit('snackbar--show', 'Review deleted.')
+            this.$bus.$emit('update--ratings-graph')
             this.fetch()
             onSuccess()
           }).catch(e => {

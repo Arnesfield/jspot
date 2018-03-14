@@ -31,18 +31,12 @@
           :user="user"
         />
       </v-tab-item>
-      <v-tab-item>
-        Activity employer
-      </v-tab-item>
       <v-tab-item :style="reviews ? { height: '100%' } : null">
         <reviews v-model="reviews" :user="user"/>
       </v-tab-item>
     </template>
 
     <template v-else-if="$bus.profile.type == 4">
-      <v-tab-item>
-        Activity employee
-      </v-tab-item>
       <v-tab-item :style="reviews ? { height: '100%' } : null">
         <reviews v-model="reviews" :user="user"/>
       </v-tab-item>
@@ -88,12 +82,12 @@ export default {
       if (this.$bus.profile.type == 3) {
         if (this.$bus.tabs.profile == '0') {
           return this.jobOpenings
-        } else if (this.$bus.tabs.profile == '2') {
+        } else if (this.$bus.tabs.profile == '1') {
           return this.reviews
         }
       }
       else if (this.$bus.profile.type == 4) {
-        if (this.$bus.tabs.profile == '1') {
+        if (this.$bus.tabs.profile == '0') {
           return this.reviews
         }
       }

@@ -42,6 +42,33 @@ class Reviews extends MY_Custom_Controller {
     $res = $this->reviews_model->insert($data);
     $this->_json($res);
   }
+
+  public function statistics() {
+    $id = $this->input->post('id');
+    $reviews = $this->reviews_model->getRatings($id);
+    $rates = $this->reviews_model->_to_col($reviews, 'rating');
+
+    $ratings = array();
+    for ($i = 1; $i <= 5; $i++) {
+      $ratings[$i] = 0;
+    }
+
+    foreach ($rates as $rating) {
+      $ratings[$rating] += 1;
+    }
+
+    $this->_json(TRUE, array(
+      'ratings' => $ratings
+    ));
+  }
+
+  public function delete() {
+    $id = $this->input->post('id');
+    $res = $this->reviews_model->update(array(
+      'status' => 0,
+    ), array('id' => $id));
+    $this->_json($res);
+  }
 }
 
 ?>

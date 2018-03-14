@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 14, 2018 at 09:53 AM
+-- Generation Time: Mar 14, 2018 at 06:18 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -71,7 +71,8 @@ CREATE TABLE `boosts` (
 
 INSERT INTO `boosts` (`id`, `ref_id`, `tbl_name`, `created_at`, `ends_at`, `status`) VALUES
 (1, 2, 'users', 1520940911, 1521027311, 1),
-(2, 6, 'jobs', 1520940915, 1521027315, 1);
+(2, 6, 'jobs', 1520940915, 1521027315, 1),
+(3, 2, 'users', 1521045937, 1521132337, 1);
 
 -- --------------------------------------------------------
 
@@ -157,7 +158,7 @@ INSERT INTO `reviews` (`id`, `user_id`, `reviewer_id`, `body`, `rating`, `create
 (2, 3, 2, 'Messageee', 3, 1520961429, 1),
 (3, 2, 3, 'Messagee hehe', 4, 1520955410, 1),
 (4, 2, 3, 'New messagee lol', 5, 1521012687, 1),
-(5, 2, 3, 'Test', 5, 1521017583, 1);
+(5, 2, 3, 'Test', 4, 1521017583, 1);
 
 -- --------------------------------------------------------
 
@@ -335,7 +336,29 @@ INSERT INTO `views` (`id`, `user_id`, `job_id`, `viewer_id`, `viewed_at`) VALUES
 (94, 2, 0, 3, 1521015413),
 (95, 2, 0, 3, 1521015746),
 (96, 2, 0, 3, 1521015875),
-(97, 2, 0, 3, 1521016013);
+(97, 2, 0, 3, 1521016013),
+(98, 2, 0, 3, 1521023681),
+(99, 2, 0, 3, 1521023703),
+(100, 2, 0, 3, 1521023742),
+(101, 2, 0, 3, 1521023821),
+(102, 2, 0, 3, 1521023885),
+(103, 2, 0, 3, 1521023947),
+(104, 2, 0, 3, 1521024014),
+(105, 2, 0, 3, 1521024027),
+(106, 2, 0, 3, 1521024054),
+(107, 2, 0, 3, 1521024060),
+(108, 2, 0, 3, 1521039896),
+(109, 2, 0, 3, 1521040570),
+(110, 2, 0, 3, 1521041365),
+(111, 2, 0, 3, 1521041757),
+(112, 2, 0, 3, 1521042186),
+(113, 2, 0, 3, 1521043167),
+(114, 2, 0, 3, 1521043404),
+(115, 2, 0, 3, 1521044001),
+(116, 2, 0, 3, 1521046502),
+(117, 2, 0, 3, 1521046763),
+(118, 0, 3, 3, 1521047234),
+(119, 3, 0, 2, 1521047303);
 
 --
 -- Indexes for dumped tables
@@ -414,7 +437,7 @@ ALTER TABLE `apply`
 -- AUTO_INCREMENT for table `boosts`
 --
 ALTER TABLE `boosts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `jobs`
@@ -450,7 +473,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `views`
 --
 ALTER TABLE `views`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

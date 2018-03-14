@@ -67,7 +67,8 @@
       <btn-refresh
         :click="[
           'update--my-job-openings',
-          'update--reviews'
+          'update--reviews',
+          'update--ratings-graph'
         ]"
         :refresh="$bus.progress.circular.Profile.refresh"
       />

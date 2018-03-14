@@ -18,11 +18,11 @@
       v-if="loading && !views"
       class="text-xs-center caption grey--text pa-2"
     >Loading...</div>
-    <div class="line-graph-container">
+    <div class="full-width">
       <canvas
         ref="chart"
-        width="320"
-        height="48"
+        :width="width"
+        :height="height"
       ></canvas>
     </div>
   </v-card-text>
@@ -41,6 +41,14 @@ export default {
     title: {
       type: String,
       default: 'Views Statistics'
+    },
+    width: {
+      type: [Number, String],
+      default: 360
+    },
+    height: {
+      type: [Number, String],
+      default: 128
     }
   },
   data: () => ({
@@ -148,6 +156,7 @@ export default {
         },
         options: {
           responsive: true,
+          maintainAspectRatio: false,
           // legend: {
           //   display: false
           // },
@@ -193,7 +202,7 @@ export default {
         this.views = res.data.views
         this.jobs = res.data.jobs
         this.titles = res.data.titles
-        this.setChart()
+        // this.setChart()
       }).catch(e => {
         console.error(e)
         this.loading = false

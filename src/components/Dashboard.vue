@@ -7,7 +7,11 @@
   >
     <v-layout row wrap>
       <v-flex xs12 sm12 md12 lg4>
-        <boost-ad/>
+        <boost-ad class="mb-2"/>
+        <ratings-graph
+          small
+          :id="$bus.session.user.id"
+        />
       </v-flex>
       <v-flex hidden-sm-and-down md12 lg8>
         <views-graph/>
@@ -28,6 +32,7 @@
 import ViewsGraph from '@/include/ViewsGraph'
 import BoostAd from '@/include/BoostAd'
 import BoostedList from '@/include/BoostedList'
+import RatingsGraph from '@/include/RatingsGraph'
 import SearchDashboard from '@/include/SearchDashboard'
 
 export default {
@@ -36,6 +41,7 @@ export default {
     ViewsGraph,
     BoostAd,
     BoostedList,
+    RatingsGraph,
     SearchDashboard
   },
   created() {

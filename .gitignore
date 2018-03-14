@@ -24,3 +24,6 @@ yarn-error.log*
 # Ignore job attachment files
 /public/uploads/attach/*
 !/public/uploads/attach/.gitkeep
+
+# Ignore notes
+/notes/*

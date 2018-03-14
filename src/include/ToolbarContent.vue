@@ -22,11 +22,6 @@
         <!-- tabs for employer -->
         <template v-if="$bus.profile.type == 3">
           <v-tab>Job offers</v-tab>
-          <v-tab>Activity</v-tab>
-        </template>
-        <!-- tabs for employee -->
-        <template v-if="$bus.profile.type == 4">
-          <v-tab>Activity</v-tab>
         </template>
         <v-tab>Reviews</v-tab>
       </v-tabs>

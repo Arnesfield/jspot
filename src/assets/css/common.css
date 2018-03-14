@@ -61,10 +61,6 @@
   min-width: 48px;
 }
 
-.line-graph-container {
-  width: 100%;
-}
-
 /* override */
 .multi-line-textarea textarea {
   min-height: 32px;

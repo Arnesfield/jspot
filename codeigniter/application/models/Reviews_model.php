@@ -2,19 +2,14 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Reviews_model extends MY_Custom_Model {
-  public function get($where = FALSE, $getLatest = FALSE) {
-    $created_at = 'r.created_at AS created_at';
-    if ($getLatest) {
-      $created_at = 'MAX(r.created_at) AS created_at';
-    }
-
+  public function get($where = FALSE) {
     $this->db
       ->select("
         r.id AS id,
         r.body AS body,
         r.rating AS rating,
         r.status AS status,
-        $created_at,
+        r.created_at AS created_at,
         u.id AS u_id,
         u.fname AS u_fname,
         u.lname AS u_lname,
@@ -37,18 +32,44 @@ class Reviews_model extends MY_Custom_Model {
       $this->db->where($where);
     }
 
-    if ($getLatest) {
-      $this->db->group_by('r.reviewer_id');
-    }
-
     $this->db->order_by('r.created_at', 'DESC');
     
     $query = $this->db->get();
     return $this->_res($query);
   }
 
+  public function getRatings($uid) {
+    $this->db
+      ->select('
+        r.id AS id,
+        r.rating AS rating,
+        r.reviewer_id AS reviewer_id,
+        r.created_at AS created_at
+      ')
+      ->from('reviews r')
+      ->join('
+        (
+          SELECT reviewer_id, MAX(created_at) AS created_at, status
+          FROM reviews
+          WHERE status = 1
+          GROUP BY reviewer_id
+        ) b
+      ', 'r.reviewer_id = b.reviewer_id AND r.created_at = b.created_at', 'INNER', FALSE)
+      ->where('r.user_id', $uid);
+
+    $query = $this->db->get();
+    return $this->_res($query);
+  }
+
   public function insert($review) {
     return $this->db->insert('reviews', $review);
+  }
+
+  public function update($data, $where) {
+    return $this->db
+      ->set($data)
+      ->where($where)
+      ->update('reviews');
   }
 
 }
