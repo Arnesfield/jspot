@@ -24,8 +24,10 @@ class Reviews_model extends MY_Custom_Model {
       ->join('users re', 're.id = r.reviewer_id')
       ->where(array(
         'r.status' => 1,
-        'u.status' => 1,
-        're.status' => 1
+        'u.status !=' => -1,
+        'u.status !=' => 0,
+        're.status !=' => -1,
+        're.status !=' => 0
       ));
     
     if ($where) {
@@ -47,15 +49,28 @@ class Reviews_model extends MY_Custom_Model {
         r.created_at AS created_at
       ')
       ->from('reviews r')
+      ->join('users u', 'u.id = r.user_id')
+      ->join('users re', 're.id = r.reviewer_id')
       ->join('
         (
-          SELECT reviewer_id, MAX(created_at) AS created_at, status
+          SELECT user_id, reviewer_id, MAX(created_at) AS created_at, status
           FROM reviews
           WHERE status = 1
-          GROUP BY reviewer_id
+          GROUP BY reviewer_id, user_id
         ) b
-      ', 'r.reviewer_id = b.reviewer_id AND r.created_at = b.created_at', 'INNER', FALSE)
-      ->where('r.user_id', $uid);
+      ', '
+        r.user_id = b.user_id AND
+        r.reviewer_id = b.reviewer_id AND
+        r.created_at = b.created_at
+      ', 'INNER', FALSE)
+      ->where('r.user_id', $uid)
+      ->where(array(
+        'r.status' => 1,
+        'u.status !=' => -1,
+        'u.status !=' => 0,
+        're.status !=' => -1,
+        're.status !=' => 0
+      ));
 
     $query = $this->db->get();
     return $this->_res($query);

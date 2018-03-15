@@ -10,7 +10,12 @@
       <v-toolbar-title
         @click="$router.push('/dashboard')"
         class="clickable"
-      >JSpot</v-toolbar-title>
+      >
+        <v-avatar size="32px">
+          <img :src="$wrap.staticImg('logo.png')"/>
+        </v-avatar>
+        <span>JSpot</span>
+      </v-toolbar-title>
     </v-flex>
 
     <!-- search -->

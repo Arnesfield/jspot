@@ -20,6 +20,9 @@ class Places_model extends MY_Custom_Model {
   }
 
   public function insertMultiple($places) {
+    if (!$places) {
+      return TRUE;
+    }
     // get places with name
     $q = $this->db
       ->from('places')

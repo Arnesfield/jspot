@@ -41,7 +41,7 @@
         <v-tab :disabled="loading">Info</v-tab>
         <v-tab :disabled="loading" v-if="
           $bus.session.user &&
-          $bus.authHas($bus.session.auth, [3,4]) &&
+          $bus.authHas($bus.session.auth, [4]) &&
           !viewOnly
         ">Apply</v-tab>
         <v-tab :disabled="loading" v-if="viewApplyMode">Application</v-tab>
@@ -61,7 +61,11 @@
         <v-tab-item>
           <job-details :job="job"/>
         </v-tab-item>
-        <v-tab-item v-if="!viewOnly">
+        <v-tab-item v-if="
+          $bus.session.user &&
+          $bus.authHas($bus.session.auth, [4]) &&
+          !viewOnly
+        ">
           <apply-form
             ref="form"
             class="px-4"

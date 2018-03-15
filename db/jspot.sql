@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 15, 2018 at 08:52 AM
+-- Generation Time: Mar 15, 2018 at 05:57 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -48,7 +48,8 @@ CREATE TABLE `apply` (
 
 INSERT INTO `apply` (`id`, `user_id`, `job_id`, `subject`, `body`, `files`, `interview_date`, `interview_time`, `created_at`, `updated_at`, `status`) VALUES
 (1, 3, 5, 'test', 'test', '[]', 1522166400, '23:00:00', 1520244018, 1520244018, 1),
-(2, 3, 3, 'Some application', 'Hello I would like to apply for this job lorem ipsum dolor sit amet for testing.', '[\"F_1520416460.pdf\"]', 1520956800, '19:00:00', 1520416460, 1520420218, 2);
+(2, 3, 3, 'Some application', 'Hello I would like to apply for this job lorem ipsum dolor sit amet for testing.', '[\"F_1520416460.pdf\"]', 1520956800, '19:00:00', 1520416460, 1520420218, 2),
+(3, 3, 7, 'Yehey apply', 'Nice', '[]', 0, '00:00:00', 1521132556, 1521132556, 1);
 
 -- --------------------------------------------------------
 
@@ -72,7 +73,10 @@ CREATE TABLE `boosts` (
 INSERT INTO `boosts` (`id`, `ref_id`, `tbl_name`, `created_at`, `ends_at`, `status`) VALUES
 (1, 2, 'users', 1520940911, 1521027311, 1),
 (2, 6, 'jobs', 1520940915, 1521027315, 1),
-(3, 2, 'users', 1521045937, 1521132337, 1);
+(3, 2, 'users', 1521045937, 1521132337, 1),
+(4, 7, 'users', 1521129288, 1521215688, 1),
+(5, 7, 'jobs', 1521132494, 1521218894, 1),
+(6, 7, 'jobs', 1521132498, 1521218898, 1);
 
 -- --------------------------------------------------------
 
@@ -108,7 +112,8 @@ INSERT INTO `jobs` (`id`, `title`, `description`, `timeFrom`, `timeTo`, `dateFro
 (3, 'Test', 'This work is about something lorem ipsum dolor sit amet.', '12:00:00', '23:00:00', '2018-01-01', '2018-02-11', '[\"Manila\",\"Quezon\"]', '[\"programming\"]', '{\"from\":18,\"to\":24}', 'P500-1000/hr', 2, 1519095062, 1519107426, 1),
 (4, 'Sample', 'Some lorem ipsum', '00:00:00', '12:00:00', '2018-01-01', '2018-03-20', '[\"Makati\",\"Manila\",\"Quezon\",\"Mandaluyong\"]', '[\"art\",\"programming\"]', '{\"from\":25,\"to\":34}', 'P200/hr', 2, 1519102595, 1519234560, 1),
 (5, 'New job opening!', 'Wooo nice', '12:00:00', '18:30:00', '2018-01-01', '2018-03-02', '[\"Manila\",\"Quezon\"]', '[\"programming\",\"art\",\"animation\",\"photography\"]', '{\"from\":18,\"to\":24}', 'P100/hr', 2, 1519234849, 1520517112, 1),
-(6, 'Waw job', 'Naks', '09:30:00', '18:30:00', '2018-04-01', '2018-03-31', '[\"Zamboanga\"]', '[\"music\"]', '{\"from\":25,\"to\":34}', 'PHP500/hr', 2, 1520933974, 1520933974, 1);
+(6, 'Waw job', 'Naks', '09:30:00', '18:30:00', '2018-04-01', '2018-03-31', '[\"Zamboanga\"]', '[\"music\"]', '{\"from\":25,\"to\":34}', 'PHP500/hr', 2, 1520933974, 1520933974, 1),
+(7, 'Nice job', 'Yehey', '09:45:00', '18:30:00', '2018-05-31', '2018-06-10', '[\"Laguna\"]', '[\"babysitting\",\"care\"]', '{\"from\":18,\"to\":24}', 'P100/hr', 7, 1521132476, 1521132476, 1);
 
 -- --------------------------------------------------------
 
@@ -132,7 +137,8 @@ INSERT INTO `places` (`id`, `name`, `status`) VALUES
 (3, 'Mandaluyong', 1),
 (4, 'Makati', 1),
 (5, 'Zamboanga', 1),
-(6, 'Pasig', 1);
+(6, 'Pasig', 1),
+(7, 'Laguna', 1);
 
 -- --------------------------------------------------------
 
@@ -159,7 +165,13 @@ INSERT INTO `reviews` (`id`, `user_id`, `reviewer_id`, `body`, `rating`, `create
 (2, 3, 2, 'Messageee', 3, 1520961429, 1),
 (3, 2, 3, 'Messagee hehe', 4, 1520955410, 1),
 (4, 2, 3, 'New messagee lol', 5, 1521012687, 1),
-(5, 2, 3, 'Test', 4, 1521017583, 1);
+(5, 2, 3, 'Test', 4, 1521017583, 1),
+(6, 2, 7, 'huwaw', 3, 1521128523, 1),
+(7, 7, 2, 'Nakow', 5, 1521129331, 1),
+(8, 3, 7, 'Huwaw', 5, 1521130977, 0),
+(9, 3, 7, 'Naks namern', 5, 1521131047, 1),
+(10, 7, 3, 'weh', 1, 1521131070, 0),
+(11, 7, 3, 'weh kay sherry ka na lang ge', 1, 1521132248, 1);
 
 -- --------------------------------------------------------
 
@@ -182,7 +194,10 @@ INSERT INTO `tags` (`id`, `name`, `status`) VALUES
 (2, 'animation', 1),
 (3, 'photography', 1),
 (4, 'art', 1),
-(5, 'music', 1);
+(5, 'music', 1),
+(6, 'singing', 1),
+(7, 'babysitting', 1),
+(8, 'care', 1);
 
 -- --------------------------------------------------------
 
@@ -219,8 +234,9 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `password`, `fname`, `lname`, `bio`, `birthdate`, `img_src`, `job_tags`, `places`, `socials`, `email`, `type`, `contact`, `verification_code`, `reset_code`, `reset_expiration`, `created_at`, `updated_at`, `settings`, `status`) VALUES
 (1, '$2y$10$d/46JkJivDqU9Bh7v0f6YOi4C5nXZDQEngMaE4OEl2AGm7ykViqHC', 'Charlyn', 'Ann', 'My short bio here.', '1998-09-26', '', '[\"programming\"]', '[\"Manila\"]', '[\"www.facebook.com\"]', 'test@email.com', 2, '09876543210', '', '', 0, 1518017533, 1518266763, '{\"dark\":\"false\"}', 1),
-(2, '$2y$10$E30rXz/U.Ze/J/.goVOuouNXSTz5KVT6mpxjzSJpOSjpC1o8xW/a6', 'Jefferson', 'Rylee', 'Some bio heree', '1970-01-01', 'F_1521100100.jpeg', '[\"programming\"]', '[\"Manila\"]', '[\"twitter.com/Arnesfield\"]', 'rylee@email.com', 3, '09876543211', '', '', 0, 1519017628, 1521100201, '\"\\\\\\\"\\\\\\\"\"', 1),
-(3, '$2y$10$kzXRXhZLoDNYd1jottSyu.FLHW9OfuOVLnLLUSH3g8/4vprJlDbIW', 'Cayle', 'Anielle', 'Some bio', '1998-06-19', '', '[\"art\",\"photography\",\"animation\"]', '[\"Manila\"]', '[\"facebook.com\"]', 'cayle@email.com', 4, '09876543210', '', '', 0, 1519215119, 1519238897, '\"\"', 1);
+(2, '$2y$10$E30rXz/U.Ze/J/.goVOuouNXSTz5KVT6mpxjzSJpOSjpC1o8xW/a6', 'Jefferson', 'Rylee', 'Some bio heree', '1999-03-13', 'F_1521100100.jpeg', '[\"programming\",\"music\"]', '[\"Manila\"]', '[\"twitter.com/Arnesfield\"]', 'rylee@email.com', 3, '09876543211', '', '', 0, 1519017628, 1521104372, '{}', 1),
+(3, '$2y$10$kzXRXhZLoDNYd1jottSyu.FLHW9OfuOVLnLLUSH3g8/4vprJlDbIW', 'Cayle', 'Anielle', 'Some bio', '1998-06-19', '', '[\"art\",\"photography\",\"animation\",\"babysitting\"]', '[\"Manila\"]', '[\"facebook.com\"]', 'cayle@email.com', 4, '09876543210', '', '', 0, 1519215119, 1521132534, '\"\"', 1),
+(7, '$2y$10$SRv7zBfeLhw8ziDJZVbvT.7YWMI4x4fXW5Altny0N7oxcTIB5WHJ6', 'Charlyn', 'Ann', 'lol', '1998-09-26', 'F_1521128443.JPG', '[\"music\",\"singing\"]', '[\"Manila\",\"Laguna\"]', '[\"facebook.com/Arnesfield\"]', 'charlyn@email.com', 3, '098764321', '', '', 0, 1521127350, 1521132365, '{}', 1);
 
 -- --------------------------------------------------------
 
@@ -361,7 +377,31 @@ INSERT INTO `views` (`id`, `user_id`, `job_id`, `viewer_id`, `viewed_at`) VALUES
 (118, 0, 3, 3, 1521047234),
 (119, 3, 0, 2, 1521047303),
 (120, 0, 3, 3, 1521049935),
-(121, 0, 5, 3, 1521049941);
+(121, 0, 5, 3, 1521049941),
+(122, 2, 0, 7, 1521128512),
+(123, 2, 0, 7, 1521128564),
+(124, 2, 0, 7, 1521128634),
+(125, 3, 0, 7, 1521128641),
+(126, 2, 0, 7, 1521128902),
+(127, 2, 0, 7, 1521129036),
+(128, 2, 0, 7, 1521129079),
+(129, 2, 0, 7, 1521129153),
+(130, 0, 6, 7, 1521129174),
+(131, 0, 6, 7, 1521129182),
+(132, 2, 0, 7, 1521129259),
+(133, 0, 6, 7, 1521129260),
+(134, 0, 6, 3, 1521129269),
+(135, 2, 0, 3, 1521129623),
+(136, 3, 0, 7, 1521130970),
+(137, 7, 0, 3, 1521131099),
+(138, 0, 6, 3, 1521131109),
+(139, 0, 5, 3, 1521131110),
+(140, 0, 3, 3, 1521131112),
+(141, 7, 0, 3, 1521132345),
+(142, 0, 7, 3, 1521132539),
+(143, 0, 7, 3, 1521132559),
+(144, 7, 0, 3, 1521132566),
+(145, 3, 0, 7, 1521132595);
 
 --
 -- Indexes for dumped tables
@@ -434,49 +474,49 @@ ALTER TABLE `views`
 -- AUTO_INCREMENT for table `apply`
 --
 ALTER TABLE `apply`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `boosts`
 --
 ALTER TABLE `boosts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `jobs`
 --
 ALTER TABLE `jobs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `places`
 --
 ALTER TABLE `places`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `tags`
 --
 ALTER TABLE `tags`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `views`
 --
 ALTER TABLE `views`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=146;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

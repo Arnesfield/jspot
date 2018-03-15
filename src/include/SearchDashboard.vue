@@ -134,7 +134,15 @@ export default {
     },
     fetch(search) {
       if (typeof search !== 'string' && !search) {
-        search = this.$bus.search.input || ''
+        if (typeof this.$bus.search.input === 'string') {
+          search = this.$bus.search.input
+        } else {
+          search = ''
+        }
+      }
+
+      if (typeof search !== 'string') {
+        search = ''
       }
 
       this.loading = true

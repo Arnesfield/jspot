@@ -65,6 +65,13 @@ class Users_model extends MY_Custom_Model {
   public function update($id, $user) {
     return $this->db->update('users', $user, array('id' => $id));
   }
+
+  public function updateWhere($data, $where) {
+    return $this->db
+      ->set($data)
+      ->where($where)
+      ->update('users');
+  }
 }
 
 ?>

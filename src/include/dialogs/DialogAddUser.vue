@@ -435,7 +435,7 @@ export default {
 
         // if status
         if (e == 'status') {
-          val = val == 1
+          val = val == 1 || val == 2
         }
 
         if (e == 'img_src') {
@@ -532,6 +532,9 @@ export default {
         let msg = this.mode == 'Add' ? 'Added user successfully.' : 'Updated user information.'
         this.$bus.$emit('snackbar--show', msg)
         this.$bus.$emit('update--manage-users')
+        if (this.$route.name == 'Profile') {
+          this.$bus.sessionCheck(this.$route, this.$http)
+        }
       }).catch(e => {
         console.error(e)
         this.loading = false

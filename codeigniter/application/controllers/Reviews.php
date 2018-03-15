@@ -11,12 +11,9 @@ class Reviews extends MY_Custom_Controller {
     // if has post id, get reviews received by that id
     // if none, get reviews given by sess id
     $where = array();
-    $tbl = '';
     if ($id = $this->input->post('id')) {
-      $tbl = 'u';
       $where['r.user_id'] = $id;
     } else {
-      $tbl = 're';
       $where['r.reviewer_id'] = $this->session->userdata('user')['id'];
     }
 

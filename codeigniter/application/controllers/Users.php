@@ -19,6 +19,63 @@ class Users extends MY_Custom_Controller {
     ));
   }
 
+  public function signup() {
+    $fname = $this->_filter($this->input->post('fname'));
+    $lname = $this->_filter($this->input->post('lname'));
+    $email = $this->_filter($this->input->post('email'));
+    $password = $this->input->post('password');
+    $birthdate = $this->input->post('birthdate');
+    $type = $this->input->post('type');
+
+    $password = password_hash($password, PASSWORD_BCRYPT);
+
+    $_birthdate = json_decode($birthdate, TRUE);
+    $birthdate = $this->_formatObjToDate($_birthdate);
+
+    $verification_code = $this->_randStr();
+
+    $user = array(
+      'fname' => $fname,
+      'lname' => $lname,
+      'email' => $email,
+      'password' => $password,
+      'birthdate' => $birthdate,
+      'type' => $type,
+
+      'verification_code' => $verification_code,
+
+      'bio' => '',
+      'img_src' => '',
+      'job_tags' => '[]',
+      'places' => '[]',
+      'socials' => '[]',
+      'contact' => '',
+      'created_at' => time(),
+      'updated_at' => time(),
+      'settings' => '{}',
+      'status' => 2
+    );
+
+    // send email first
+    $send_data = array(
+      'code' => $verification_code,
+      'email' => $email,
+      'fname' => $fname,
+      'lname' => $lname
+    );
+    // $sent = $this->_send_mail($email, 'Email Verification', 'email/email_verification', $send_data);
+
+    // if ($sent !== TRUE) {
+    //   $this->_json(FALSE, array(
+    //     'error' => 'Unable to send email verification.',
+    //     'debug' => $sent
+    //   ));
+    // }
+
+    $res = $this->users_model->insert($user);
+    $this->_json($res);
+  }
+
   public function profile() {
     $id = $this->input->post('id');
 
@@ -186,6 +243,13 @@ class Users extends MY_Custom_Controller {
     }
     $this->places_model->insertMultiple($_places);
     $this->tags_model->insertMultiple($_job_tags);
+
+    $uid = $this->session->userdata('user')['id'];
+    $user = $this->users_model->get(array('id' => $uid))[0];
+    $this->session->set_userdata(array(
+      'user' => $user,
+      'auth' => $user['type']
+    ));
 
     $this->_json($res);
   }

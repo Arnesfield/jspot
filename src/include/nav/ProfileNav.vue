@@ -69,6 +69,17 @@
         </v-list-tile-content>
       </v-list-tile>
 
+      <v-list-tile>
+        <v-list-tile-action class="thin-48">
+          <v-icon>cake</v-icon>
+        </v-list-tile-action>
+        <v-list-tile-content>
+          <v-list-tile-title v-text="
+            user.birthdate.month + ' ' + user.birthdate.day + ', ' + user.birthdate.year
+          "/>
+        </v-list-tile-content>
+      </v-list-tile>
+
       <v-divider/>
 
     </v-list>

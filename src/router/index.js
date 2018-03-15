@@ -3,6 +3,7 @@ import Router from 'vue-router'
 
 import Home from '@/components/Home'
 import Login from '@/components/Login'
+import SignUp from '@/components/SignUp'
 import Dashboard from '@/components/Dashboard'
 import NotFound from '@/components/NotFound'
 import Profile from '@/components/Profile'
@@ -42,9 +43,18 @@ export default new Router({
       }
     },
     {
-      path: '/login',
+      path: '/login/:verified?',
       name: 'Login',
       component: Login,
+      props: true,
+      meta: {
+        auth: 0
+      }
+    },
+    {
+      path: '/signup',
+      name: 'Sign Up',
+      component: SignUp,
       meta: {
         auth: 0
       }

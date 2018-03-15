@@ -161,6 +161,7 @@ export default {
         this.loading = false
         this.$bus.$emit('snackbar--show', 'Review has been submitted.')
         this.$bus.$emit('update--reviews')
+        this.$bus.$emit('update--ratings-graph')
       }).catch(e => {
         console.error(e)
         this.loading = false

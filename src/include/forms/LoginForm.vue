@@ -53,9 +53,10 @@
       </div>
       <v-spacer/>
       <v-btn
-        to="/"
+        to="/signup"
         flat
         color="primary"
+        @click="dialogCloseFn"
         :disabled="loading"
       >Sign Up</v-btn>
       <v-btn
@@ -83,7 +84,8 @@ export default {
       default: false
     },
     dialogCloseFn: {
-      type: Function
+      type: Function,
+      default: () => {}
     }
   },
   data: () => ({

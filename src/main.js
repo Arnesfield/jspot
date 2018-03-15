@@ -26,7 +26,8 @@ const http = axios.create({
 Vue.use(Vuetify, {
   theme: {
     primary: colors.blue.darken1,
-    accent: colors.yellow.accent3
+    accent: colors.yellow.accent3,
+    warning: colors.deepOrange.lighten1
   }
 })
 

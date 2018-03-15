@@ -24,6 +24,27 @@ export default {
   name: 'login',
   components: {
     LoginForm
+  },
+  props: {
+    verified: {
+      type: [Number, Boolean],
+      default: false
+    }
+  },
+  watch: {
+    verified(e) {
+      this.checkVerified()
+    }
+  },
+  mounted() {
+    this.checkVerified()
+  },
+  methods: {
+    checkVerified() {
+      if (this.verified == 1) {
+        this.$bus.$emit('snackbar--show', 'Account verified.')
+      }
+    }
   }
 }
 </script>

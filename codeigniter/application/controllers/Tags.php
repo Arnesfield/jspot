@@ -19,6 +19,9 @@ class Tags extends MY_Custom_Controller {
   }
 
   public function insertMultiple($tags) {
+    if (!$tags) {
+      return TRUE;
+    }
     foreach ($tags as $key => $tag) {
       $tags[$key] = array(
         'name' => $tag,

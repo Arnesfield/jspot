@@ -9,6 +9,7 @@
         <template v-if="!small">Rating stats of user</template>
         <template v-else>
           <v-icon
+            :style="{ color: getColor(getTotal(0, 1)) }"
             style="vertical-align: -2px"
             size="14px"
           >star</v-icon>
@@ -134,6 +135,15 @@ export default {
     this.$bus.$off('update--ratings-graph', this.fetch)
   },
   methods: {
+    getColor(e) {
+      switch (Number(e)) {
+        case 1: return '#ff6f31'
+        case 2: return '#ff9f02'
+        case 3: return '#ffcf02'
+        case 4: return '#99cc00'
+        case 5: return '#88b131'
+      }
+    },
     getTotalPeople() {
       if (!this.ratings) {
         return 0

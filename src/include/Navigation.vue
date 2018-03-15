@@ -173,6 +173,7 @@ export default {
         this.$bus.nav.model = false
         setTimeout(() => {
           this.$bus.navToggle()
+          this.$bus.nav.model = null
         }, 100)
       }
     },

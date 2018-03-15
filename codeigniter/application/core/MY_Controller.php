@@ -75,6 +75,10 @@ class MY_View_Controller extends MY_Controller {
     }
 
   }
+
+  public function _redirect($to = '../#/error') {
+    redirect(base_url($to));
+  }
 }
 
 /**
@@ -95,10 +99,6 @@ class MY_Custom_Controller extends MY_View_Controller {
 
   public function _filter($str) {
     return strip_tags(trim(addslashes($str)));
-  }
-
-  public function _redirect($to = '../#/error') {
-    redirect(base_url($to));
   }
 
   public function _json($success, $arr = array(), $val = NULL) {
@@ -134,6 +134,30 @@ class MY_Custom_Controller extends MY_View_Controller {
     );
   }
 
+  // send email
+  private $_EMAIL = 'mail.arnesfield@gmail.com';
+
+  protected function _send_mail($to, $subject, $view, $data, $from_name = 'JSpot Project Team') {
+    $this->load->library('email');
+    
+    // true on third param on view
+    $this->email->from($this->_EMAIL, $from_name);
+    $this->email->to($to);
+    $this->email->subject($subject);
+    $this->email->message($this->load->view($view, $data, TRUE));
+    
+    if ($this->email->send()) {
+      return TRUE;
+    }
+    else {
+      return $this->email->print_debugger();
+    }
+  }
+
+  public function _randStr() {
+    return substr(md5(uniqid(rand(), true)), 16, 16);
+  }
+
   public function _uploadImage($file_name, $allowed_types = FALSE, $path = 'uploads/attach/') {
     if (!$allowed_types) {
       $allowed_types = 'jpg|png|pdf|jpeg';
@@ -142,7 +166,7 @@ class MY_Custom_Controller extends MY_View_Controller {
     $config = array(
       'upload_path' => './../'.$path,
       'allowed_types' => $allowed_types,
-      'max_size' => 5*1024,
+      'max_size' => 5*1000*1024,
       'file_name' => 'F_' . time()
     );
 

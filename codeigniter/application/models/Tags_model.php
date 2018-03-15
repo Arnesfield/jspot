@@ -20,6 +20,9 @@ class Tags_model extends MY_Custom_Model {
   }
 
   public function insertMultiple($tags) {
+    if (!$tags) {
+      return TRUE;
+    }
     // get tags with name
     $q = $this->db
       ->from('tags')

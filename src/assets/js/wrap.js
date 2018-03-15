@@ -98,6 +98,9 @@ export default {
   localImg(url) {
     return base_url + 'uploads/images/' + url
   },
+  staticImg(url) {
+    return base_url + 'static/images/' + url
+  },
   fileSize(num) {
     let n = Number(num)
     if (n >= 1000 * 1000 * 1000) {

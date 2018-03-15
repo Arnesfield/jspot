@@ -48,10 +48,27 @@ class Search extends MY_Custom_Controller {
       $places = $this->_concat(json_decode($user['places'], TRUE));
       $job_tags = $this->_concat(json_decode($user['job_tags'], TRUE));
 
-      $cond = "(
-        MATCH(places) AGAINST('$places') OR
-        MATCH(job_tags) AGAINST('$job_tags')
-      )";
+      $temp1 = '';
+      $temp2 = '';
+
+      if ($places) {
+        $temp1 = "MATCH(places) AGAINST('$places')";
+      }
+      
+      if ($job_tags) {
+        if ($temp1) {
+          $temp2 = ' OR ';
+        }
+        $temp2 .= "MATCH(job_tags) AGAINST('$job_tags')";
+      }
+
+      // $cond = "(
+      //   MATCH(places) AGAINST('$places') OR
+      //   MATCH(job_tags) AGAINST('$job_tags')
+      // )";
+      if ($temp1 || $temp2) {
+        $cond = "($temp1 $temp2)";
+      }
     }
 
     $users = $this->users_model->suggest($cond, $type);
@@ -88,12 +105,28 @@ class Search extends MY_Custom_Controller {
       $job_tags = $this->_concat(json_decode($user['job_tags'], TRUE));
       $age = $this->_getClosestAge($user['birthdate']);
 
-      $cond = "(
-        MATCH(j.location) AGAINST('$places') OR
-        MATCH(j.job_tags) AGAINST('$job_tags')
-      )";
-    }
+      $temp1 = '';
+      $temp2 = '';
 
+      if ($places) {
+        $temp1 = "MATCH(j.location) AGAINST('$places')";
+      }
+      if ($job_tags) {
+        if ($temp1) {
+          $temp2 = ' OR ';
+        }
+        $temp2 .= "MATCH(j.job_tags) AGAINST('$job_tags')";
+      }
+
+      // $cond = "(
+      //   MATCH(j.location) AGAINST('$places') OR
+      //   MATCH(j.job_tags) AGAINST('$job_tags')
+      // )";
+      if ($temp1 || $temp2) {
+        $cond = "($temp1 $temp2)";
+      }
+    }
+    
     $jobs = $this->search_model->suggestJobs($cond, $age, $type);
     $jobs = $this->_formatJobsArray($jobs);
 
