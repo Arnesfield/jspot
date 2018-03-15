@@ -68,7 +68,7 @@
     </template>
   </v-data-table>
 
-  <dialog-add-user :mode="dialogMode" :userToEdit="selected"/>
+  <dialog-add-user :mode="dialogMode" :userToEdit="userToEdit"/>
 
 </v-container>
 </template>
@@ -101,7 +101,8 @@ export default {
     users: [],
     loading: false,
     dialogMode: 'Add',
-    selected: null
+    selected: null,
+    userToEdit: null
   }),
 
   watch: {
@@ -133,6 +134,12 @@ export default {
         // reset from edit to add on dialog close
         this.dialogMode = 'Add'
         this.selected = null
+      }
+
+      if (to) {
+        this.userToEdit = JSON.parse(JSON.stringify(this.selected))
+      } else {
+        this.userToEdit = null
       }
     },
     edit(item) {

@@ -153,7 +153,8 @@ export default {
           { title: 'Logout', icon: 'exit_to_app', click: 'logout' }
         ]
       }
-    ]
+    ],
+    loading: false
   }),
 
   computed: {
@@ -174,17 +175,21 @@ export default {
           this.$bus.navToggle()
         }, 100)
       }
+    },
+    loading(e) {
+      this.$bus.progress.active = e
     }
   },
 
   methods: {
     logout() {
       // logout here
+      this.loading = true
       this.$http.post(this.logoutUrl).then((res) => {
         if (!res.data.success) {
           throw new Error('Request failure.')
         }
-
+        this.loading = false
         this.$bus.$emit('snackbar--show', 'Logout successfully.')
         // unregister listeners
         // this.$bus.$off([
@@ -210,6 +215,7 @@ export default {
         this.$bus.sessionCheck(this.$route, this.$http)
       }).catch(e => {
         console.error(e)
+        this.loading = false
       })
     },
 

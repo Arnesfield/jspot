@@ -134,10 +134,14 @@ class MY_Custom_Controller extends MY_View_Controller {
     );
   }
 
-  public function _uploadImage($file_name, $path = 'uploads/attach/') {
+  public function _uploadImage($file_name, $allowed_types = FALSE, $path = 'uploads/attach/') {
+    if (!$allowed_types) {
+      $allowed_types = 'jpg|png|pdf|jpeg';
+    }
+
     $config = array(
       'upload_path' => './../'.$path,
-      'allowed_types' => 'jpg|png|pdf',
+      'allowed_types' => $allowed_types,
       'max_size' => 5*1024,
       'file_name' => 'F_' . time()
     );

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 14, 2018 at 06:18 PM
+-- Generation Time: Mar 15, 2018 at 08:52 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -131,7 +131,8 @@ INSERT INTO `places` (`id`, `name`, `status`) VALUES
 (2, 'Quezon', 1),
 (3, 'Mandaluyong', 1),
 (4, 'Makati', 1),
-(5, 'Zamboanga', 1);
+(5, 'Zamboanga', 1),
+(6, 'Pasig', 1);
 
 -- --------------------------------------------------------
 
@@ -218,7 +219,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `password`, `fname`, `lname`, `bio`, `birthdate`, `img_src`, `job_tags`, `places`, `socials`, `email`, `type`, `contact`, `verification_code`, `reset_code`, `reset_expiration`, `created_at`, `updated_at`, `settings`, `status`) VALUES
 (1, '$2y$10$d/46JkJivDqU9Bh7v0f6YOi4C5nXZDQEngMaE4OEl2AGm7ykViqHC', 'Charlyn', 'Ann', 'My short bio here.', '1998-09-26', '', '[\"programming\"]', '[\"Manila\"]', '[\"www.facebook.com\"]', 'test@email.com', 2, '09876543210', '', '', 0, 1518017533, 1518266763, '{\"dark\":\"false\"}', 1),
-(2, '$2y$10$o92osqp/bG8JBOvlqVKj0.KaETjrxaiSWwXh7Luw6Gw6MIPQAfnV2', 'Jefferson', 'Rylee', '', '1999-03-13', 'rylee.jpg', '[\"programming\",\"music\"]', '[\"Manila\"]', '[\"twitter.com\\/Arnesfield\"]', 'rylee@email.com', 3, '09876543210', '', '', 0, 1519017628, 1519041879, '\"\"', 1),
+(2, '$2y$10$E30rXz/U.Ze/J/.goVOuouNXSTz5KVT6mpxjzSJpOSjpC1o8xW/a6', 'Jefferson', 'Rylee', 'Some bio heree', '1970-01-01', 'F_1521100100.jpeg', '[\"programming\"]', '[\"Manila\"]', '[\"twitter.com/Arnesfield\"]', 'rylee@email.com', 3, '09876543211', '', '', 0, 1519017628, 1521100201, '\"\\\\\\\"\\\\\\\"\"', 1),
 (3, '$2y$10$kzXRXhZLoDNYd1jottSyu.FLHW9OfuOVLnLLUSH3g8/4vprJlDbIW', 'Cayle', 'Anielle', 'Some bio', '1998-06-19', '', '[\"art\",\"photography\",\"animation\"]', '[\"Manila\"]', '[\"facebook.com\"]', 'cayle@email.com', 4, '09876543210', '', '', 0, 1519215119, 1519238897, '\"\"', 1);
 
 -- --------------------------------------------------------
@@ -358,7 +359,9 @@ INSERT INTO `views` (`id`, `user_id`, `job_id`, `viewer_id`, `viewed_at`) VALUES
 (116, 2, 0, 3, 1521046502),
 (117, 2, 0, 3, 1521046763),
 (118, 0, 3, 3, 1521047234),
-(119, 3, 0, 2, 1521047303);
+(119, 3, 0, 2, 1521047303),
+(120, 0, 3, 3, 1521049935),
+(121, 0, 5, 3, 1521049941);
 
 --
 -- Indexes for dumped tables
@@ -449,7 +452,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `places`
 --
 ALTER TABLE `places`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `reviews`
@@ -473,7 +476,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `views`
 --
 ALTER TABLE `views`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

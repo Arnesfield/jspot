@@ -8,7 +8,7 @@
     <v-toolbar-side-icon @click.stop="$bus.navToggle"/>
     <v-flex hidden-xs-only hidden-sm-only xs2>
       <v-toolbar-title
-        @click="$router.push('/')"
+        @click="$router.push('/dashboard')"
         class="clickable"
       >JSpot</v-toolbar-title>
     </v-flex>
@@ -52,7 +52,7 @@
 
     <template v-if="$route.name === 'Profile'">
       <v-spacer/>
-      <v-tooltip left v-if="$bus.profile.type == 3">
+      <v-tooltip bottom v-if="$bus.profile.type == 3">
         <v-btn
           icon
           slot="activator"
@@ -68,8 +68,10 @@
         :click="[
           'update--my-job-openings',
           'update--reviews',
-          'update--ratings-graph'
+          'update--ratings-graph',
+          'update--profile-nav'
         ]"
+        tip="bottom"
         :refresh="$bus.progress.circular.Profile.refresh"
       />
     </template>

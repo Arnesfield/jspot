@@ -93,21 +93,32 @@ class Users extends MY_Custom_Controller {
       'email',
       'fname',
       'lname',
-      'img_src',
       'bio',
-      'birthdate',
+      // 'birthdate',
       'type',
       'contact',
       'status',
       'alsoPassword',
       'password',
-      'img_src',
-      'places',
-      'job_tags',
-      'socials',
+      // 'places',
+      // 'job_tags',
+      // 'socials',
       'mode',
-      'settings'
+      // 'settings'
     );
+
+    $img_src = FALSE;
+
+    // upload image first
+    // check if image exists
+    if ($_FILES && $_FILES['file']) {
+      $res = $this->_uploadImage('file', 'jpg|png|jpeg', 'uploads/images/');
+      if (!$res['success']) {
+        $this->_json(FALSE, 'error', strip_tags($res['error']));
+      } else {
+        $img_src = $res['data']['file_name'];
+      }
+    }
 
     // check if mode is edit
     if ($this->input->post('mode') == 'Edit') {
@@ -120,23 +131,26 @@ class Users extends MY_Custom_Controller {
       $$post = is_string($curr) ? $this->_filter($curr) : $curr;
     }
 
-    $_places = $places;
-    $_job_tags = $job_tags;
-    $_socials = $socials;
-    $_settings = $settings;
+    // this is json string lol
+    $places = $this->input->post('places');
+    $job_tags = $this->input->post('job_tags');
+    $socials = $this->input->post('socials');
+    $settings = $this->input->post('settings');
+    $birthdate = $this->input->post('birthdate');
 
-    $places = json_encode($places);
-    $job_tags = json_encode($job_tags);
-    $socials = json_encode($socials);
-    $settings = json_encode($settings);
+    $_places = json_decode($places, TRUE);
+    $_job_tags = json_decode($job_tags, TRUE);
+    $_socials = json_decode($socials, TRUE);
+    $_settings = json_decode($settings, TRUE);
 
-    $birthdate = $this->_formatObjToDate($birthdate);
+    $_birthdate = json_decode($birthdate, TRUE);
+
+    $birthdate = $this->_formatObjToDate($_birthdate);
 
     $user = array(
       'fname' => $fname,
       'lname' => $lname,
       'email' => $email,
-      'img_src' => $img_src,
       'bio' => $bio,
       'birthdate' => $birthdate,
       'type' => $type,
@@ -148,6 +162,11 @@ class Users extends MY_Custom_Controller {
       'updated_at' => time(),
       'settings' => $settings
     );
+
+    // change img src if yeah you get it
+    if ($img_src !== FALSE) {
+      $user['img_src'] = $img_src;
+    }
     
     if ($mode != 'Edit') {
       $user['created_at'] = time();

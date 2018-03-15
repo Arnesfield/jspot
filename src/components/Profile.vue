@@ -45,6 +45,12 @@
   </v-tabs-items>
 
   <dialog-review/>
+  <dialog-add-user
+    v-if="user"
+    userMode
+    :mode="dialogMode"
+    :userToEdit="userToEdit"
+  />
 
 </span>
 </template>
@@ -53,6 +59,7 @@
 import ProfileNav from '@/include/nav/ProfileNav'
 import ManageNoData from '@/include/ManageNoData'
 import DialogReview from '@/include/dialogs/DialogReview'
+import DialogAddUser from '@/include/dialogs/DialogAddUser'
 import JobOpenings from '@/include/JobOpenings'
 import Reviews from '@/include/Reviews'
 import qs from 'qs'
@@ -66,6 +73,7 @@ export default {
     ProfileNav,
     ManageNoData,
     DialogReview,
+    DialogAddUser,
     JobOpenings,
     Reviews
   },
@@ -75,7 +83,9 @@ export default {
     user: null,
     loading: false,
     jobOpenings: true,
-    reviews: true
+    reviews: true,
+    dialogMode: 'Edit',
+    userToEdit: null
   }),
   computed: {
     noData() {
@@ -123,20 +133,33 @@ export default {
   },
   created() {
     this.$bus.$on('change--session.auth', this.checkAuth)
+    this.$bus.$on('update--profile-nav', this.checkAuth)
     this.$bus.$on('profile--edit', this.profileEdit)
     this.$bus.$on('profile--review', this.profileReview)
+    this.$bus.$on('update--manage-users', this.checkAuth)
+    this.$bus.$on('dialog--manage-user.add', this.manageUserAdd)
     this.insertViewed()
     this.checkAuth()
   },
   beforeDestroy() {
     this.$bus.$off('change--session.auth', this.checkAuth)
+    this.$bus.$off('update--profile-nav', this.checkAuth)
     this.$bus.$off('profile--edit', this.profileEdit)
     this.$bus.$off('profile--review', this.profileReview)
+    this.$bus.$off('update--manage-users', this.checkAuth)
+    this.$bus.$off('dialog--manage-user.add', this.manageUserAdd)
   },
 
   methods: {
+    manageUserAdd(to, from) {
+      if (to) {
+        this.userToEdit = JSON.parse(JSON.stringify(this.user))
+      } else {
+        this.userToEdit = null
+      }
+    },
     profileEdit() {
-
+      this.$bus.dialog.ManageUsers.add = true
     },
     profileReview() {
       if (typeof this.id === 'undefined' || this.id === null) {

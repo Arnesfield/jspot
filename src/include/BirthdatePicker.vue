@@ -1,5 +1,5 @@
 <template>
-<v-layout>
+<v-layout v-if="date">
   <v-flex xs12 sm12 md4>
     <v-select
       label="Month"
