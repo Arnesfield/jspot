@@ -25,14 +25,14 @@
     } : null"
   >
     <template v-if="$bus.profile.type == 3">
+      <v-tab-item :style="reviews ? { height: '100%' } : null">
+        <reviews v-model="reviews" :user="user"/>
+      </v-tab-item>
       <v-tab-item :style="jobOpenings ? { height: '100%' } : null">
         <job-openings
           v-model="jobOpenings"
           :user="user"
         />
-      </v-tab-item>
-      <v-tab-item :style="reviews ? { height: '100%' } : null">
-        <reviews v-model="reviews" :user="user"/>
       </v-tab-item>
     </template>
 

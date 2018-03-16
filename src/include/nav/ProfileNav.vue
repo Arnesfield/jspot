@@ -171,7 +171,7 @@ export default {
       if (!to) {
         this.$bus.nav.profile = false
       } else {
-        this.$bus.nav.profile = true
+        this.$bus.nav.profile = null
       }
     }
   }

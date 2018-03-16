@@ -48,6 +48,7 @@
           isLogged
           && $bus.session.user.id != item.created_by
           && $bus.session.user.type != 2
+          && $bus.session.user.type != 3
           && item.status == 1
         ">
           <v-btn
