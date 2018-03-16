@@ -169,6 +169,57 @@ class Apply extends MY_Custom_Controller {
     }
 
     $where = array('id' => $id);
+
+    $msg = '';
+    $bodyMsg = '';
+
+    if ($status == 0) {
+      $msg = 'Your application has been denied';
+      $bodyMsg = 'You have been denied';
+    } else if ($status == 1) {
+      $msg = 'Your application is pending';
+      $bodyMsg = 'You are pending';
+    } else if ($status == 2) {
+      $msg = 'Your application has been accepted';
+      $bodyMsg = 'You have been accepted';
+    } else if ($status == 3) {
+      $msg = 'You are hired';
+      $bodyMsg = 'You have been hired';
+    }
+
+    // using the id of application, get applier, and send email to that applier
+    $apply = $this->apply_model->getWithJobs(array(
+      'a.id' => $id
+    ))[0];
+    $email = $apply['applier_email'];
+
+    // send email first
+    $send_data = array(
+      'id' => $apply['applier_id'],
+      'email' => $email,
+      'fname' => $apply['applier_fname'],
+      'lname' => $apply['applier_lname'],
+      'msg' => $msg,
+      'body' => $bodyMsg,
+      'title' => $apply['title']
+    );
+
+    if ($date) {
+      $send_data['date'] = $data['interview_date'];
+    }
+    if ($time) {
+      $send_data['time'] = $data['interview_time'];
+    }
+
+    $sent = $this->_send_mail($email, $msg, 'email/job', $send_data);
+
+    if ($sent !== TRUE) {
+      $this->_json(FALSE, array(
+        'error' => 'Unable to send email.',
+        'debug' => $sent
+      ));
+    }
+
     $res = $this->apply_model->update($data, $where);
     $this->_json($res);
   }

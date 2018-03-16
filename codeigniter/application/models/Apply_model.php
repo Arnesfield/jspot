@@ -38,9 +38,11 @@ class Apply_model extends MY_Custom_Model {
         u.fname AS creator_fname,
         u.lname AS creator_lname,
         u.img_src AS creator_img_src,
+        ap.id AS applier_id,
         ap.fname AS applier_fname,
         ap.lname AS applier_lname,
-        ap.img_src AS applier_img_src
+        ap.img_src AS applier_img_src,
+        ap.email AS applier_email
       ')
       ->from('apply a')
       ->join('jobs j', 'j.id = a.job_id')
