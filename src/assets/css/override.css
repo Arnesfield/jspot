@@ -11,3 +11,8 @@
 .snack .snack__content .btn {
   margin-left: 8px;
 }
+
+.parallax__content {
+  padding: 0;
+  background-size: 100%;
+}

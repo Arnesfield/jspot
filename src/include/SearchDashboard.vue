@@ -21,7 +21,7 @@
       >
 
         <v-subheader
-          v-if="$bus.search.input || $bus.session.user"
+          v-if="i == 1 && ($bus.search.input || $bus.session.user)"
           :key="'subheader-' + i"
         >
           <template

@@ -90,6 +90,13 @@ export default {
     lists: [
       {
         header: '',
+        auth: [0],
+        items: [
+          { title: 'Home', icon: 'home', to: '/' }
+        ]
+      },
+      {
+        header: '',
         auth: [0, 3, 4],
         items: [
           { title: 'Dashboard', icon: 'dashboard', to: '/dashboard' }

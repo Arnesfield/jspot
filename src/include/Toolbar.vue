@@ -11,8 +11,8 @@
         @click="$router.push('/dashboard')"
         class="clickable"
       >
-        <v-avatar size="32px">
-          <img :src="$wrap.staticImg('logo.png')"/>
+        <v-avatar size="32px" style="background-color: #286cb3">
+          <img src="/static/images/logo.png"/>
         </v-avatar>
         <span>JSpot</span>
       </v-toolbar-title>
@@ -20,7 +20,7 @@
 
     <!-- search -->
     <!-- <template v-if="$route.name === 'Dashboard'"> -->
-      <v-flex xs12 sm9 md7>
+      <v-flex xs12 sm9 md7 class="mx-2">
         <searchbar/>
       </v-flex>
     <!-- </template> -->

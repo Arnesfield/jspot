@@ -1,13 +1,14 @@
 <template>
 <v-text-field
   flat
+  :dark="dark"
+  :solo="solo"
+  :solo-inverted="soloInverted"
   prepend-icon="search"
   append-icon="close"
   :append-icon-cb="clearInput"
   :loading="loading"
   label="Search"
-  class="mx-3"
-  solo-inverted
   v-model="input"
   @keypress.enter="search('enter')"
 />
@@ -18,6 +19,20 @@ import debounce from 'lodash/debounce'
 
 export default {
   name: 'searchbar',
+  props: {
+    dark: {
+      type: Boolean,
+      default: false
+    },
+    solo: {
+      type: Boolean,
+      default: false
+    },
+    soloInverted: {
+      type: Boolean,
+      default: true
+    }
+  },
   data: () => ({
     input: null,
     loading: false
@@ -29,6 +44,9 @@ export default {
         this.clearInput()
       }
     },
+    '$bus.search.input': function(e) {
+      this.input = e
+    },
     input(e) {
       // show progress when in dashboard only
       if (this.$route.name === 'Dashboard') {
@@ -38,6 +56,9 @@ export default {
       this.$bus.search.input = e
       this.search()
     }
+  },
+  created() {
+    this.input = this.$bus.search.input
   },
 
   methods: {

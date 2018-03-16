@@ -210,7 +210,7 @@ export default {
           scales: {
             xAxes: [{
               gridLines: {
-                display:false
+                display: false
               },
               display: false,
               ticks: {
@@ -221,7 +221,7 @@ export default {
             }],
             yAxes: [{
               gridLines: {
-                display:false
+                display: false
               },
             	stacked: true
             }]

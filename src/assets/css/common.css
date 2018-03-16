@@ -12,6 +12,10 @@
   background-color: rgba(0, 0, 0, 0.24) !important;
 }
 
+.dimmer {
+  background-color: rgba(0, 0, 0, 0.36) !important;
+}
+
 .clean-a {
   text-decoration: none;
 }
@@ -63,6 +67,10 @@
 .thin-48 {
   width: 48px;
   min-width: 48px;
+}
+
+.smooth-opacity {
+  transition: opacity 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 /* override */

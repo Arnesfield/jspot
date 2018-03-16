@@ -1,5 +1,5 @@
 <template>
-<v-container class="full-height" fluid>
+<v-container class="full-height px-2" fluid>
   <v-layout class="center-y full-height">
     <v-flex hidden-xs-only sm2 md3 lg4/>
     <v-flex sm8 md6 lg4>

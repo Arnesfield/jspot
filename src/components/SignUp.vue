@@ -9,13 +9,12 @@
       lg8: stepper == '1',
       lg6: stepper == '2'
     }"
-    fill-height
     style="transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1)"
   >
   <v-jumbotron
     src="/static/images/bg-1.jpg"
-    height="100%"
     dark
+    height="100%"
     class="elevation-4"
   >
     <div class="bg-dim full-height">
@@ -59,7 +58,7 @@
       lg6: stepper == '2'
     }"
   >
-  <v-container>
+  <v-container class="px-2">
     <v-stepper v-model="stepper" vertical>
       <v-progress-linear
         height="4"

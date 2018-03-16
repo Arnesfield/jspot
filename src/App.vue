@@ -53,6 +53,13 @@ export default {
       return this.$route.name == 'NotFound'
     }
   },
+  watch: {
+    $route(to, from) {
+      if (to.name === 'Home') {
+        this.$bus.search.input = null
+      }
+    }
+  },
 
   created() {
     this.$bus.$on('get-route', (emit, to, from) => {

@@ -4,7 +4,7 @@
   <!-- employer -->
 
   <v-layout>
-    <v-flex xs12 sm4>
+    <v-flex hidden-xs-only sm4>
       <div class="subheader">Employer</div>
     </v-flex>
     <v-flex xs12 class="py-1">
@@ -35,7 +35,7 @@
   <!-- title -->
 
   <v-layout>
-    <v-flex xs12 sm4>
+    <v-flex hidden-xs-only sm4>
       <div class="subheader">Job title</div>
     </v-flex>
     <v-flex xs12 class="py-1">
@@ -56,7 +56,7 @@
 
   <v-layout v-if="job.description">
 
-    <v-flex xs12 sm4>
+    <v-flex hidden-xs-only sm4>
       <div class="subheader">Job description</div>
     </v-flex>
     <v-flex xs12 class="py-1">
@@ -77,7 +77,7 @@
 
   <v-layout>
 
-    <v-flex xs12 sm4>
+    <v-flex hidden-xs-only sm4>
       <div class="subheader">Work date</div>
     </v-flex>
     <v-flex xs12 class="py-1">
@@ -98,7 +98,7 @@
 
   <v-layout>
 
-    <v-flex xs12 sm4>
+    <v-flex hidden-xs-only sm4>
       <div class="subheader">Work hours</div>
     </v-flex>
     <v-flex xs12 class="py-1">
@@ -119,7 +119,7 @@
 
   <v-layout>
 
-    <v-flex xs12 sm4>
+    <v-flex hidden-xs-only sm4>
       <div class="subheader">Location</div>
     </v-flex>
     <v-flex xs12 class="py-1">
@@ -143,7 +143,7 @@
 
   <v-layout>
 
-    <v-flex xs12 sm4>
+    <v-flex hidden-xs-only sm4>
       <div class="subheader">Payment</div>
     </v-flex>
     <v-flex xs12 class="py-1">
@@ -164,7 +164,7 @@
 
   <v-layout>
 
-    <v-flex xs12 sm4>
+    <v-flex hidden-xs-only sm4>
       <div class="subheader">Related job tags</div>
     </v-flex>
     <v-flex xs12 class="py-1">

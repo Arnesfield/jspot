@@ -44,12 +44,12 @@
     </v-card-title>
     <v-card-actions>
       <div class="caption grey--text">
-        <span v-if="loading">Forgot password</span>
+        <span v-if="loading">Back to Home</span>
         <router-link
           to="/"
           v-else
           class="clean-a text--accent-1"
-        >Forgot password</router-link>?
+        >Back to Home</router-link>
       </div>
       <v-spacer/>
       <v-btn

@@ -31,10 +31,10 @@
   </v-layout>
 
   <v-layout>
-    <v-flex xs12 sm4>
+    <v-flex hidden-xs-only sm3>
       <div class="subheader">Applicant</div>
     </v-flex>
-    <v-flex xs12 class="py-1">
+    <v-flex xs12 sm9 class="py-1">
       <v-layout>
         <div class="py-2 px-3">
           <icon-img

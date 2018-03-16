@@ -58,7 +58,7 @@
           @keypress.enter="doAction(0)"
         >
           <v-icon>cancel</v-icon>
-          <span>Deny</span>
+          <span class="hidden-xs-only">Deny</span>
         </v-btn>
         <v-tooltip top>
           <v-btn
@@ -70,7 +70,7 @@
             @keypress.enter="doAction(1)"
           >
             <v-icon>offline_pin</v-icon>
-            <span>Pending</span>
+            <span class="hidden-xs-only">Pending</span>
           </v-btn>
           <span>Set to pending</span>
         </v-tooltip>
@@ -84,7 +84,7 @@
             @keypress.enter="acceptApply"
           >
             <v-icon>offline_pin</v-icon>
-            <span>Accept</span>
+            <span class="hidden-xs-only">Accept</span>
           </v-btn>
           <span>Set interview schedule</span>
         </v-tooltip>
@@ -98,7 +98,7 @@
             @keypress.enter="doAction(3)"
           >
             <v-icon>check_circle</v-icon>
-            <span>Hire</span>
+            <span class="hidden-xs-only">Hire</span>
           </v-btn>
           <span>No interview</span>
         </v-tooltip>

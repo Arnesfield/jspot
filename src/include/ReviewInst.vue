@@ -61,10 +61,18 @@
     </template>
     
   </v-card-title>
-  <v-card-text
-    class="pt-0"
-    v-text="item.body"
-  />
+  <v-card-text class="pt-0">
+    <div
+      v-if="to"
+      class="mb-2 grey--text"
+    >to
+      <router-link
+        :to="'/profile/' + item.u_id"
+        style="text-decoration: none"
+      >{{ item.u_fname + ' ' + item.u_lname }}</router-link>
+    </div>
+    <template>{{ item.body }}</template>
+  </v-card-text>
 </v-card>
 </template>
 
@@ -79,7 +87,11 @@ export default {
     SimpleStarRating
   },
   props: {
-    item: Object
+    item: Object,
+    to: {
+      type: Boolean,
+      default: false
+    }
   }
 }
 </script>
