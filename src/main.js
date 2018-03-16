@@ -4,7 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import axios from 'axios'
-import Vuetify from 'vuetify'
+// import Vuetify from 'vuetify'
 
 import bus from './bus'
 import routerCond from './router/cond'
@@ -13,7 +13,7 @@ import wrap from './assets/js/wrap'
 import _baseURL from './assets/js/baseURL'
 import colors from 'vuetify/es5/util/colors'
 
-import 'vuetify/dist/vuetify.min.css'
+// import 'vuetify/dist/vuetify.min.css'
 import './assets/css/common.css'
 import './assets/css/override.css'
 
@@ -42,6 +42,7 @@ routerCond(router, http, bus)
 /* eslint-disable no-new */
 // before creating instance, check if session exists
 http.post('/sess').then((res) => {
+  document.getElementById('loading').style.display = 'none'
   if (!res.data.success) {
     throw new Error('Request failure.')
   }

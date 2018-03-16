@@ -6,10 +6,13 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+<link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
 <link rel="stylesheet" href="./static/css/static.css">
 
 <link rel="shortcut icon" href="./static/images/logo.png" type="image/x-icon">
+
+<script src="https://unpkg.com/vuetify/dist/vuetify.js"></script>
 
 <title>JSpot</title>
 
@@ -25,6 +28,17 @@
     </div>
   </div>
 </noscript>
+
+<div id="loading" style="height: 100%; display: flex; justify-content: center; align-items: center;">
+  <div class="progress-circular progress-circular--indeterminate primary--text" style="height: 108px; width: 108px;">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="25 25 50 50" style="transform: rotate(0deg);">
+      <circle fill="transparent" cx="50" cy="50" r="20" stroke-width="4" stroke-dasharray="125.664" stroke-dashoffset="125.66370614359172px"
+        style="color: #1e88e5 !important"
+        class="progress-circular__overlay"></circle>
+    </svg>
+    <div class="progress-circular__info"></div>
+  </div>
+</div>
 
 <div id="app"></div>
 <!-- built files will be auto injected -->

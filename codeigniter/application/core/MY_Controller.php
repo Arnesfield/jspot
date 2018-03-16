@@ -138,6 +138,8 @@ class MY_Custom_Controller extends MY_View_Controller {
   private $_EMAIL = 'mail.arnesfield@gmail.com';
 
   protected function _send_mail($to, $subject, $view, $data, $from_name = 'JSpot Project Team') {
+    // for dev only
+    return TRUE;
     $this->load->library('email');
     
     // true on third param on view
