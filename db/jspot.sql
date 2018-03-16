@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 15, 2018 at 05:57 PM
+-- Generation Time: Mar 16, 2018 at 02:22 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -234,7 +234,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `password`, `fname`, `lname`, `bio`, `birthdate`, `img_src`, `job_tags`, `places`, `socials`, `email`, `type`, `contact`, `verification_code`, `reset_code`, `reset_expiration`, `created_at`, `updated_at`, `settings`, `status`) VALUES
 (1, '$2y$10$d/46JkJivDqU9Bh7v0f6YOi4C5nXZDQEngMaE4OEl2AGm7ykViqHC', 'Charlyn', 'Ann', 'My short bio here.', '1998-09-26', '', '[\"programming\"]', '[\"Manila\"]', '[\"www.facebook.com\"]', 'test@email.com', 2, '09876543210', '', '', 0, 1518017533, 1518266763, '{\"dark\":\"false\"}', 1),
-(2, '$2y$10$E30rXz/U.Ze/J/.goVOuouNXSTz5KVT6mpxjzSJpOSjpC1o8xW/a6', 'Jefferson', 'Rylee', 'Some bio heree', '1999-03-13', 'F_1521100100.jpeg', '[\"programming\",\"music\"]', '[\"Manila\"]', '[\"twitter.com/Arnesfield\"]', 'rylee@email.com', 3, '09876543211', '', '', 0, 1519017628, 1521104372, '{}', 1),
+(2, '$2y$10$E30rXz/U.Ze/J/.goVOuouNXSTz5KVT6mpxjzSJpOSjpC1o8xW/a6', 'Jefferson', 'Rylee', 'Some bio heree lol', '1999-03-13', 'F_1521100100.jpeg', '[\"programming\",\"music\"]', '[\"Manila\"]', '[\"twitter.com/Arnesfield\"]', 'rylee@email.com', 3, '09876543211', '', '', 0, 1519017628, 1521201402, '{}', 1),
 (3, '$2y$10$kzXRXhZLoDNYd1jottSyu.FLHW9OfuOVLnLLUSH3g8/4vprJlDbIW', 'Cayle', 'Anielle', 'Some bio', '1998-06-19', '', '[\"art\",\"photography\",\"animation\",\"babysitting\"]', '[\"Manila\"]', '[\"facebook.com\"]', 'cayle@email.com', 4, '09876543210', '', '', 0, 1519215119, 1521132534, '\"\"', 1),
 (7, '$2y$10$SRv7zBfeLhw8ziDJZVbvT.7YWMI4x4fXW5Altny0N7oxcTIB5WHJ6', 'Charlyn', 'Ann', 'lol', '1998-09-26', 'F_1521128443.JPG', '[\"music\",\"singing\"]', '[\"Manila\",\"Laguna\"]', '[\"facebook.com/Arnesfield\"]', 'charlyn@email.com', 3, '098764321', '', '', 0, 1521127350, 1521132365, '{}', 1);
 

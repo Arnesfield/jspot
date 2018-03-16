@@ -28,6 +28,12 @@ class Reviews extends MY_Custom_Controller {
     $body = $this->_filter($this->input->post('body'));
     $rating = $this->input->post('rating');
 
+    // fetch reviewer info
+    $this->load->model('users_model');
+    $reviewer = $this->users_model->get(array('id' => $reviewer_id))[0];
+    $user = $this->users_model->get(array('id' => $uid))[0];
+    $email = $user['email'];
+
     $data = array(
       'user_id' => $uid,
       'reviewer_id' => $reviewer_id,
@@ -36,6 +42,26 @@ class Reviews extends MY_Custom_Controller {
       'created_at' => time(),
       'status' => 1
     );
+
+    $send_data = array(
+      'id' => $uid,
+      'name' => $reviewer['fname'].' '.$reviewer['lname'],
+      'body' => $body,
+      'rating' => $rating,
+      'email' => $email,
+      'fname' => $user['fname'],
+      'lname' => $user['lname']
+    );
+
+    $sent = $this->_send_mail($email, 'Someone has posted a review', 'email/review', $send_data);
+
+    if ($sent !== TRUE) {
+      $this->_json(FALSE, array(
+        'error' => 'Unable to send email.',
+        'debug' => $sent
+      ));
+    }
+
     $res = $this->reviews_model->insert($data);
     $this->_json($res);
   }

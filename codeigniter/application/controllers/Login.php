@@ -43,6 +43,13 @@ class Login extends MY_Custom_Controller {
       ));
     }
 
+    // check status
+    if ($user['status'] == 2) {
+      $this->_json(FALSE, array(
+        'error' => 'Verify your account first.'
+      ));
+    }
+
     // set session
     $this->session->set_userdata(array(
       'user' => $user,

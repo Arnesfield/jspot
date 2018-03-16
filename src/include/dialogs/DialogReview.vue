@@ -154,6 +154,7 @@ export default {
         body: this.body,
         rating: this.rating
       })).then(res => {
+        console.warn(res.data)
         if (!res.data.success) {
           throw new Error('Request failure.')
         }

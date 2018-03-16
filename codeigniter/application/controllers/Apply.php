@@ -5,6 +5,8 @@ class Apply extends MY_Custom_Controller {
   public function __construct() {
     parent::__construct();
     $this->load->model('apply_model');
+    $this->load->model('jobs_model');
+    $this->load->model('users_model');
   }
 
   public function index() {
@@ -41,6 +43,34 @@ class Apply extends MY_Custom_Controller {
       'updated_at' => time(),
       'status' => 1
     );
+
+    // get name of creator of jid
+    $actualJob = $this->jobs_model->simpleGet($jid)[0];
+    $actualCreatorOfJob = $this->users_model->get(array('id' => $actualJob['created_by']))[0];
+    $actualApplier = $this->users_model->get(array('id' => $uid))[0];
+    $email = $actualCreatorOfJob['email'];
+
+    // send mail first
+    $send_data = array(
+      'id' => $uid,
+      'name' => $actualApplier['fname'].' '.$actualApplier['lname'],
+      'title' => $actualJob['title'],
+      'subject' => $subject,
+      'body' => $body,
+      'email' => $email,
+      'fname' => $actualCreatorOfJob['fname'],
+      'lname' => $actualCreatorOfJob['lname']
+    );
+
+    $sent = $this->_send_mail($email, $subject, 'email/apply', $send_data);
+
+    if ($sent !== TRUE) {
+      $this->_json(FALSE, array(
+        'error' => 'Unable to send email.',
+        'debug' => $sent
+      ));
+    }
+
     $res = $this->apply_model->insert($data);
 
     if (!$res) {

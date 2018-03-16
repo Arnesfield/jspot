@@ -63,14 +63,14 @@ class Users extends MY_Custom_Controller {
       'fname' => $fname,
       'lname' => $lname
     );
-    // $sent = $this->_send_mail($email, 'Email Verification', 'email/email_verification', $send_data);
+    $sent = $this->_send_mail($email, 'Email Verification', 'email/email_verification', $send_data);
 
-    // if ($sent !== TRUE) {
-    //   $this->_json(FALSE, array(
-    //     'error' => 'Unable to send email verification.',
-    //     'debug' => $sent
-    //   ));
-    // }
+    if ($sent !== TRUE) {
+      $this->_json(FALSE, array(
+        'error' => 'Unable to send email verification.',
+        'debug' => $sent
+      ));
+    }
 
     $res = $this->users_model->insert($user);
     $this->_json($res);
